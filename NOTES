@@ -1,0 +1,18 @@
+- Here_doc document should be opened during parsing in parent process
+- Quoting should be expended and executed after parsing ?
+- IF A builtin function is used without pipes, it isn't forked
+
+
+PARSING
+1 auote error
+2 here_doc
+3 syntax error ()
+
+
+
+4 EXPAND ?
+qt the end
+
+NO file outfile
+
+ls > outfile < outfile    <=== Is ok file is created, only ls is redirected to file
