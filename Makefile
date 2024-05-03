@@ -7,7 +7,7 @@ PROJECT = minishell
 PROJECT_DIR = ./
 
 SRC_DIR = src
-SRC_FILE = 
+SRC_FILE =
 			   
 ### HEADER FILE ###
 HEADER_DIR = includes

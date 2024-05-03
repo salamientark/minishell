@@ -3,10 +3,16 @@
 - IF A builtin function is used without pipes, it isn't forked
 
 
+- Only one infile and one outfile maxiumum (redirection)
+- but when multiple redirection occurs you have to open the file and closethem
+- Only the last infile and last outfile are used 
+
+- If there is only one redirection of type (/dev/stdin || /dev/stdout) ?
+
 PARSING
-1 auote error
+1 quote error
 2 here_doc
-3 syntax error ()
+3 syntax error (pipe should have alphanumerical char the left && redirection need alphanumchar at the right)
 
 
 

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   check_quote_error.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/03 18:37:33 by dbaladro         ###   ########.fr       */
+/*   Created: 2024/05/03 18:40:31 by dbaladro          #+#    #+#             */
+/*   Updated: 2024/05/03 18:51:32 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../includes/mnishell.h"
 
-# include <stdlib.h>
-# include "../libft/includes/libft.h"
+int	check_quote_error(char *input)
+{
 
-#endif
+
+}
