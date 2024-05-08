@@ -12,18 +12,10 @@ LEXER_DIR = lexer
 LEXER_FILE = $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
 		unclosed_quote.c \
 	)
-SRC_FILE = src/lexer/unclosed_quote.c \
-	src/main.c
-
-# define SRC_FILE :=
-# 	$(addprefix $(SRC_DIR)/, \
-# 		$(addprefix $(LEXER_DIR)/, \
-# 			unclosed_quote.c 
-# 		)
-# 	)
-# 	main.c
-# 
-# endef
+SRC_FILE = $(addprefix $(SRC_DIR)/, \
+		main.c \
+)
+SRC = $(SRC_FILE) $(LEXER_FILE)
 
 ### HEADER FILE ###
 HEADER_DIR = includes
@@ -35,31 +27,29 @@ FT_FLAG = -L$(FT_DIR) -l$(FT)
 
 ## OBJECT FILE ###
 OBJ_DIR = .obj
-# OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(patsubst(%.c, %.o, $(SRC_FILE)))))
+OBJ_LEXER = $(addprefix $(OBJ_DIR)/, $(notdir $(LEXER_FILE:%.c=%.o)))
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
-# OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
+OBJ = $(OBJ_SRC) $(OBJ_LEXER)
 
-.PHONY=bonus
+.PHONY=bonus all clean fclean
 
 ### RULES ###
 all : $(PROJECT)
 
-$(PROJECT) : $(OBJ_SRC)
+# PROJECT COmpilation
+$(PROJECT) : $(OBJ)
 	make -C $(FT_DIR)
 	$(CC) -g3 $(CFLAGS) $(OBJ_SRC) $(OBJ_MANDATORY) -o $(PROJECT) $(FT_FLAG)
 
-
+# COMPILING LEXER FILE 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(LEXER_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -I ./$(HEADER_DIR) -c $< -o $@
 
+# COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -I ./$(HEADER_DIR) -c $< -o $@
-
-# $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
-# 	@mkdir -p $(@D)
-# 	$(CC) -g3 $(CFLAGS) -I ./$(HEADER_DIR)  -c $< -o $@
 
 fclean : clean
 	rm -f $(PROJECT)
