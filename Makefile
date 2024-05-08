@@ -7,8 +7,24 @@ PROJECT = minishell
 PROJECT_DIR = ./
 
 SRC_DIR = src
-SRC_FILE =
-			   
+LEXER_DIR = lexer
+
+LEXER_FILE = $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
+		unclosed_quote.c \
+	)
+SRC_FILE = src/lexer/unclosed_quote.c \
+	src/main.c
+
+# define SRC_FILE :=
+# 	$(addprefix $(SRC_DIR)/, \
+# 		$(addprefix $(LEXER_DIR)/, \
+# 			unclosed_quote.c 
+# 		)
+# 	)
+# 	main.c
+# 
+# endef
+
 ### HEADER FILE ###
 HEADER_DIR = includes
 
@@ -19,26 +35,31 @@ FT_FLAG = -L$(FT_DIR) -l$(FT)
 
 ## OBJECT FILE ###
 OBJ_DIR = .obj
-OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_FILE:.c=.o))
-OBJ_MANDATORY = $(addprefix $(OBJ_DIR)/, $(MANDATORY:.c=.o))
-OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(BONUS:.c=.o))
+# OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(patsubst(%.c, %.o, $(SRC_FILE)))))
+OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
+# OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
 
 .PHONY=bonus
 
 ### RULES ###
 all : $(PROJECT)
 
-bonus : $(OBJ_SRC) $(OBJ_BONUS)
-	make -C $(FT_DIR)
-	$(CC) -g3 $(CFLAGS) $(OBJ_SRC) $(OBJ_BONUS) -o $(PROJECT) $(FT_FLAG)
-
-$(PROJECT) : $(OBJ_SRC) $(OBJ_MANDATORY)
+$(PROJECT) : $(OBJ_SRC)
 	make -C $(FT_DIR)
 	$(CC) -g3 $(CFLAGS) $(OBJ_SRC) $(OBJ_MANDATORY) -o $(PROJECT) $(FT_FLAG)
 
+
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(LEXER_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I ./$(HEADER_DIR) -c $< -o $@
+
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) -g3 $(CFLAGS) -I ./$(HEADER_DIR)  -c $< -o $@
+	$(CC) $(CFLAGS) -I ./$(HEADER_DIR) -c $< -o $@
+
+# $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+# 	@mkdir -p $(@D)
+# 	$(CC) -g3 $(CFLAGS) -I ./$(HEADER_DIR)  -c $< -o $@
 
 fclean : clean
 	rm -f $(PROJECT)
