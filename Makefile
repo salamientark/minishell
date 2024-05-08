@@ -39,7 +39,7 @@ all : $(PROJECT)
 # PROJECT COmpilation
 $(PROJECT) : $(OBJ)
 	make -C $(FT_DIR)
-	$(CC) -g3 $(CFLAGS) $(OBJ_SRC) $(OBJ_MANDATORY) -o $(PROJECT) $(FT_FLAG)
+	$(CC) $(CFLAGS) $(OBJ) -o $(PROJECT) $(FT_FLAG)
 
 # COMPILING LEXER FILE 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(LEXER_DIR)/%.c
