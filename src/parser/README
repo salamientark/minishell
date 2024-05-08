@@ -1,4 +1,0 @@
-POint of the parser dir is 
-- Check for quote error 
-- Check for syntax error 
-- split command into word/token
