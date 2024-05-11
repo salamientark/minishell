@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/08 21:28:31 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/11 22:20:33 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 #include<readline/readline.h>
 #include<readline/history.h>
-#include "test.h"
 
 int	main(int argc, char** argv)
 {
