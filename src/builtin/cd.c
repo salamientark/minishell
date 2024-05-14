@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 18:10:36 by ple-guya         ###   ########.fr       */
+/*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
+/*   Updated: 2024/05/14 18:21:08 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-#include "libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <errno.h>
+static int	check_absolute_path(char *path)
+{
+	if (ft_strchr(path, '/') && !access(path, F_OK))
+	{
+		return (1);
+	}
+	return(0);
+}
 
-// prompt
-char	*display_prompt(void);
-
-//built-in
-void	cd(char *dir);
-
-#endif
+void	cd(char *path)
+{
+	if (check_absolute_path(path))
+	{
+		if (chdir(path))
+			perror("cd ");
+	}
+	else
+	{
+		chdir(path);
+	}
+}

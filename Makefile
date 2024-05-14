@@ -20,6 +20,7 @@ SRC_DIR := src
 LEXER_DIR := lexer
 ERROR_DIR := error
 PROMPT_DIR := prompt
+BUILTIN_DIR := builtin
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
@@ -27,9 +28,15 @@ define SRC_FILE :=
 )
 endef
 
+define BUILTIN_FILE := 
+	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
+		cd.c \
+)
+endef
+
 define PROMPT_FILE := 
-	$(addprefix $(SRC_DIR)/$(PROMPT_DIR), \
-		test.c \
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
+		display.c \
 )
 endef
 
@@ -46,10 +53,10 @@ endef
 SRC := $(SRC_FILE) $(LEXER_FILE)
 
 ### HEADER FILE ###
-HEADER_DIR := -I./includes/  -I./libft/includes/
+HEADER_DIR := -I ./includes/  -I./libft/includes/
 
 # LIBFT
-LIBFT := libft/libft.a
+LIBFT := libft.a
 FT_DIR := ./libft
 FT := ft
 FT_FLAG := -L$(FT_DIR) -l$(FT) -lreadline
@@ -60,7 +67,9 @@ OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(notdir $(LEXER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_TEST := $(addprefix $(OBJ_DIR)/, $(notdir $(TEST_FILE:%.c=%.o)))
 OBJ_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
-OBJ := $(OBJ_LEXER) $(OBJ_ERROR) $(OBJ_TEST) $(OBJ_SRC)
+OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
+OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
+OBJ := $(OBJ_LEXER) $(OBJ_ERROR) $(OBJ_TEST) $(OBJ_PROMPT) $(OBJ_SRC) $(OBJ_BUILTIN)
 
 .PHONY := bonus all clean fclean
 
@@ -87,6 +96,15 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
 
 # COMPILING TEST FILE 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(TEST_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING PROMPT FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(PROMPT_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
