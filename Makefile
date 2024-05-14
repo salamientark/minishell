@@ -7,7 +7,7 @@ PROJECT = minishell
 PROJECT_DIR = ./
 
 SRC_DIR = src
-SRC_FILE = test.c \
+SRC_FILE = display.c \
 			main.c
 			   
 ### HEADER FILE ###
