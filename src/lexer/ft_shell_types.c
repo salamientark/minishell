@@ -6,12 +6,11 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/09 03:12:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 00:46:24 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 /*
  * Return char/word type (operator | word)
@@ -57,9 +56,9 @@ int	is_control_operator(const char c)
 int	is_redirection_operator(const char c)
 {
 	if (c == LESS_THAN)
-			return (1);
+		return (1);
 	if (c == GREATER_THAN)
-			return (1);
+		return (1);
 	return (0);
 }
 
@@ -68,6 +67,17 @@ int	is_operator(const char c)
 	if (is_control_operator(c))
 		return (1);
 	if (is_redirection_operator(c))
+		return (1);
+	return (0);
+}
+
+int	is_space_metachar(const char c)
+{
+	if (c == SPACE)
+		return (1);
+	if (c == TAB)
+		return (1);
+	if (c == NEWLINE)
 		return (1);
 	return (0);
 }

@@ -6,12 +6,31 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:04:26 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 22:41:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 00:44:40 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* split_input will split the input based on '\n' char
+ * EX :
+ * $> ls 
+ *    cat
+ *    ls
+ * IS equivqlent to
+ * $> ls
+ * $> cat
+ * $> ls
+ * ---
+ * $> ls |
+ *    
+ *    
+ *    cat
+ *  IS equivalent to 
+ *  $> ls | cat
+ * */
+
 #include "../../includes/parser.h"
 
+// Free on error
 static void	free_all(char ***input_tab_ptr, unsigned int size)
 {
 	unsigned int	index;
@@ -27,16 +46,8 @@ static void	free_all(char ***input_tab_ptr, unsigned int size)
 	*input_tab_ptr = NULL;
 }
 
-int	is_quote(const char c)
-{
-	if (c == DOUBLE_QUOTE)
-		return (1);
-	if (c == SINGLE_QUOTE)
-		return (1)
-	return (0);
-}
-
-int	quoted_strlen(const char *input, char quote)
+// Get the len of the quoted string
+static int	quoted_strlen(const char *input, char quote)
 {
 	int	len;
 
@@ -51,74 +62,34 @@ int	quoted_strlen(const char *input, char quote)
 		len++;
 	}
 	return (len);
-
 }
-int	skip_quote(const char **input_p, char quote)
-{
-	int	len;
-
-	(*input_p) += 1;
-	len = 1;
-	while (**input_p)
-	{
-		if (**input_p == quote)
-		{
-			*input_p += 1;
-			len += 1;
-			break ;
-		}
-		len++;
-		*input_p += 1;
-	}
-	return (len);
-
-}
-
-// static int	skip_delimiter(const char **input_p, char delimiter)
-// {
-// 	int	len;
-// 	printf("Skip delimiter: delimiter = %c | **input_p == %c\n", delimiter, **input_p);
-// 
-// 	(*input_p) += 1;
-// 	len = 1;
-// 	while (**input_p && **input_p != '\n')
-// 	{
-// 		if (is_closing_delimiter(delimiter, **input_p))
-// 		{
-// 			*input_p += 1;
-// 			len += 1;
-// 			break ;
-// 		}
-// 		if (is_opening_delimiter(**input_p) && **input_p == DOUBLE_QUOTE)
-// 			len += skip_delimiter(input_p, **input_p);
-// 		len++;
-// 		*input_p += 1;
-// 	}
-// 	printf("Skip delimiter: %d char\n", len);
-// 	return (len);
-// }
 
 static unsigned int	count_input(const char *input)
 {
 	const char		*input_cp;
 	unsigned int	word_count;
+	int				pipe;
 
 	input_cp = input;
-	word_count = 0;
+	word_count = 1;
+	pipe = 0;
 	while (*input_cp)
 	{
-		if (*input_cp == NEWLINE)
+		if (*input_cp == PIPE || *input_cp == AMPERSAND)
+			pipe = 1;
+		if (*input_cp != PIPE && *input_cp != AMPERSAND
+			&& !is_space_metachar(*input_cp))
+			pipe = 0;
+		if (*input_cp == NEWLINE && pipe == 0)
 		{
 			word_count++;
 			input_cp++;
 		}
-		else if (is_quote(*input_cp))
-			skip_quote(&input_cp, *input_cp);
+		else if (*input_cp == SINGLE_QUOTE || *input_cp == DOUBLE_QUOTE)
+			input_cp += quoted_strlen(input_cp, *input_cp);
 		else
 			input_cp++;
 	}
-	if (word_count == 0 && (input != input_cp))
-		word_count++;
 	return (word_count);
 }
 
@@ -126,18 +97,22 @@ static char	*extract_input(const char **str_p)
 {
 	int		size;
 	char	*input;
+	int		pipe;
 
 	size = 0;
-	while((*str_p)[size] && (*str_p)[size] != '\n')
+	pipe = 0;
+	while ((*str_p)[size] && !((*str_p)[size] == '\n' && pipe == 0))
 	{
-		if (is_quote((*str_p)[size]))
+		if ((*str_p)[size] == PIPE || (*str_p)[size] == AMPERSAND)
+			pipe = 1;
+		if ((*str_p)[size] != PIPE && (*str_p)[size] != AMPERSAND
+				&& !is_space_metachar((*str_p)[size]))
+			pipe = 0;
+		if ((*str_p)[size] == SINGLE_QUOTE || (*str_p)[size] == DOUBLE_QUOTE)
 			size += quoted_strlen(*str_p, (*str_p)[size]);
-		else
-			size++;
-	}
-	if ((*str_p)[size])
 		size++;
-	printf("word_size = %d\n", size);
+	}
+	size += ((*str_p)[size] != '\0');
 	input = (char *)malloc(size + 1);
 	if (!input)
 		return (print_error("malloc", strerror(errno)), NULL);
@@ -173,4 +148,3 @@ char	**split_input(const char *input)
 	input_tab[index] = NULL;
 	return (input_tab);
 }
-
