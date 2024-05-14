@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/14 15:19:43 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:34:52 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,5 @@ char	*display_prompt(void)
 	check_exit(input);
 	if (input && *input)
 		add_history(input);
-	if (ft_strlen(input) > 0)
-		printf("\n");
 	return (input);
 }
