@@ -1,45 +1,99 @@
 ### COMPILATION ###
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC := cc
+CFLAGS := -Wall -Wextra -Werror
+
+
+### TEST FILES ###
+## To be removed at the end ##
+TEST_DIR := test/
+define TEST_FILE :=
+	$(addprefix $(SRC_DIR)/$(TEST_DIR)/, \
+)
+endef
+### END OF TEST FILE ###
 
 ### INCLUDES ###
-PROJECT = minishell
-PROJECT_DIR = ./
+PROJECT := minishell
+PROJECT_DIR := ./
 
-SRC_DIR = src
-SRC_FILE = test.c \
-			main.c
-			   
+SRC_DIR := src
+LEXER_DIR := lexer
+ERROR_DIR := error
+PROMPT_DIR := prompt
+
+define SRC_FILE := 
+	$(addprefix $(SRC_DIR)/, \
+		main.c \
+)
+endef
+
+define PROMPT_FILE := 
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR), \
+		test.c \
+)
+endef
+
+define LEXER_FILE :=
+	$(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
+	)
+endef
+
+define ERROR_FILE :=
+	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
+)
+endef
+
+SRC := $(SRC_FILE) $(LEXER_FILE)
+
 ### HEADER FILE ###
-HEADER_DIR = includes
+HEADER_DIR := -I./includes/  -I./libft/includes/
 
 # LIBFT
-FT_DIR = ./libft
-FT = ft
-FT_FLAG = -L$(FT_DIR) -l$(FT)
+LIBFT := libft/libft.a
+FT_DIR := ./libft
+FT := ft
+FT_FLAG := -L$(FT_DIR) -l$(FT) -lreadline
 
 ## OBJECT FILE ###
-OBJ_DIR = .obj
-OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_FILE:.c=.o)) 
-OBJ_MANDATORY = $(addprefix $(OBJ_DIR)/, $(MANDATORY:.c=.o))
-OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(BONUS:.c=.o))
+OBJ_DIR := .obj
+OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(notdir $(LEXER_FILE:%.c=%.o)))
+OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
+OBJ_TEST := $(addprefix $(OBJ_DIR)/, $(notdir $(TEST_FILE:%.c=%.o)))
+OBJ_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
+OBJ := $(OBJ_LEXER) $(OBJ_ERROR) $(OBJ_TEST) $(OBJ_SRC)
 
-.PHONY=bonus
+.PHONY := bonus all clean fclean
 
 ### RULES ###
 all : $(PROJECT)
 
-bonus : $(OBJ_SRC) $(OBJ_BONUS)
-	make -C $(FT_DIR)
-	$(CC) -g3 $(CFLAGS) $(OBJ_SRC) $(OBJ_BONUS) -o $(PROJECT) $(FT_FLAG)
+# PROJECT COmpilation
+$(PROJECT) : $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(FT_FLAG)
+# 	$(CC) $(CFLAGS) -I $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(FT_FLAG)
 
-$(PROJECT) : $(OBJ_SRC) $(OBJ_MANDATORY)
+$(LIBFT) : 
 	make -C $(FT_DIR)
-	$(CC) -g3 $(CFLAGS) -lreadline $(OBJ_SRC) $(OBJ_MANDATORY) -o $(PROJECT) $(FT_FLAG)
 
+# COMPILING LEXER FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(LEXER_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING ERROR FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING TEST FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(TEST_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) -g3 $(CFLAGS) -I ./$(HEADER_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
 fclean : clean
 	rm -f $(PROJECT)
