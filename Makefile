@@ -8,13 +8,30 @@ PROJECT_DIR = ./
 
 SRC_DIR = src
 LEXER_DIR = lexer
+ERROR_DIR = error
 
-LEXER_FILE = $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
-		unclosed_quote.c \
-	)
-SRC_FILE = $(addprefix $(SRC_DIR)/, \
+define SRC_FILE 
+	$(addprefix $(SRC_DIR)/, \
 		main.c \
 )
+endef
+
+define LEXER_FILE
+	$(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
+		unclosed_quote.c \
+		ft_shell_types.c \
+		ft_delimiter.c \
+		first_pass.c
+	)
+endef
+
+define ERROR_FILE
+	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
+		error.c \
+		syntax_error.c
+)
+endef
+
 SRC = $(SRC_FILE) $(LEXER_FILE)
 
 ### HEADER FILE ###

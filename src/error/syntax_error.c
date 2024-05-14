@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/11 10:26:27 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/10 23:42:06 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/10 23:53:36 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../includes/error.h"
 
-# include <stdlib.h>
-# include <stdio.h>
-# include "../libft/includes/libft.h"
+// MAYBE ERROR ARE NOT WRITTEN WITH PRINTF
+// BUT STD_ERROR INSTEAD
+void	syntax_error(const char *token)
+{
+	printf("%s: syntax error near unexpected token '%s'\n", BASH, token);
+	return ;
+}
 
-# include "parser.h"
-# include "error.h"
-
-#endif

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:40:31 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/08 17:36:42 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/09 03:30:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	unclosed_quote(const char *input)
 		else if (input[index] == SINGLE_QUOTE && last_quote == SINGLE_QUOTE)
 			last_quote = 0;
 		else
-			;
+			continue ;
 		index++;
 	}
 	return (last_quote != 0);
@@ -55,22 +55,20 @@ int	unclosed_quote_bracket(const char *input)
 		if (input[index] == RIGHT_BRACE && open_brace == 1 && last_quote == 0)
 			open_brace = 0;
 		// CLOSE QUOTE
-		else if (input[index] == last_quote)
+		if (input[index] == last_quote)
 			last_quote = 0;
 
 		// OPEN_BRACE
-		else if (input[index] == DOLLAR && (index == 0 || input[index - 1]
+		if (input[index] == DOLLAR && (index == 0 || input[index - 1]
 				!= DOLLAR) && input[index + 1] && input[index + 1] == LEFT_BRACE)
 			open_brace = 1;
 		// OPEN BRACE
-		// else if (input[index] == LEFT_BRACE && open_brace == 0 && last_quote == 0)
+		// if (input[index] == LEFT_BRACE && open_brace == 0 && last_quote == 0)
 		// 	open_brace = 1;
 		// OPEN QUOTE
-		else if ((input[index] == DOUBLE_QUOTE || input[index] == SINGLE_QUOTE) && last_quote == 0)
+		if ((input[index] == DOUBLE_QUOTE || input[index] == SINGLE_QUOTE) && last_quote == 0)
 			last_quote = input[index];
 		// DOLLAR OPEN BRACe
-		else
-			;
 		index++;
 	}
 	return (open_brace == 1 || last_quote != 0);

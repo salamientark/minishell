@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/11 10:26:27 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/10 23:40:48 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/14 11:32:25 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef ERROR_H
+# define ERROR_H
 
-# include <stdlib.h>
 # include <stdio.h>
-# include "../libft/includes/libft.h"
+# include <string.h>
+# include <unistd.h>
+# define BASH "minishell"
 
-# include "parser.h"
-# include "error.h"
+void	syntax_error(const char *token);
+void	print_error(char *function, int errno);
 
 #endif
