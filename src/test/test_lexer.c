@@ -6,11 +6,11 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:09:32 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 14:13:11 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:02:16 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/test.h"
+#include "../../includes/test.h"
 
 void	print_input(char **input_tab)
 {
@@ -23,4 +23,3 @@ void	print_input(char **input_tab)
 		index++;
 	}
 }
-

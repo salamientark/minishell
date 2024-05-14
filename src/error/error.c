@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 14:06:57 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 14:32:29 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:19:32 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	print_error(char *function, char *error)
 {
 	int		msg_len;
 
-	index = 0;
 	write(2, "minishell: ", 11);
 	msg_len = ft_strlen(function);
 	// while (function[index]);

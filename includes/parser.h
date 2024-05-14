@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 14:28:08 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:19:31 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include <errno.h>
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include "error.h"
 
 # define DOUBLE_QUOTE '\"' 
