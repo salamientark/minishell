@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 23:40:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 14:32:39 by dbaladro         ###   ########.fr       */
+/*   Created: 2024/05/14 14:11:17 by dbaladro          #+#    #+#             */
+/*   Updated: 2024/05/14 14:14:32 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef TEST_H
+# define TEST_H
 
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include "../libft/includes/libft.h"
-# define BASH "minishell"
+# include "../../includes/minishell.h"
 
-void	syntax_error(const char *token);
-void	print_error(char *function, char *error);
+// test_lexer.h
+void	print_input(char **input_tab);
 
 #endif

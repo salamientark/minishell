@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 11:42:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:28:08 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include <stdlib.h>
+# include <errno.h>
 # include "../libft/includes/libft.h"
 # include "error.h"
 
@@ -43,5 +44,8 @@ int	is_closing_delimiter(const char limiter, const char c);
 int	is_control_operator(const char c);
 int	is_redirection_operator(const char c);
 int	is_operator(const char c);
+
+// split_input.c
+char	**split_input(const char *input);
 
 #endif

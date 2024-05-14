@@ -2,6 +2,17 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
+
+### TEST FILES ###
+## To be removed at the end ##
+TEST_DIR = test/
+define TEST_FILE
+	$(add_prefix $(SRC_DIR)/$(TEST_DIR)/, \
+		lexer_test.c
+	)
+endef
+### END OF TEST FILE ###
+
 ### INCLUDES ###
 PROJECT = minishell
 PROJECT_DIR = ./
@@ -21,7 +32,7 @@ define LEXER_FILE
 		unclosed_quote.c \
 		ft_shell_types.c \
 		ft_delimiter.c \
-		first_pass.c
+		split_input.c
 	)
 endef
 

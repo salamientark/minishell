@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 12:18:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:08:08 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_preceeded_by_word(const char *cmd, int index)
 	return (1);
 }
 
-int	is_folowed_by_word(const char *cmd, int index)
+int	is_followed_by_word(const char *cmd, int index)
 {
 	index++;
 	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
@@ -89,9 +89,7 @@ int	first_pass(const char *cmd)
 			get_operator(cmd, buffer, index);
 			if (is_control_operator(buffer[0]))
 			{
-				// PRECEEDED BY A WORD
 				if (!(is_preceeded_by_word(cmd, index)))
-					//ERROR
 					return (syntax_error(buffer), 1);
 				index = index + 1 + (buffer[1] != 0);
 			}

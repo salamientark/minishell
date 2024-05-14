@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:04:26 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 11:41:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:35:21 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	free_all(char ***input_tab_ptr, unsigned int size)
 {
-	int	index;
+	unsigned int	index;
 
 	index = 0;
 	while (index < size)
@@ -31,7 +31,7 @@ static int	skip_delimiter(const char **input_p, char delimiter)
 {
 	int	len;
 
-	*input_p++;
+	(*input_p) += 1;
 	len = 1;
 	while (**input_p)
 	{
@@ -51,6 +51,7 @@ static unsigned int	count_input(const char *input)
 	const char		*input_cp;
 	unsigned int	word_count;
 
+	input_cp = input;
 	word_count = 1;
 	while (*input_cp)
 	{
@@ -58,7 +59,7 @@ static unsigned int	count_input(const char *input)
 			word_count++;
 		if (is_opening_delimiter(*input_cp))
 			skip_delimiter(&input_cp, *input_cp);
-		*input_cp++;
+		input_cp++;
 	}
 	return (word_count);
 }
@@ -68,6 +69,7 @@ static char	*extract_input(const char **str_p)
 	int		size;
 	char	*input;
 
+	size = 0;
 	while((*str_p)[size] && (*str_p)[size] != '\n')
 	{
 		if (is_opening_delimiter(*(*str_p + size)))
@@ -79,8 +81,8 @@ static char	*extract_input(const char **str_p)
 		size++;
 	input = (char *)malloc(size + 1);
 	if (!input)
-		return (print_error("malloc", errno), NULL);
-	ft_strncpy(input, *str_p, size);
+		return (print_error("malloc", strerror(errno)), NULL);
+	ft_strncpy(input, (char *)*str_p, size);
 	*str_p += size;
 	return (input);
 }
@@ -96,11 +98,11 @@ char	**split_input(const char *input)
 		return (NULL);
 	input_tab = (char **)malloc(sizeof(char *) * (tab_size + 1));
 	if (!input_tab)
-		return (print_error("malloc", errno), NULL);
+		return (print_error("malloc", strerror(errno)), NULL);
 	index = 0;
 	while (index < tab_size)
 	{
-		input_tab[index] = extract_input(&input_cp);
+		input_tab[index] = extract_input(&input);
 		if (!input_tab[index])
 			return (free_all(&input_tab, index), NULL);
 		index++;
