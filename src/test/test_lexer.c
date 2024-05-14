@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:09:32 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 19:15:41 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 21:00:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_input(char **input_tab)
 	index = 0;
 	while (input_tab[index])
 	{
-		printf("%s\n", input_tab[index]);
+		printf("%s", input_tab[index]);
 		index++;
 	}
 }
