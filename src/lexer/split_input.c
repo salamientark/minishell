@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:04:26 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 18:17:57 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:15:25 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	skip_delimiter(const char **input_p, char delimiter)
 	printf("Skip delimiter: delimiter = %c | **input_p == %c\n", delimiter, **input_p);
 
 	(*input_p) += 1;
-	//printf("Skip delimiter: delimiter = %c | **input_p == %c\n", delimiter, **input_p);
 	len = 1;
 	while (**input_p && **input_p != '\n')
 	{
@@ -58,14 +57,18 @@ static unsigned int	count_input(const char *input)
 	unsigned int	word_count;
 
 	input_cp = input;
-	word_count = 0;
+	word_count = 1;
 	while (*input_cp)
 	{
 		if (*input_cp == NEWLINE)
+		{
 			word_count++;
-		if (is_opening_delimiter(*input_cp))
+			input_cp++;
+		}
+		else if (is_opening_delimiter(*input_cp))
 			skip_delimiter(&input_cp, *input_cp);
-		input_cp++;
+		else
+			input_cp++;
 	}
 	return (word_count);
 }
@@ -76,7 +79,7 @@ static char	*extract_input(const char **str_p)
 	char	*input;
 
 	size = 0;
-	while((*str_p)[size] && (*str_p)[size] != '\n')
+	while((*str_p)[size] || (*str_p)[size] != '\n')
 	{
 		if (is_opening_delimiter(*(*str_p + size)))
 			size += skip_delimiter(str_p, (*str_p)[size]);
@@ -103,7 +106,6 @@ char	**split_input(const char *input)
 	tab_size = count_input(input);
 	if (tab_size == 0)
 		return (NULL);
-	printf("split_input: tab_size = %d\n", tab_size);
 	input_tab = (char **)malloc(sizeof(char *) * (tab_size + 1));
 	if (!input_tab)
 		return (print_error("malloc", strerror(errno)), NULL);
