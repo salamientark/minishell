@@ -6,42 +6,60 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/11 22:20:33 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:19:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/libft.h"
+#include "minishell.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include<readline/readline.h>
-#include<readline/history.h>
+static void	check_exit(char *input)
+{
+	char	*cpy;
 
-int	main(int argc, char** argv)
+	if (!input)
+	{
+		free(input);
+		write(1, "exit\n", 5);
+		exit(0);
+	}
+	cpy = input;
+	while (*cpy == ' ')
+		cpy++;
+	if ((!ft_strcmp(cpy, "exit")))
+	{
+		free(input);
+		write(1, "exit\n", 5);
+		exit(0);
+	}
+}
+
+static char	*interactiveprompt()
 {
 	char	*input;
-	char	*cpy;
-	char	*pwd;
+	char	*prompt;
+	char	pwd[100];
 
-	while (1)
-	{
-		input = readline("\033[0;35mminitest\033[0;37m ");
-		if (input && *input)
-			add_history(input);
-		while (*input == ' ')
-			input++;
-		if (!ft_strlen(input))
-		{
-			free(input);
-			continue;
-		}
-		if (!input || !ft_strncmp(input, "exit", ft_strlen(input)))
-		{
-			write(1, "exit\n", 5);
-			exit(0);
-		}
-		write(1, input, 8);
-		write(1, "\n", 1);
-	}
-	return 0;
+	getcwd(pwd, 100);
+	prompt = ft_strjoin("\033[0;35m", pwd);
+	prompt = ft_strjoin(prompt, "\033[0;37m$ ");
+	input = readline(prompt);
+	free(prompt);
+	return(input);
+}
+
+char	*display_prompt(void)
+{
+	char	*input;
+	
+	input = interactiveprompt();
+	check_exit(input);
+	if (input && *input)
+		add_history(input);
+	if (ft_strlen(input) > 0)
+		printf("\n");
+	return (input);
 }
