@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/14 17:02:11 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:13:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static char	*interactiveprompt()
 	char	pwd[100];
 
 	getcwd(pwd, 100);
-	prompt = ft_strjoin("\033[0;35m", pwd);
-	prompt = ft_strjoin(prompt, "\033[0;37m$ ");
+	prompt = ft_strjoin("\001\033[0;35m\002", pwd);
+	prompt = ft_strjoin(prompt, "\001\033[0;37m$\002 ");
 	input = readline(prompt);
 	free(prompt);
 	return(input);

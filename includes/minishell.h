@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 18:10:36 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:42:09 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <errno.h>
 
 // prompt
 char	*display_prompt(void);
