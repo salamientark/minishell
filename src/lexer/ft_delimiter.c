@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:35:33 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 11:35:54 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/14 18:04:30 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ int	is_closing_delimiter(const char limiter, const char c)
 {
 	if ((c == SINGLE_QUOTE || c == DOUBLE_QUOTE) && limiter == c)
 		return (1);
-	if (c == RIGHT_BRACE && limiter == LEFT_BRACE)
+	if (c == RIGHT_BRACE && (limiter == LEFT_BRACE
+				|| limiter == LEFT_PARENTHESIS))
 		return (1);
-	if (limiter == LEFT_PARENTHESIS && limiter == LEFT_PARENTHESIS)
+	if ((limiter == LEFT_PARENTHESIS || limiter == LEFT_BRACE)
+			&& limiter == LEFT_PARENTHESIS)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 16:00:59 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:53:45 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av)
 {
 	(void) ac;
 	(void) av;
+	int		index;
 	char	*line;
 	char	**input_tab;
 
@@ -24,7 +25,7 @@ int	main(int ac, char **av)
 	while (line)
 	{
 		input_tab = split_input(line);
-		if (input_tab)
+		if (!input_tab)
 			return (free(line), 1);
 		print_input(input_tab);
 	// 	printf("Does < %s\tContain unclosed quote or bracket ? : %d\n", line,
@@ -33,5 +34,12 @@ int	main(int ac, char **av)
 		write(1, "$ ", 2);
 		line = get_next_line(0);
 	}
+	index = 0;
+	while (input_tab[index])
+	{
+		free(input_tab[index]);
+		index++;
+	}
+	free(input_tab);
 	return (0);
 }

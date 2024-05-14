@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:04:26 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 16:19:27 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:17:57 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,25 @@ static void	free_all(char ***input_tab_ptr, unsigned int size)
 static int	skip_delimiter(const char **input_p, char delimiter)
 {
 	int	len;
+	printf("Skip delimiter: delimiter = %c | **input_p == %c\n", delimiter, **input_p);
 
 	(*input_p) += 1;
+	//printf("Skip delimiter: delimiter = %c | **input_p == %c\n", delimiter, **input_p);
 	len = 1;
-	while (**input_p)
+	while (**input_p && **input_p != '\n')
 	{
 		if (is_closing_delimiter(delimiter, **input_p))
 		{
-			len++;
+			*input_p += 1;
+			len += 1;
 			break ;
 		}
-		if (is_opening_delimiter(**input_p))
+		if (is_opening_delimiter(**input_p) && **input_p == DOUBLE_QUOTE)
 			len += skip_delimiter(input_p, **input_p);
+		len++;
+		*input_p += 1;
 	}
+	printf("Skip delimiter: %d char\n", len);
 	return (len);
 }
 
@@ -52,7 +58,7 @@ static unsigned int	count_input(const char *input)
 	unsigned int	word_count;
 
 	input_cp = input;
-	word_count = 1;
+	word_count = 0;
 	while (*input_cp)
 	{
 		if (*input_cp == NEWLINE)
@@ -83,6 +89,7 @@ static char	*extract_input(const char **str_p)
 	if (!input)
 		return (print_error("malloc", strerror(errno)), NULL);
 	ft_strncpy(input, (char *)*str_p, size);
+	input[size] = '\0';
 	*str_p += size;
 	return (input);
 }
@@ -96,6 +103,7 @@ char	**split_input(const char *input)
 	tab_size = count_input(input);
 	if (tab_size == 0)
 		return (NULL);
+	printf("split_input: tab_size = %d\n", tab_size);
 	input_tab = (char **)malloc(sizeof(char *) * (tab_size + 1));
 	if (!input_tab)
 		return (print_error("malloc", strerror(errno)), NULL);
