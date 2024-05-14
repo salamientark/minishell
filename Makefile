@@ -8,8 +8,7 @@ CFLAGS := -Wall -Wextra -Werror
 TEST_DIR := test/
 define TEST_FILE :=
 	$(addprefix $(SRC_DIR)/$(TEST_DIR)/, \
-		test_lexer.c
-	)
+)
 endef
 ### END OF TEST FILE ###
 
@@ -20,10 +19,17 @@ PROJECT_DIR := ./
 SRC_DIR := src
 LEXER_DIR := lexer
 ERROR_DIR := error
+PROMPT_DIR := prompt
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		main.c \
+)
+endef
+
+define PROMPT_FILE := 
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR), \
+		test.c \
 )
 endef
 
@@ -46,7 +52,7 @@ HEADER_DIR := -I./includes/  -I./libft/includes/
 LIBFT := libft/libft.a
 FT_DIR := ./libft
 FT := ft
-FT_FLAG := -L$(FT_DIR) -l$(FT)
+FT_FLAG := -L$(FT_DIR) -l$(FT) -lreadline
 
 ## OBJECT FILE ###
 OBJ_DIR := .obj
@@ -95,8 +101,7 @@ fclean : clean
 
 #Suppresion des fichiers objet
 clean :
-	rm -f $(OBJ_DIR)/*.o
-	@rm -df $(OBJ_DIR)/
+	rm -rf $(OBJ_DIR)
 	make clean -C $(FT_DIR)
 
 re : fclean all

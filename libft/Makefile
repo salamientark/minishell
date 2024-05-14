@@ -18,7 +18,8 @@ SRC_FILE = ft_isascii.c ft_isalnum.c ft_isalpha.c ft_isdigit.c ft_isprint.c \
 			ft_putendl_fd.c ft_putnbr_fd.c ft_isnumber.c ft_strcmp.c \
 			get_next_line_utils.c get_next_line.c \
 			flags.c print_c.c print_i.c print_p.c print_s.c print_u.c \
-			print_x.c print_xup.c printf_utils.c ft_printf_opt.c ft_printf.c
+			print_x.c print_xup.c printf_utils.c ft_printf_opt.c ft_printf.c \
+			ft_strcat.c ft_strncat.c ft_strlcat.c
 
 BONUS_FILE = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 			 ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \

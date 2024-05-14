@@ -3,24 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/03 18:51:35 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:19:11 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-int	main(int ac, char **av)
+int	main()
 {
-	char *line;
-
-	line = get_next_line(0);
-	while (line)
+	char *input;
+	
+	while ("this is the best minishell")
 	{
-		
-		free(line);
+		input = display_prompt();
+		//lexer
+		//parser
+		//built-in
+		//pipe
+		//redirections
+		//execution
+		//expand
+		free(input);
 	}
-	return (0);
 }
