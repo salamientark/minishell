@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 19:36:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 20:54:50 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ static int	is_preceeded_by_word(const char *cmd, int ref)
 	while (index >= 0 && (cmd[index] == SPACE || cmd[index] == TAB))
 		index--;
 	if (index == -1 || cmd[index] == '\n')
-		return (1);
+		return (0);
 	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
 		|| cmd[index] == PIPE)
-		return (1);
+		return (0);
 	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
 
 static int	is_followed_by_word(const char *cmd, int operator)
@@ -54,13 +54,13 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
 		index++;
 	if (!cmd[index] || cmd[index] == '\n')
-		return (1);
+		return (0);
 	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
 		|| cmd[index] == PIPE)
-		return (1);
-	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
-		return (1);
-	return (0);
+		return (0);
+	if (cmd[index] == AMPERSAND && cmd[index + 1] && cmd[index] == AMPERSAND)
+		return (0);
+	return (1);
 }
 
 char	get_operator(const char *s)
@@ -90,14 +90,14 @@ int	analyze_operator_syntax(const char *str, int ref)
 	if (operator == PIPE || operator == AND || operator == OR)
 	{
 		if (!is_preceeded_by_word(str, ref))
-			return (syntax_error(str, operator), 2);
+			return (syntax_error(str, ref, operator), 2);
 	}
 	if (operator == LESS_THAN || operator == GREATER_THAN
 			|| operator == APPEND || operator == HERE_DOC)
 	{
 		if (!is_followed_by_word(str, operator))
-			return (syntax_error(str, operator), 2);
-		if (operator == 7)
+			return (syntax_error(str, ref, operator), 2);
+		if (operator == HERE_DOC)
 			printf("HeRe_D0c\n");
 			//HERE_doc
 	}
@@ -122,6 +122,7 @@ int	first_pass(const char *cmd)
 			operator = analyze_operator_syntax(cmd, index);
 			if (operator != 0)
 				return (operator);
+			index++;
 			if (cmd[index + 1] && cmd[index] == cmd[index + 1])
 				index++;
 		}

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 18:18:23 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:44:45 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	main()
 		if (ft_strlen(input) > 0)
 		{
 			if (!unclosed_delimiter(input))
-				printf("input is WELL CLOSED\n");
+			{
+				if (!first_pass(input))
+					printf("No error encontered\n");
+			}
 
 			//lexer
 			//parser
