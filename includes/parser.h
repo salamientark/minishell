@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 15:40:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:42:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,17 @@
 # define TAB '\t'
 # define NEWLINE '\n'
 
-int	unclosed_quote(const char *cmd);
-int	unclosed_quote_bracket(const char *input);
+# define AND 2
+# define OR 3
+# define APPEND 4
+# define HERE_DOC 5
+
+int	unclosed_delimiter(const char *input);
+int	first_pass(const char *cmd);
 
 // ft_delimiter.c
-int	is_opening_delimiter(const char *str);
-int	is_closing_delimiter(const char c, const char delimiter);
+// int	is_opening_delimiter(const char *str);
+// int	is_closing_delimiter(const char c, const char delimiter);
 
 // int	is_opening_delimiter(const char c);
 // int	is_closing_delimiter(const char limiter, const char c);
@@ -50,7 +55,8 @@ int	is_closing_delimiter(const char c, const char delimiter);
 int	is_space_metachar(const char c);
 int	is_pipe(const char *s);
 
-// split_input.c
-char	**split_input(const char *input);
+// src/
+int	expand_strlen(const char *input, int ref);
+int	quoted_strlen(const char *str, int ref, const char quote);
 
 #endif

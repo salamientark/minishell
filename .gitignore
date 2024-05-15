@@ -8,3 +8,6 @@ NOTES
 minishell
 .vscode/
 *.supp
+error
+tmp
+.old
