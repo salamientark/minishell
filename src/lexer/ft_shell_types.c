@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 02:40:13 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:23:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ int	is_space_metachar(const char c)
 	if (c == TAB)
 		return (1);
 	if (c == NEWLINE)
+		return (1);
+	return (0);
+}
+
+int	is_pipe(const char *s)
+{
+	if (*s == PIPE && (!*(s + 1) || (*(s + 1) && *(s + 1) != PIPE)))
 		return (1);
 	return (0);
 }

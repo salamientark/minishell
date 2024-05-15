@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/14 14:08:08 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:40:14 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,22 @@ int	first_pass(const char *cmd)
 					return (syntax_error(buffer), 1);
 				index = index + 1 + (buffer[1] != 0);
 			}
+			else if (buffer[0] == LESS_THAN && buffer[0] == buffer[1])
+			{
+				// HERE_DOC
+			}
 			else
 				// REDIRECTION_OPERATOR -> CCHECK NEXT WORD
 			{
 				index = index + (buffer[1] != 0);
 				if (!(is_followed_by_word(cmd, index)))
 					// ERROR
+					return (syntax_error(buffer), 1);
 				index = index + 1 + (buffer[1] != 0);
 			}
 			buffer[1] = 0;
 		}
-		if (cmd[index] == DOUBLE_QUOTE || cmd[index] == SINGLE_QUOTE
-				|| cmd[index] == LEFT_BRACE)
+		if (cmd[index] == DOUBLE_QUOTE || cmd[index] == SINGLE_QUOTE)
 		{
 			last_quote = cmd[index++];
 			while (cmd[index] != last_quote)
@@ -116,39 +120,84 @@ int	first_pass(const char *cmd)
 	return (0);
 }
 
+/* 1 : |
+ * 2 : ||
+ * 3 : &&
+ * 4 : <
+ * 5 : >
+ * 6 : >>
+ * 7 : <<
+ **/
+int	get_operator(const char *s)
+{
+	int	operator;
+
+	if (*s == PIPE && *(s + 1) && *(s + 1) == PIPE)
+		operator = 2;
+	else if (*s == PIPE)
+		operator = PIPE;
+	else if (*s == AMPERSAND && *(s + 1) && *(s + 1) == AMPERSAND)
+		operator = 3;
+	else if (*s == LESS_THAN && *(s + 1) && *(s + 1) == LESS_THAN)
+		operator = 7;
+	else if (*s == GREATER_THAN && *(s + 1) && *(s + 1) == GREATER_THAN)
+		operator = 6;
+	else if (*s == LESS_THAN)
+		operator = 4;
+	else if (*s == GREATER_THEN)
+		operator == 5;
+	else
+		operator = 0;
+	return (operator);
+}
+
+int	analyze_operator_syntax(const char *str)
+{
+	int	operator;
+
+	operator = get_operator(str);
+	if (operator > 0 || operator < 3)
+	{
+		if (!is_preceeded_by_word(str))
+			return (syntax_error(str, operator), 2);
+		
+
+	}
+}
+
+/* First pass check for syntax error and opene every necessary Here_doc
+ **/
 int	first_pass(const char *cmd)
 {
 	int	index;
+	int	operator;
 
 	if (!cmd)
 		return (0);
 	index = 0;
 	while (cmd[index])
 	{
-		if (cmd[index] == PIPE) // PIPE
-			// CHECK PREVIOUS CHAR IF IT WEAS OPERATOR -> SYBNTAX ERROR
-			// ALSO CHECK IF NEXT WORD IS A word
-			//  It may be done by just cheking if previous char
-			//  (skipping space and tabs) is not an operator
-			//  (letter, number, quotes...) are not operator and acceptable 
-		if (cmd[index] == LESS_THAN) // HERE_DOC or REDIRECT_FROM
+		if (is_operator(cmd[index]))
 		{
-			index++;
-			if (cmd[index] == LESS_THAN) // HERE_DOC
+			operator = get_operator;
+			if (is_control_operator(operator))
 			{
-				// CHEK IF LIMITER
-				// OPEN HERE_DOC
+				if (!is_preceeded_by_word(cmd[index], operator));
+					//ERROR
 			}
-			else
+			if (is_redirection_operator(operator))
 			{
-				// CHECK IF NEXT WORD IS A word
+				if (!is_followed_by_word(cmd[index], operator));
+				// ERROR
+				if (operator == HERE_DOC)
+					// HERE_DOC
 			}
 		}
-		if (cmd[index] == GREATER_THAN) // REDIRECT TO
-		{
-			// SKIP OTHER GREATER THAN IF APPEND MODE 
-			// THEN CHECK IF NEXT WORD IS A word
-		}
+		if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
+			index += skip_quote(cmd, index);
+		if (cmd[index] == DOLLR && cmd[index + 1]
+			&& cmd[index + 1] == LEFT_BRACE)
+			index += skip_expand(cmd[index]);
 		index++;
 	}
 }

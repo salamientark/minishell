@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_lexer.c                                       :+:      :+:    :+:   */
+/*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 14:09:32 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 03:47:47 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/15 14:26:14 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/15 14:26:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/test.h"
+# include "../includes/minishell.h"
 
-void	print_input(char **input_tab)
+// Get the len of the quoted string
+static int	quoted_strlen(const char *input, char quote)
 {
-	int	index;
+	int	len;
 
-	index = 0;
-	while (input_tab[index])
+	len = 1;
+	while (input[len])
 	{
-		printf("--\n%s", input_tab[index]);
-		index++;
+		if (input[len] == quote)
+		{
+			len++;
+			break ;
+		}
+		len++;
 	}
+	return (len);
 }
+
