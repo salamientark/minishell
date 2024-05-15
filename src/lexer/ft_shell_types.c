@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 00:46:24 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/15 02:40:13 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,36 @@
  * maybe implementing a char *function because && is an operator and
  * it may be easier to treat & as a word instead
  * */
-int	is_control_operator(const char c)
-{
-	if (c == PIPE)
-		return (1);
-	if (c == LEFT_PARENTHESIS)
-		return (1);
-	if (c == RIGHT_PARENTHESIS)
-		return (1);
-	if (c == AMPERSAND)
-		return (1);
-	return (0);
-}
-
-int	is_redirection_operator(const char c)
-{
-	if (c == LESS_THAN)
-		return (1);
-	if (c == GREATER_THAN)
-		return (1);
-	return (0);
-}
-
-int	is_operator(const char c)
-{
-	if (is_control_operator(c))
-		return (1);
-	if (is_redirection_operator(c))
-		return (1);
-	return (0);
-}
+// int	is_control_operator(const char c)
+// {
+// 	if (c == PIPE)
+// 		return (1);
+// 	if (c == LEFT_PARENTHESIS)
+// 		return (1);
+// 	if (c == RIGHT_PARENTHESIS)
+// 		return (1);
+// 	if (c == AMPERSAND)
+// 		return (1);
+// 	return (0);
+// }
+// 
+// int	is_redirection_operator(const char c)
+// {
+// 	if (c == LESS_THAN)
+// 		return (1);
+// 	if (c == GREATER_THAN)
+// 		return (1);
+// 	return (0);
+// }
+// 
+// int	is_operator(const char c)
+// {
+// 	if (is_control_operator(c))
+// 		return (1);
+// 	if (is_redirection_operator(c))
+// 		return (1);
+// 	return (0);
+// }
 
 int	is_space_metachar(const char c)
 {

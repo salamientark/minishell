@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 18:40:24 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/15 02:40:10 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ int	unclosed_quote(const char *cmd);
 int	unclosed_quote_bracket(const char *input);
 
 // ft_delimiter.c
-int	is_opening_delimiter(const char c);
-int	is_closing_delimiter(const char limiter, const char c);
+// int	is_opening_delimiter(const char c);
+// int	is_closing_delimiter(const char limiter, const char c);
 
-// ft_operator.c
-int	is_control_operator(const char c);
-int	is_redirection_operator(const char c);
-int	is_operator(const char c);
+// ft_shell_type.c
+// int	is_control_operator(const char c);
+// int	is_redirection_operator(const char c);
+// int	is_operator(const char c);
+int	is_space_metachar(const char c);
 
 // split_input.c
 char	**split_input(const char *input);

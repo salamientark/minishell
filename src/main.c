@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/14 22:41:19 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 02:40:07 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main()
 	while ("this is the best minishell")
 	{
 		input = display_prompt();
-		/ 		write(1, input, 4);
+		// 		write(1, input, 4);
 // 		write(1, "\n", 1);
 		if (ft_strlen(input) > 0)
 		{
