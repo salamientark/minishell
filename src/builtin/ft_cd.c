@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/15 20:06:55 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/15 20:33:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	ft_cd(char **cmd, char **env)
 	else if (!cmd[1] || !ft_strcmp(cmd[1], "~"))
 	{
 		if (chdir(home))
-			perror("cd");
+			perror("cd : home");
 	}
 	else if (!ft_strcmp(cmd[1], "-"))
 		return(ft_putendl_fd(oldpwd, 1));
 	else 
 	{
 		if (chdir(cmd[1]))
-			perror("cd ");
+			perror("cd :");
 	}
 	getcwd(newpwd, MAX_PATHLEN);
 	change_pwd(oldpwd, newpwd, env);

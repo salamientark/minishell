@@ -18,6 +18,11 @@ void    isbuiltin(char **cmd, char **env)
 		ft_env(cmd, env);
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(cmd, env);
-	// if (!ft_strcmp(cmd[0], "echo"))
-	//     ft_echo(cmd[1]);
+	if (!ft_strcmp(cmd[0], "exit"))
+	{
+		write(1, "exit\n", 5);
+		exit(0);
+	}
+	if (!ft_strcmp(cmd[0], "echo"))
+		ft_echo(cmd[1]);
 }
