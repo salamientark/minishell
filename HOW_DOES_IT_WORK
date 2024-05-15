@@ -1,0 +1,18 @@
+How does minishell work step by step:
+
+=== PROMPT ===
+= - Minishell wait for user input finished by '\n'
+===	===
+
+- Minisehll first split input into input_tab if there is multiple '\n'
+	(After a copy paste for exemple)
+	It will go to error if ther is a global unclosed quote/backet/parnthesis
+	If success input is splitted by unquote/unbrace/unparnthesed '\n'
+	And treated separatly
+		See: src/lexer/split_input.c
+
+- Foreach input in the input_tab minishell wil launch interpreter
+	Which consist of Lexer->Parser->Expander->Redirection->Execution
+
+=== LEXER ===
+= - 

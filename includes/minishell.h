@@ -6,7 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/15 18:35:08 by marvin           ###   ########.fr       */
+=======
+/*   Updated: 2024/05/15 01:59:19 by dbaladro         ###   ########.fr       */
+>>>>>>> origin/lexer
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +26,8 @@
 #include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+# include <unistd.h>
+# include "parser.h"
 
 # define MAX_PATHLEN 2048
 

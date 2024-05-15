@@ -8,7 +8,8 @@ CFLAGS := -Wall -Wextra -Werror -g3
 TEST_DIR := test/
 define TEST_FILE :=
 	$(addprefix $(SRC_DIR)/$(TEST_DIR)/, \
-)
+		test_lexer.c
+	)
 endef
 ### END OF TEST FILE ###
 
@@ -45,11 +46,17 @@ endef
 
 define LEXER_FILE :=
 	$(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
+		unclosed_quote.c \
+		ft_shell_types.c \
+		ft_delimiter.c \
+		split_input.c \
 	)
 endef
 
 define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
+		error.c \
+		syntax_error.c
 	)
 endef
 
