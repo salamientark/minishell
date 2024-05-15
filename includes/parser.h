@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 15:40:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 18:08:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@
 # define TAB '\t'
 # define NEWLINE '\n'
 
-int	unclosed_quote(const char *cmd);
-int	unclosed_quote_bracket(const char *input);
+int	unclosed_delimiter(const char *input);
 
 // ft_delimiter.c
 int	is_opening_delimiter(const char *str);
