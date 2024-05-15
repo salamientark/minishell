@@ -1,6 +1,6 @@
 ### COMPILATION ###
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g3
 
 
 ### TEST FILES ###
@@ -25,13 +25,16 @@ BUILTIN_DIR := builtin
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		main.c \
-)
+	)
 endef
 
 define BUILTIN_FILE := 
 	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
-		cd.c \
-)
+		ft_cd.c \
+		ft_env.c\
+		ft_exit.c \
+		builtin_utils.c 
+	)
 endef
 
 define PROMPT_FILE := 
@@ -47,7 +50,7 @@ endef
 
 define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
-)
+	)
 endef
 
 SRC := $(SRC_FILE) $(LEXER_FILE)
@@ -78,7 +81,7 @@ all : $(PROJECT)
 
 # PROJECT COmpilation
 $(PROJECT) : $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(FT_FLAG)
+	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(FT_FLAG) 
 # 	$(CC) $(CFLAGS) -I $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(FT_FLAG)
 
 $(LIBFT) : 
