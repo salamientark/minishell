@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 19:42:24 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:06:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdlib.h>
-# include <errno.h>
-# include "libft.h"
-# include "error.h"
+#include "minishell.h"
 
 # define DOUBLE_QUOTE '\"' 
 # define SINGLE_QUOTE '\'' 
