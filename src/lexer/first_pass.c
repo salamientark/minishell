@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 15:24:33 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:44:16 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@
  *	*/
 
 #include "../../includes/minishell.h"
+
+static int	can_be_operator(const char c)
+{
+	if (c == GREATER_THAN)
+		return (1);
+	if (c == LESS_THAN)
+		return (1);
+	if (c == AMPERSAND)
+		return (1);
+	if (c == PIPE)
+		return (1);
+	return (0);
+}
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {
@@ -92,30 +105,29 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
  **/
 int	first_pass(const char *cmd)
 {
-	int	index;
+	int	i;
 	int	analyzed_op;
 	int	original_stdin;
 
 	if (!cmd)
 		return (0);
-	index = 0;
+	i = 0;
 	original_stdin = dup(STDIN_FILENO);
-	while (cmd[index])
+	while (cmd[i])
 	{
-		if (cmd[index] == LESS_THAN || cmd[index] == GREATER_THAN
-			|| cmd[index] == AMPERSAND || cmd[index] == PIPE)
+		if (can_be_operator(cmd[i]))
 		{
-			analyzed_op = analyze_operator_syntax(cmd, index, original_stdin);
+			analyzed_op = analyze_operator_syntax(cmd, i, original_stdin);
 			if (analyzed_op != 0)
 				return (analyzed_op);
-			index += 1 + (cmd[index + 1] && cmd[index] == cmd[index + 1]);
+			i += 1 + (cmd[i + 1] && cmd[i] == cmd[i + 1]);
 		}
-		if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
-			index += quoted_strlen(cmd, index, cmd[index]);
-		if (cmd[index] == DOLLAR && cmd[index + 1]
-			&& cmd[index + 1] == LEFT_BRACE)
-			index += expand_strlen(cmd, index);
-	index++;
+		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)
+			i += quoted_strlen(cmd, i, cmd[i]);
+		else if (cmd[i] == DOLLAR && cmd[i + 1] && cmd[i + 1] == LEFT_BRACE)
+			i += expand_strlen(cmd, i);
+		else
+		i++;
 	}
 	return (0);
 }

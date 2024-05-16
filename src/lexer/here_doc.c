@@ -6,9 +6,18 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 15:24:38 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:49:20 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* Actually here_doc are openede as a pipe.
+ * the father dup the original fd then it pipe & fork
+ * The son process then dup2 the original stdin to STDIN_FILENO
+ * and write to here_doc
+ *
+ * ==> It means that if more than one here_doc are opened the dup2
+ * of the original stdin to STDIN_FILENO 'reset' what was previously wrote
+ * */
 
 #include "parser.h"
 
@@ -68,6 +77,16 @@ static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2])
 	exit(EXIT_SUCCESS);
 }
 
+static int	get_limiter_len(char *limiter)
+{
+	int	limiter_len;
+
+	limiter_len = 0;
+	while (limiter[limiter_len] && limiter[limiter_len] != '\n')
+		limiter_len++;
+	return (limiter_len);
+}
+
 // PIPE REDIRECTION USING FORK
 int	here_doc(const char *cmd, int ref, int stdin_fd)
 {
@@ -83,9 +102,7 @@ int	here_doc(const char *cmd, int ref, int stdin_fd)
 	limiter = get_here_doc_limiter(cmd, ref);
 	if (!limiter)
 		return (1);
-	limiter_len = 0;
-	while (limiter[limiter_len] != '\n')
-		limiter_len++;
+	limiter_len = get_limiter_len(limiter);
 	pid = fork();
 	if (pid == -1)
 		return (print_error("fork", strerror(errno)), free(limiter), 1);
@@ -96,8 +113,7 @@ int	here_doc(const char *cmd, int ref, int stdin_fd)
 	if (dup2(pipe_fd[0], STDIN_FILENO) != 0)
 		return (print_error("dup2", strerror(errno)), close(pipe_fd[0]),
 			free(limiter), 1);
-	close(pipe_fd[0]);
-	return (free(limiter), 0);
+	return (close(pipe_fd[0]), free(limiter), 0);
 }
 // ====
 
