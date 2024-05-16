@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 22:04:20 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:02:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,6 @@
  *	*/
 
 #include "../../includes/minishell.h"
-
-char	get_operator(const char *s)
-{
-	if (*s == PIPE && *(s + 1) && *(s + 1) == PIPE)
-		return (OR);
-	else if (*s == PIPE)
-		return (PIPE);
-	else if (*s == AMPERSAND && *(s + 1) && *(s + 1) == AMPERSAND)
-		return (AND);
-	else if (*s == LESS_THAN && *(s + 1) && *(s + 1) == LESS_THAN)
-		return (HERE_DOC);
-	else if (*s == GREATER_THAN && *(s + 1) && *(s + 1) == GREATER_THAN)
-		return (APPEND);
-	else if (*s == LESS_THAN)
-		return (LESS_THAN);
-	else if (*s == GREATER_THAN)
-		return (GREATER_THAN);
-	return (0);
-}
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {
@@ -86,7 +67,7 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	return (1);
 }
 
-int	analyze_operator_syntax(const char *str, int ref)
+static int	analyze_operator_syntax(const char *str, int ref)
 {
 	char	operator;
 
@@ -102,7 +83,7 @@ int	analyze_operator_syntax(const char *str, int ref)
 		if (!is_followed_by_word(str + ref, operator))
 			return (syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			printf("HeRe_D0c\n");
+			here_doc(str, ref);
 	}
 	return (0);
 }
