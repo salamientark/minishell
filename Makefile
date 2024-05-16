@@ -25,6 +25,8 @@ BUILTIN_DIR := builtin
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		main.c \
+		quote_utils.c\
+		expand_strlen.c
 	)
 endef
 
@@ -32,7 +34,6 @@ define BUILTIN_FILE :=
 	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
 		ft_cd.c \
 		ft_env.c\
-		ft_exit.c \
 		builtin_utils.c 
 	)
 endef
@@ -53,7 +54,6 @@ endef
 define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
 		error.c \
-		unclosed_delimiter_error.c \
 		syntax_error.c
 	)
 endef

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pass.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 20:54:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:38:55 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  *	IN THE ORDER THEY APPEAR
  *	*/
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {

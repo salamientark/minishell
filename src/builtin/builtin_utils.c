@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    isbuiltin(char **cmd, char **env)
+void	isbuiltin(char **cmd, char **env)
 {
 	if (!ft_strcmp(cmd[0], "env"))
 		ft_env(cmd, env);
@@ -24,5 +24,5 @@ void    isbuiltin(char **cmd, char **env)
 		exit(0);
 	}
 	if (!ft_strcmp(cmd[0], "echo"))
-		ft_echo(cmd[1]);
+		ft_echo(cmd);
 }
