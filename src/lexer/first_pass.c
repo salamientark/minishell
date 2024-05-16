@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 16:38:55 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:09:33 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	int	index;
 
 	index = 1;
+	if (operator == HERE_DOC)
+		operator = LESS_THAN;
+	if (operator == APPEND)
+		operator = GREATER_THAN;
 	if (!cmd[index])
 		return (0);
 	if (cmd[index] && cmd[index] == operator)
@@ -63,43 +67,23 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	return (1);
 }
 
-char	get_operator(const char *s)
-{
-	if (*s == PIPE && *(s + 1) && *(s + 1) == PIPE)
-		return (OR);
-	else if (*s == PIPE)
-		return (PIPE);
-	else if (*s == AMPERSAND && *(s + 1) && *(s + 1) == AMPERSAND)
-		return (AND);
-	else if (*s == LESS_THAN && *(s + 1) && *(s + 1) == LESS_THAN)
-		return (HERE_DOC);
-	else if (*s == GREATER_THAN && *(s + 1) && *(s + 1) == GREATER_THAN)
-		return (APPEND);
-	else if (*s == LESS_THAN)
-		return (LESS_THAN);
-	else if (*s == GREATER_THAN)
-		return (GREATER_THAN);
-	return (0);
-}
-
-int	analyze_operator_syntax(const char *str, int ref)
+static int	analyze_operator_syntax(const char *str, int ref)
 {
 	char	operator;
 
-	operator = get_operator(str);
+	operator = get_operator(str + ref);
 	if (operator == PIPE || operator == AND || operator == OR)
 	{
 		if (!is_preceeded_by_word(str, ref))
 			return (syntax_error(str, ref, operator), 2);
 	}
 	if (operator == LESS_THAN || operator == GREATER_THAN
-			|| operator == APPEND || operator == HERE_DOC)
+		|| operator == APPEND || operator == HERE_DOC)
 	{
-		if (!is_followed_by_word(str, operator))
+		if (!is_followed_by_word(str + ref, operator))
 			return (syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			printf("HeRe_D0c\n");
-			//HERE_doc
+			here_doc(str, ref);
 	}
 	return (0);
 }
@@ -109,7 +93,7 @@ int	analyze_operator_syntax(const char *str, int ref)
 int	first_pass(const char *cmd)
 {
 	int	index;
-	int	operator;
+	int	analyzed_op;
 
 	if (!cmd)
 		return (0);
@@ -119,19 +103,18 @@ int	first_pass(const char *cmd)
 		if (cmd[index] == LESS_THAN || cmd[index] == GREATER_THAN
 			|| cmd[index] == AMPERSAND || cmd[index] == PIPE)
 		{
-			operator = analyze_operator_syntax(cmd, index);
-			if (operator != 0)
-				return (operator);
-			index++;
-			if (cmd[index + 1] && cmd[index] == cmd[index + 1])
-				index++;
+			analyzed_op = analyze_operator_syntax(cmd, index);
+			if (analyzed_op != 0)
+				return (analyzed_op);
+			index += 1 + (cmd[index + 1] && cmd[index] == cmd[index + 1]);
 		}
-		if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
+		else if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
 			index += quoted_strlen(cmd, index, cmd[index]);
-		if (cmd[index] == DOLLAR && cmd[index + 1]
+		else if (cmd[index] == DOLLAR && cmd[index + 1]
 			&& cmd[index + 1] == LEFT_BRACE)
 			index += expand_strlen(cmd, index);
-		index++;
+		else
+			index++;
 	}
 	return (0);
 }

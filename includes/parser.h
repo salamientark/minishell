@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 16:51:33 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:09:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,19 @@
 # define APPEND 4
 # define HERE_DOC 5
 
-int	unclosed_delimiter(const char *input);
-int	first_pass(const char *cmd);
+# define HERE_DOC_FILE "/tmp/.here_doc"
+# define HERE_DOC_PROMPT "> "
+# define HERE_DOC_WARNING_MSG_1 "minishell: warning: here_document at line "
+# define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
+# define HERE_DOC_WARNING_MSG_3 "\')\n"
+
+// operator.c
+char	get_operator(const char *s);
+int		is_metachar(const char c);
+
+int		unclosed_delimiter(const char *input);
+int		here_doc(const char *cmd, int ref);
+int		first_pass(const char *cmd);
 
 // ft_delimiter.c
 // int	is_opening_delimiter(const char *str);
@@ -50,11 +61,11 @@ int	first_pass(const char *cmd);
 // int	is_control_operator(const char c);
 // int	is_redirection_operator(const char c);
 // int	is_operator(const char c);
-int	is_space_metachar(const char c);
-int	is_pipe(const char *s);
+int		is_space_metachar(const char c);
+int		is_pipe(const char *s);
 
 // src/
-int	expand_strlen(const char *input, int ref);
-int	quoted_strlen(const char *str, int ref, const char quote);
+int		expand_strlen(const char *input, int ref);
+int		quoted_strlen(const char *str, int ref, const char quote);
 
 #endif

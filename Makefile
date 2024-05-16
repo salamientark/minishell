@@ -46,8 +46,10 @@ endef
 
 define LEXER_FILE :=
 	$(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
+		operator.c \
 		unclosed_delimiter.c \
-		first_pass.c
+		first_pass.c \
+		here_doc.c
 	)
 endef
 

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 16:41:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:09:08 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+# include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 # include <unistd.h>
