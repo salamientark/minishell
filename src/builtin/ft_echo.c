@@ -12,18 +12,27 @@
 
 #include "minishell.h"
 
-// static int  isquote()
-// {
+static int	write_quote()
+{
+	
+}
 
-// }
+void	ft_echo(char **cmd)
+{
+	int i;
+	int j;
 
-// void    ft_echo(char **cmd)
-// {
-//     int i;
-
-//     i = 1;
-//     while(cmd[i])
-//     {
-
-//     }
-// }
+	i = 1;
+	while(cmd[i++])
+	{
+		j = 0;
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == SINGLE_QUOTE || cmd[i][j] == DOUBLE_QUOTE)
+				j += write_quote(cmd[i]);
+			else
+				ft_putchar_fd(cmd[i][j], 1);
+			j++;
+		}
+	}
+}

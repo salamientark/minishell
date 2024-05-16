@@ -6,11 +6,12 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 01:10:01 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/15 02:39:03 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:34:13 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
 void	ft_env(char **env)
 {
 	int i;
