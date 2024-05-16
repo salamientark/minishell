@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 02:07:39 by ple-guya         ###   ########.fr       */
+/*   Created: 2024/05/15 01:10:01 by ple-guya          #+#    #+#             */
+/*   Updated: 2024/05/15 02:39:03 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include "libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-// prompt
-char	*display_prompt(void);
-
-//built-in
-void	cd(char *dir, char **env);
-void	ft_env(char **env);
-
-#endif
+#include <minishell.h>
+void	ft_env(char **env)
+{
+	int i;
+	
+	while(env[i])
+		printf("%s\n", env[i]);
+}
