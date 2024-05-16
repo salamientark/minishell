@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 02:07:39 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:52:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,17 @@
 #include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+# include <unistd.h>
+# include "parser.h"
+
+# define MAX_PATHLEN 2048
 
 // prompt
 char	*display_prompt(void);
 
 //built-in
-void	cd(char *dir, char **env);
-void	ft_env(char **env);
+void	ft_cd(char **cmd, char **env);
+void    ft_env(char **cmd, char **env);
+void    isbuiltin(char **cmd, char **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 02:26:07 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:53:23 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,25 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
+	char	*input_tab;
 	(void)ac;
 	(void)av;
-	(void)env;
+
 	while ("this is the best minishell")
 	{
 		input = display_prompt();
-		//cd(input);
-		//ft_env(env);
-		//lexer
-		//parser
-		//built-in
-		//pipe
-		//redirections
-		//execution
-		//expand
+		if(ft_strlen(input)> 0)
+		{
+			input_tab = ft_split(input, ' ');
+			isbuiltin(input_tab, env);
+			//lexer
+			//parser
+			//built-in
+			//pipe
+			//redirections
+			//execution
+			//expand
+		}
 		free(input);
 	}
 }
