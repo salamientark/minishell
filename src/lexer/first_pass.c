@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 17:44:16 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 23:41:21 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	first_pass(const char *cmd)
 		{
 			analyzed_op = analyze_operator_syntax(cmd, i, original_stdin);
 			if (analyzed_op != 0)
-				return (analyzed_op);
+				return (close(original_stdin), analyzed_op);
 			i += 1 + (cmd[i + 1] && cmd[i] == cmd[i + 1]);
 		}
 		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)
@@ -127,7 +127,7 @@ int	first_pass(const char *cmd)
 		else if (cmd[i] == DOLLAR && cmd[i + 1] && cmd[i + 1] == LEFT_BRACE)
 			i += expand_strlen(cmd, i);
 		else
-		i++;
+			i++;
 	}
-	return (0);
+	return (close(original_stdin), 0);
 }

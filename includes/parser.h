@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 17:57:39 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:10:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,39 @@
 # define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
 # define HERE_DOC_WARNING_MSG_3 "\')\n"
 
+typedef enum	e_token_type
+{
+	WORD = 0,
+	T_PIPE = 124,
+	T_LESS_THAN = 60,
+	T_GREATER_THAN = 62,
+	T_LEFT_PARENTHESIS = 40,
+	T_RIGHT_PARENTHESIS = 41,
+	T_AND = 2,
+	T_OR = 3,
+	T_APPEND = 4,
+	T_HERE_DOC = 5,
+
+}				t_token_type;
+
+typedef struct	s_token_list
+{
+	char				*token;
+	int					size;
+	t_token_type		type;
+	struct s_token_list	*prev;
+	struct s_token_list	*next;
+}				t_token_list;
+
 // operator.c
 char	get_operator(const char *s);
 int		is_space_metachar(const char c);
 int		is_metachar(const char c);
 
-int		unclosed_delimiter(const char *input);
-int		here_doc(const char *cmd, int ref, int stdin_fd);
-int		first_pass(const char *cmd);
+int			unclosed_delimiter(const char *input);
+int			here_doc(const char *cmd, int ref, int stdin_fd);
+int			first_pass(const char *cmd);
+t_token_list	*tokenize(const char *input);
 
 // ft_delimiter.c
 // int	is_opening_delimiter(const char *str);

@@ -34,7 +34,8 @@ define LEXER_FILE :=
 		operator.c \
 		unclosed_delimiter.c \
 		first_pass.c \
-		here_doc.c
+		here_doc.c \
+		tokenizer.c
 	)
 endef
 
