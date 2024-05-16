@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 19:05:48 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:46:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ static char	*interactiveprompt(void)
 {
 	char	*input;
 	char	*prompt;
+	char	*tmp;
 	char	pwd[MAX_PATHLEN];
 
 	getcwd(pwd, MAX_PATHLEN);
-	prompt = ft_strjoin("\001\033[0;35m\002", pwd);
-	prompt = ft_strjoin(prompt, "\001\033[0;37m$\002 ");
+	tmp = ft_strjoin("\001\033[0;35m\002", pwd);
+	if (!tmp)
+		return(NULL);
+	prompt = ft_strjoin(tmp, "\001\033[0;37m$\002 ");
+	if (!prompt)
+		return(NULL);
+	free(tmp);
 	input = readline(prompt);
 	free(prompt);
 	return (input);
