@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 15:01:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:24:38 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2])
 }
 
 // PIPE REDIRECTION USING FORK
-int	here_doc(const char *cmd, int ref)
+int	here_doc(const char *cmd, int ref, int stdin_fd)
 {
 	char	*limiter;
 	int		limiter_len;
@@ -78,6 +78,8 @@ int	here_doc(const char *cmd, int ref)
 
 	if (pipe(pipe_fd) != 0)
 		return (print_error("pipe", strerror(errno)), 1);
+	if (dup2(stdin_fd, STDIN_FILENO) != 0)
+		return (print_error("dup2", strerror(errno)), 1);
 	limiter = get_here_doc_limiter(cmd, ref);
 	if (!limiter)
 		return (1);

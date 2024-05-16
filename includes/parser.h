@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 14:51:22 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:24:36 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	get_operator(const char *s);
 int		is_metachar(const char c);
 
 int		unclosed_delimiter(const char *input);
-int		here_doc(const char *cmd, int ref);
+int		here_doc(const char *cmd, int ref, int stdin_fd);
 int		first_pass(const char *cmd);
 
 // ft_delimiter.c

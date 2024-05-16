@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 12:02:41 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:24:33 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	return (1);
 }
 
-static int	analyze_operator_syntax(const char *str, int ref)
+static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 {
 	char	operator;
 
@@ -83,7 +83,7 @@ static int	analyze_operator_syntax(const char *str, int ref)
 		if (!is_followed_by_word(str + ref, operator))
 			return (syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			here_doc(str, ref);
+			here_doc(str, ref, stdin_fd);
 	}
 	return (0);
 }
@@ -94,27 +94,28 @@ int	first_pass(const char *cmd)
 {
 	int	index;
 	int	analyzed_op;
+	int	original_stdin;
 
 	if (!cmd)
 		return (0);
 	index = 0;
+	original_stdin = dup(STDIN_FILENO);
 	while (cmd[index])
 	{
 		if (cmd[index] == LESS_THAN || cmd[index] == GREATER_THAN
 			|| cmd[index] == AMPERSAND || cmd[index] == PIPE)
 		{
-			analyzed_op = analyze_operator_syntax(cmd, index);
+			analyzed_op = analyze_operator_syntax(cmd, index, original_stdin);
 			if (analyzed_op != 0)
 				return (analyzed_op);
 			index += 1 + (cmd[index + 1] && cmd[index] == cmd[index + 1]);
 		}
-		else if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
+		if (cmd[index] == SINGLE_QUOTE || cmd[index] == DOUBLE_QUOTE)
 			index += quoted_strlen(cmd, index, cmd[index]);
-		else if (cmd[index] == DOLLAR && cmd[index + 1]
+		if (cmd[index] == DOLLAR && cmd[index + 1]
 			&& cmd[index + 1] == LEFT_BRACE)
 			index += expand_strlen(cmd, index);
-		else
-			index++;
+	index++;
 	}
 	return (0);
 }
