@@ -6,13 +6,13 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 15:52:22 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:05:48 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*interactiveprompt()
+static char	*interactiveprompt(void)
 {
 	char	*input;
 	char	*prompt;
@@ -23,13 +23,13 @@ static char	*interactiveprompt()
 	prompt = ft_strjoin(prompt, "\001\033[0;37m$\002 ");
 	input = readline(prompt);
 	free(prompt);
-	return(input);
+	return (input);
 }
 
 char	*display_prompt(void)
 {
 	char	*input;
-	
+
 	input = interactiveprompt();
 	if (!input)
 	{

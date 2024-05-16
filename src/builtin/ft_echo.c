@@ -16,26 +16,26 @@ static int	check_flag(char **cmd)
 {
 	int	i;
 	int	j;
-	int flag;
+	int	flag;
 
 	flag = 0;
 	i = 1;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		if (cmd[i][0] == '-')
 		{
 			j = 1;
-			while(cmd[i][j] == 'n')
+			while (cmd[i][j] == 'n')
 				j++;
 			if (!cmd[i][j])
 				flag++;
 		}
 		i++;
 	}
-	return(flag);
+	return (flag);
 }
 
-static int	write_quote(char *str, int ref,char quote)
+static int	write_quote(char *str, int ref, char quote)
 {
 	int	quote_len;
 
@@ -43,18 +43,18 @@ static int	write_quote(char *str, int ref,char quote)
 	ref++;
 	if (quote_len > 2)
 		write(1, str + ref, quote_len - 2);
-	return(quote_len);
+	return (quote_len);
 }
 
 void	ft_echo(char **cmd)
 {
-	int i;
-	int j;
-	int flag;
+	int	i;
+	int	j;
+	int	flag;
 
 	flag = check_flag(cmd);
 	i = flag + 1;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		j = 0;
 		while (cmd[i][j])
@@ -66,8 +66,8 @@ void	ft_echo(char **cmd)
 		}
 		i++;
 		if (cmd[i])
-			write(1," ", 1);
+			write(1, " ", 1);
 	}
 	if (!flag)
-		write(1,"\n", 1);
+		write(1, "\n", 1);
 }

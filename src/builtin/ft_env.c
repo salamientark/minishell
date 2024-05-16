@@ -21,13 +21,13 @@ static void	env_error(char *cmd)
 
 void	ft_env(char **cmd, char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (cmd[1])
 	{
 		env_error(cmd[1]);
-		return;
+		return ;
 	}
 	while (env[i])
 		printf("%s\n", env[i++]);

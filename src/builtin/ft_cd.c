@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/15 20:33:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/16 19:06:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void	change_pwd(char *oldpwd, char *newpwd, char **env)
 {
 	int		i;
-	char 	*oldpwd_env;
+	char	*oldpwd_env;
 	char	*newpwd_env;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
@@ -55,8 +55,8 @@ void	ft_cd(char **cmd, char **env)
 			perror("cd : home");
 	}
 	else if (!ft_strcmp(cmd[1], "-"))
-		return(ft_putendl_fd(oldpwd, 1));
-	else 
+		return (ft_putendl_fd(oldpwd, 1));
+	else
 	{
 		if (chdir(cmd[1]))
 			perror("cd :");
