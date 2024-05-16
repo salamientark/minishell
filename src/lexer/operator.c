@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 15:01:31 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:57:13 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,20 @@ char	get_operator(const char *s)
 	return (0);
 }
 
-int	is_metachar(const char c)
+int	is_space_metachar(const char c)
 {
 	if (c == SPACE)
 		return (1);
 	if (c == TAB)
 		return (1);
 	if (c == NEWLINE)
+		return (1);
+	return (0);
+}
+
+int	is_metachar(const char c)
+{
+	if (is_space_metachar(c))
 		return (1);
 	if (c == AMPERSAND)
 		return (1);
