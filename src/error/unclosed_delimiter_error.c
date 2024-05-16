@@ -1,4 +1,16 @@
-#include "parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unclosed_delimiter_error.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 17:13:15 by ple-guya          #+#    #+#             */
+/*   Updated: 2024/05/16 17:13:23 by ple-guya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 void	unclosed_delimiter_error(const char *str, int ref)
 {

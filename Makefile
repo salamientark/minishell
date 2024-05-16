@@ -34,6 +34,7 @@ define BUILTIN_FILE :=
 	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
 		ft_cd.c \
 		ft_env.c\
+		ft_echo.c \
 		builtin_utils.c 
 	)
 endef
@@ -56,6 +57,7 @@ endef
 define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
 		error.c \
+		unclosed_delimiter_error.c \
 		syntax_error.c
 	)
 endef
