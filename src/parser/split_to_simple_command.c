@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:24:04 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/17 03:52:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 04:55:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,18 @@ static t_simple_cmd	*get_simple_cmd(t_token_list **token_list_p)
 			free((*token_list_p)->token);
 			free((*token_list_p));
 			if (tmp_token->type == T_LESS_THAN || tmp_token->type == T_HERE_DOC)
+			{
 				simple_cmd->redirect_from = add_token(simple_cmd->redirect_from,
 					tmp_token);
+				*token_list_p = tmp_token->next;
+				simple_cmd->redirect_from->next = NULL;
+			}
 			else
+			{
 				simple_cmd->redirect_to = add_token(simple_cmd->redirect_to, tmp_token);
-			*token_list_p = tmp_token;
-			*token_list_p = (*token_list_p)->next;
+				*token_list_p = tmp_token->next;
+				simple_cmd->redirect_to->next = NULL;
+			}
 		}
 	}
 	if (*token_list_p)
