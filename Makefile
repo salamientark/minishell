@@ -35,7 +35,15 @@ define LEXER_FILE :=
 		unclosed_delimiter.c \
 		first_pass.c \
 		here_doc.c \
+		token_utils.c \
 		tokenizer.c
+	)
+endef
+
+PARSER_DIR := parser
+define TEST_FILE :=
+	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		split_to_simple_command.c
 	)
 endef
 
@@ -67,11 +75,12 @@ FT_FLAG := -L$(FT_DIR) -l$(FT) -lreadline
 ## OBJECT FILE ###
 OBJ_DIR := .obj
 OBJ_LEXER := $(addprefix $(OBJ_DIR)/, $(notdir $(LEXER_FILE:%.c=%.o)))
+OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_TEST := $(addprefix $(OBJ_DIR)/, $(notdir $(TEST_FILE:%.c=%.o)))
 OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
-OBJ := $(OBJ_LEXER) $(OBJ_ERROR) $(OBJ_TEST) $(OBJ_PROMPT) $(OBJ_SRC)
+OBJ := $(OBJ_LEXER) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_TEST) $(OBJ_PROMPT) $(OBJ_SRC)
 
 .PHONY := bonus all clean fclean
 
@@ -88,6 +97,11 @@ $(LIBFT) :
 
 # COMPILING LEXER FILE 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(LEXER_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING PARSER FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(PARSER_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

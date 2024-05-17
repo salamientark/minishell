@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 21:10:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 03:52:31 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,31 @@ typedef struct	s_token_list
 	struct s_token_list	*next;
 }				t_token_list;
 
+typedef struct	s_simple_cmd
+{
+	t_token_list	*cmd;
+	t_token_list	*redirect_from;
+	t_token_list	*redirect_to;
+}				t_simple_cmd;
+
 // operator.c
 char	get_operator(const char *s);
 int		is_space_metachar(const char c);
 int		is_metachar(const char c);
 
+// token_utils.c
+t_token_list *get_token_list_head(t_token_list *token_list);
+t_token_list	*add_token(t_token_list *last_token,
+	t_token_list *new_token);
+void	free_token_list(t_token_list **elem);
+
 int			unclosed_delimiter(const char *input);
 int			here_doc(const char *cmd, int ref, int stdin_fd);
 int			first_pass(const char *cmd);
 t_token_list	*tokenize(const char *input);
+
+//parser.h
+t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p);
 
 // ft_delimiter.c
 // int	is_opening_delimiter(const char *str);
