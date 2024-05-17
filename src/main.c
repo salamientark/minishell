@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/17 03:55:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 04:42:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	index = 0;
 	while ((*cmd_tab)[index])
 	{
-		free_token_list(&(*cmd_tab[index])->cmd);
-		(*cmd_tab[index])->cmd = NULL;
-		free_token_list(&(*cmd_tab[index])->redirect_from);
-		(*cmd_tab[index])->redirect_to = NULL;
-		free_token_list(&(*cmd_tab[index])->redirect_to);
-		(*cmd_tab[index])->redirect_from = NULL;
-		free((*cmd_tab)[index]);
+		free_token_list(&(*cmd_tab)[index]->cmd);
+		(*cmd_tab)[index]->cmd = NULL;
+		free_token_list(&(*cmd_tab)[index]->redirect_from);
+		(*cmd_tab)[index]->redirect_from = NULL;
+		free_token_list(&(*cmd_tab)[index]->redirect_to);
+		(*cmd_tab)[index]->redirect_to = NULL;
+		 free((*cmd_tab)[index]);
+		 // (*cmd_tab)[index] = NULL;
 		index++;
 	}
 	free(*cmd_tab);
@@ -107,17 +108,17 @@ void	print_detailled_token_list(t_token_list *token_l)
 				token_l->token, str_token_type(token_l->type));
 }
 
-void	print_simple_cmd(t_simple_cmd cmd)
+void	print_simple_cmd(t_simple_cmd *cmd)
 {
 	printf("cmd: ");
 	// print_token_list(cmd.cmd);
-	print_detailled_token_list(cmd.cmd);
+	print_detailled_token_list(cmd->cmd);
 	printf("infile: ");
 	// print_token_list(cmd.infile);
-	print_detailled_token_list(cmd.redirect_from);
+	print_detailled_token_list(cmd->redirect_from);
 	printf("outfile: ");
 	// print_token_list(cmd.outfile);
-	print_detailled_token_list(cmd.redirect_to);
+	print_detailled_token_list(cmd->redirect_to);
 }
 
 void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
@@ -132,12 +133,12 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 	index = 0;
 	while (cmd_tab[index + 1])
 	{
-		print_simple_cmd((*cmd_tab)[index]);
+		print_simple_cmd(cmd_tab[index]);
 		printf("\001\033\[0;33m\002          |          |          |\n \
          V          V          V\n\001\033\[0m\002");
 		index++;
 	}
-	print_simple_cmd((*cmd_tab[index]));
+	print_simple_cmd(cmd_tab[index]);
 }
 //  ===== END OF TESTING =====
 
