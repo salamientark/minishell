@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:22:17 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 23:17:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 01:47:29 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	brace_expand_len(const char *input, int ref)
 		len += delimited_word_len;
 	}
 	if (!input[ref + len])
-		return (unclosed_delimiter_error(input, ref + len), -1);
+		return (unclosed_delimiter_error(input, ref + 1), -1);
 	return (len);
 }
 

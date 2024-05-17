@@ -6,31 +6,11 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 17:52:38 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 23:35:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 01:37:48 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static void	free_token_list(t_token_list **elem)
-{
-	t_token_list	*tmp_elem;
-
-	if (!*elem)
-		return ;
-	while ((*elem)->prev)
-		*elem = (*elem)->prev;
-	while (*elem)
-	{
-		tmp_elem = (*elem)->next;
-		free((*elem)->token);
-		(*elem)->token = NULL;
-		free((*elem));
-		(*elem) = NULL;
-		(*elem) = tmp_elem;
-	}
-	*elem = NULL;
-}
 
 static int	get_word_size(const char *input, int ref)
 {
@@ -76,18 +56,6 @@ static t_token_list	*make_token(const char *input, int ref)
 	return (new_token);
 }
 
-static t_token_list	*add_token(t_token_list *last_token
-		, t_token_list *new_token)
-{
-	if (!last_token)
-		return (new_token);
-	if (!new_token)
-		return (last_token);
-	last_token->next = new_token;
-	new_token->prev = last_token;
-	return (new_token);
-}
-
 t_token_list	*tokenize(const char *input)
 {
 	int				index;
@@ -109,7 +77,6 @@ t_token_list	*tokenize(const char *input)
 		else
 			index++;
 	}
-	while (last_token->prev)
-		last_token = last_token->prev;
+	last_token = get_token_list_head(last_token);
 	return (last_token);
 }

@@ -6,14 +6,35 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 23:35:20 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 03:55:50 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // ========= TESTING ======== 
-# define NORMAL_COLOR_gt "\001\033\[m\002"
+static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
+{
+	int	index;
+
+	if (!*cmd_tab)
+		return ;
+	index = 0;
+	while ((*cmd_tab)[index])
+	{
+		free_token_list(&(*cmd_tab[index])->cmd);
+		(*cmd_tab[index])->cmd = NULL;
+		free_token_list(&(*cmd_tab[index])->redirect_from);
+		(*cmd_tab[index])->redirect_to = NULL;
+		free_token_list(&(*cmd_tab[index])->redirect_to);
+		(*cmd_tab[index])->redirect_from = NULL;
+		free((*cmd_tab)[index]);
+		index++;
+	}
+	free(*cmd_tab);
+	*cmd_tab = NULL;
+}
+
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -44,33 +65,87 @@ void	print_token_list(t_token_list *token_l)
 	printf("%s\n", token_l->token);
 }
 
-//  ===== END OF TESTING =====
-static void	free_token_list(t_token_list **elem)
+char	*str_token_type(t_token_type type)
 {
-	t_token_list	*tmp_elem;
-
-	if (!*elem)
-		return ;
-	while ((*elem)->prev)
-		*elem = (*elem)->prev;
-	while (*elem)
-	{
-		tmp_elem = (*elem)->next;
-		free((*elem)->token);
-		(*elem)->token = NULL;
-		free((*elem));
-		(*elem) = NULL;
-		(*elem) = tmp_elem;
-	}
-	*elem = NULL;
+	if (type == WORD)
+		return ("WORD");
+	if (type == T_PIPE)
+		return ("PIPE");
+	if (type == T_LESS_THAN)
+		return ("LESS_THAN");
+	if (type == T_GREATER_THAN)
+		return ("GREATER_THAN");
+	if (type == T_LEFT_PARENTHESIS)
+		return ("LEFT_PARENTHESIS");
+	if (type == T_RIGHT_PARENTHESIS)
+		return ("RIGHT_PARENTHESIS");
+	if (type == T_AND)
+		return ("AND");
+	if (type == T_OR)
+		return ("OR");
+	if (type == T_APPEND)
+		return ("APPEND");
+	if (type == T_HERE_DOC)
+		return ("HERE_DOC");
+	return ("WTF");
 }
 
+void	print_detailled_token_list(t_token_list *token_l)
+{
+	if (!token_l)
+	{
+		printf("null\n");
+		return ;
+	}
+	while (token_l->next)
+	{
+		printf("%s \001\033\[0;33m\002|\001\033\[0;m\002 %s \001\033\[0;32m\002-> \001\033\[0m\002 ",
+				token_l->token, str_token_type(token_l->type));
+		token_l = token_l->next;
+	}
+	printf("%s \001\033\[0;36m\002|\001\033\[0;m\002 %s \001\033\[0m\002\n",
+				token_l->token, str_token_type(token_l->type));
+}
 
+void	print_simple_cmd(t_simple_cmd cmd)
+{
+	printf("cmd: ");
+	// print_token_list(cmd.cmd);
+	print_detailled_token_list(cmd.cmd);
+	printf("infile: ");
+	// print_token_list(cmd.infile);
+	print_detailled_token_list(cmd.redirect_from);
+	printf("outfile: ");
+	// print_token_list(cmd.outfile);
+	print_detailled_token_list(cmd.redirect_to);
+}
+
+void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
+{
+	int	index;
+
+	if (!cmd_tab)
+	{
+		printf("no_simple_cmd_tab\n");
+		return ;
+	}
+	index = 0;
+	while (cmd_tab[index + 1])
+	{
+		print_simple_cmd((*cmd_tab)[index]);
+		printf("\001\033\[0;33m\002          |          |          |\n \
+         V          V          V\n\001\033\[0m\002");
+		index++;
+	}
+	print_simple_cmd((*cmd_tab[index]));
+}
+//  ===== END OF TESTING =====
 
 int	main()
 {
 	char	*input;
 	t_token_list	*token_list;
+	t_simple_cmd	**cmd_tab;
 
 	while ("this is the best minishell")
 	{
@@ -88,8 +163,16 @@ int	main()
 						printf("TOKEN LIST IS NULL\n");
 					else
 					{
-						print_token_list(token_list);
-						free_token_list(&token_list);
+						print_detailled_token_list(token_list);
+						cmd_tab = split_to_simple_command(&token_list);
+						if (cmd_tab)
+						{
+							printf("Go print\n");
+							print_simple_cmd_tab(cmd_tab);
+							free_cmd_tab(&cmd_tab);
+						}
+						else
+							free_token_list(&token_list);
 					}
 				}
 			}
