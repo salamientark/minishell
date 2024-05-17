@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 23:43:25 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 23:43:25 by ple-guya         ###   ########.fr       */
+/*   Created: 2024/05/16 22:51:39 by ple-guya          #+#    #+#             */
+/*   Updated: 2024/05/16 22:51:39 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	env_error(char *cmd)
+void	ft_pwd(char **cmd)
 {
-	write(2, "env: '", 6);
-	write(2, cmd, ft_strlen(cmd));
-	ft_putendl_fd("': No such file or directory", 2);
-}
+	char pwd[MAX_PATHLEN];
 
-void	ft_env(char **cmd, char **env)
-{
-	int	i;
-
-	i = 0;
 	if (cmd[1])
 	{
-		env_error(cmd[1]);
+		ft_putendl_fd("pwd: too many argument", 2);
 		return ;
 	}
-	while (env[i])
-		printf("%s\n", env[i++]);
+	getcwd(pwd, MAX_PATHLEN);
+	ft_putendl_fd(pwd, 2);
 }

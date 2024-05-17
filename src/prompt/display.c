@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 21:46:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/16 21:50:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*interactiveprompt(void)
 	char	pwd[MAX_PATHLEN];
 
 	getcwd(pwd, MAX_PATHLEN);
-	tmp = ft_strjoin("\001\033[0;35m\002", pwd);
+	tmp = ft_strjoin("\001\033[0;35m\002>", pwd);
 	if (!tmp)
 		return(NULL);
 	prompt = ft_strjoin(tmp, "\001\033[0;37m$\002 ");

@@ -12,17 +12,23 @@
 
 #include "minishell.h"
 
-void	isbuiltin(char **cmd, char **env)
+//check what builtin it is, execute it and return 1 
+//if none has been found, return 0
+int	isbuiltin(char **cmd, char **env)
 {
 	if (!ft_strcmp(cmd[0], "env"))
-		ft_env(cmd, env);
+		return (ft_env(cmd, env), 1);
 	if (!ft_strcmp(cmd[0], "cd"))
-		ft_cd(cmd, env);
+		return(ft_cd(cmd, env), 1);
 	if (!ft_strcmp(cmd[0], "exit"))
-	{
-		write(1, "exit\n", 5);
-		exit(0);
-	}
+		return(ft_exit(cmd), 1);
 	if (!ft_strcmp(cmd[0], "echo"))
-		ft_echo(cmd);
+		return(ft_echo(cmd), 1);
+	if (!ft_strcmp(cmd[0], "pwd"))
+		return(ft_pwd(cmd), 1);
+	if (!ft_strcmp(cmd[0], "export"))
+	 	ft_export(cmd, env);
+	// if (!ft_strcmp(cmd[0], "unset"))
+	// 	ft_unset(cmd);
+	return(0);
 }
