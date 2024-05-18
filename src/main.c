@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/17 13:45:28 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:34:18 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 int	main()
 {
 	char	*input;
-	t_token_list	*token_list;
 	t_simple_cmd	**cmd_tab;
 
 	while ("this is the best minishell")
@@ -155,32 +154,16 @@ int	main()
 // 		write(1, "\n", 1);
 		if (ft_strlen(input) > 0)
 		{
-			if (!unclosed_delimiter(input))
+			cmd_tab = parse_input(input);
+			if (cmd_tab)
 			{
-				if (!first_pass(input))
-				{
-					token_list = tokenize(input);
-					if (!token_list)
-						printf("TOKEN LIST IS NULL\n");
-					else
-					{
-						print_token_list(token_list);
-						cmd_tab = split_to_simple_command(&token_list);
-						if (cmd_tab)
-						{
-							printf("Go print\n");
-							print_simple_cmd_tab(cmd_tab);
-							free_cmd_tab(&cmd_tab);
-						}
-// 						else
-// 							free_token_list(&token_list);
-					}
-				}
+				print_simple_cmd_tab(cmd_tab);
+				free_cmd_tab(&cmd_tab);
 			}
 
-			//lexer
-			//parser
-			//built-in
+			//lexer DONE
+			//parser DONE
+			//built-in NEARLY DONE
 			//pipe
 			//expand
 			//redirections

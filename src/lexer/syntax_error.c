@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_pass.c                                       :+:      :+:    :+:   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/17 16:10:24 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:25:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 	if (operator == PIPE || operator == AND || operator == OR)
 	{
 		if (!is_preceeded_by_word(str, ref))
-			return (syntax_error(str, ref, operator), 2);
+			return (print_syntax_error(str, ref, operator), 2);
 	}
 	if (operator == LESS_THAN || operator == GREATER_THAN
 		|| operator == APPEND || operator == HERE_DOC)
 	{
 		if (!is_followed_by_word(str + ref, operator))
-			return (syntax_error(str, ref, operator), 2);
+			return (print_syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
 			return (here_doc(str, ref, stdin_fd));
 	}
@@ -103,7 +103,7 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 
 /* First pass check for syntax error and open every necessary Here_doc
  **/
-int	first_pass(const char *cmd)
+int	syntax_error(const char *cmd)
 {
 	int	i;
 	int	analyzed_op;

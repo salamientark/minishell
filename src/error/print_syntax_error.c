@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax_error.c                                     :+:      :+:    :+:   */
+/*   print_syntax_error.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:42:06 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 21:32:40 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:23:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // MAYBE ERROR ARE NOT WRITTEN WITH PRINTF
 // BUT STD_ERROR INSTEAD
-void	syntax_error(const char *input, int ref, char operator)
+void	print_syntax_error(const char *input, int ref, char operator)
 {
 	int			operator_len;
 

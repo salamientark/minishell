@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/18 08:37:20 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:22:32 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,18 @@
 
 static void	print_here_doc_warning(int line, char *limiter)
 {
+	int	limiter_len;
+
+	limiter = 0;
+	if (*limiter)
+	{
+		while (limiter[limiter_len] == '\n')
+			limiter_len++;
+	}
 	write(1, HERE_DOC_WARNING_MSG_1, 43);
 	ft_putnbr_fd(line, 1);
 	write(1, HERE_DOC_WARNING_MSG_2, 35);
-	ft_putstr_fd(limiter, 1);
+	write(1, limiter, limiter_len);
 	write(1, HERE_DOC_WARNING_MSG_3, 3);
 }
 

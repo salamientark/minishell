@@ -33,7 +33,7 @@ define LEXER_FILE :=
 	$(addprefix $(SRC_DIR)/$(LEXER_DIR)/, \
 		operator.c \
 		unclosed_delimiter.c \
-		first_pass.c \
+		syntax_error.c \
 		here_doc.c \
 		token_utils.c \
 		tokenizer.c
@@ -43,7 +43,9 @@ endef
 PARSER_DIR := parser
 define TEST_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
-		split_to_simple_command.c
+		count_simple_command.c \
+		split_to_simple_command.c \
+		parse_input.c
 	)
 endef
 
@@ -51,7 +53,7 @@ define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
 		error.c \
 		unclosed_delimiter_error.c \
-		syntax_error.c
+		print_syntax_error.c
 )
 endef
 

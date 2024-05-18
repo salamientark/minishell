@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/17 03:52:31 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:34:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@
 # define APPEND 4
 # define HERE_DOC 5
 
-# define HERE_DOC_FILE "/tmp/.here_doc"
 # define HERE_DOC_PROMPT "> "
 # define HERE_DOC_WARNING_MSG_1 "minishell: warning: here_document at line "
 # define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
@@ -77,41 +76,33 @@ typedef struct	s_simple_cmd
 	t_token_list	*redirect_to;
 }				t_simple_cmd;
 
+// expand_strlen.c
+int					expand_strlen(const char *input, int ref);
+
+// quoted_strlen.c
+int					quoted_strlen(const char *str, int ref, const char quote);
+
 // operator.c
-char	get_operator(const char *s);
-int		is_space_metachar(const char c);
-int		is_metachar(const char c);
+char				get_operator(const char *s);
+int					is_space_metachar(const char c);
+int					is_metachar(const char c);
 
 // token_utils.c
-t_token_list *get_token_list_head(t_token_list *token_list);
-t_token_list	*add_token(t_token_list *last_token,
+t_token_list		*get_token_list_head(t_token_list *token_list);
+t_token_list		*add_token(t_token_list *last_token,
 	t_token_list *new_token);
-void	free_token_list(t_token_list **elem);
+void				free_token_list(t_token_list **elem);
 
-int			unclosed_delimiter(const char *input);
-int			here_doc(const char *cmd, int ref, int stdin_fd);
-int			first_pass(const char *cmd);
-t_token_list	*tokenize(const char *input);
+int					unclosed_delimiter(const char *input);
+int					here_doc(const char *cmd, int ref, int stdin_fd);
+int					syntax_error(const char *cmd);
+t_token_list		*tokenize(const char *input);
 
-//parser.h
-t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p);
+// split_to_simple_cmd.c
+int					count_simple_command(t_token_list *token_list);
+t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
 
-// ft_delimiter.c
-// int	is_opening_delimiter(const char *str);
-// int	is_closing_delimiter(const char c, const char delimiter);
-
-// int	is_opening_delimiter(const char c);
-// int	is_closing_delimiter(const char limiter, const char c);
-
-// ft_shell_type.c
-// int	is_control_operator(const char c);
-// int	is_redirection_operator(const char c);
-// int	is_operator(const char c);
-int		is_space_metachar(const char c);
-int		is_pipe(const char *s);
-
-// src/
-int		expand_strlen(const char *input, int ref);
-int		quoted_strlen(const char *str, int ref, const char quote);
+// parse_input.c
+t_simple_cmd		**parse_input(const char *input);
 
 #endif

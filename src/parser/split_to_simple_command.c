@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:24:04 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/18 12:39:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:09:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,8 @@ static void	free_all(t_simple_cmd ***cmd_tab, int last_cmd)
 	*cmd_tab = NULL;
 }
 
-static int	count_command(t_token_list *token_list)
-{
-	t_token_list	*token_list_cp;
-	int				simple_cmd_count;
-
-	simple_cmd_count = 1;
-	token_list_cp = token_list;
-	while (token_list_cp)
-	{
-		if (token_list_cp->type == T_PIPE)
-			simple_cmd_count++;
-		token_list_cp = token_list_cp->next;
-	}
-	return (simple_cmd_count);
-}
-
-t_simple_cmd	*extract_redirection_token(t_simple_cmd *cmd, t_token_list **token_list)
+static t_simple_cmd	*extract_redirection_token(t_simple_cmd *cmd,
+		t_token_list **token_list)
 {
 	t_simple_cmd	*cmd_cp;
 	t_token_list	*tmp_token;
@@ -69,21 +54,39 @@ t_simple_cmd	*extract_redirection_token(t_simple_cmd *cmd, t_token_list **token_
 	(*token_list)->token = NULL;
 	free((*token_list));
 	(*token_list) = NULL;
+	*token_list = tmp_token->next;
 	if (tmp_token->type == T_LESS_THAN || tmp_token->type == T_HERE_DOC)
 	{
-		*token_list = tmp_token->next;
 		cmd_cp->redirect_from = add_token(cmd_cp->redirect_from, tmp_token);
 		cmd_cp->redirect_from->next = NULL;
 	}
 	else
 	{
-		*token_list = tmp_token->next;
 		cmd_cp->redirect_to = add_token(cmd_cp->redirect_to, tmp_token);
 		cmd_cp->redirect_to->next = NULL;
 	}
 	return (cmd_cp);
 }
 
+static t_simple_cmd	*simple_cmd_end(t_simple_cmd *simple_cmd,
+		t_token_list **token_list_p)
+{
+	t_token_list	*tmp_token;
+
+	if (*token_list_p)
+	{
+		tmp_token = (*token_list_p)->next;
+		free((*token_list_p)->token);
+		(*token_list_p)->token = NULL;
+		free((*token_list_p));
+		(*token_list_p) = NULL;
+		*token_list_p = tmp_token;
+	}
+	simple_cmd->cmd = get_token_list_head(simple_cmd->cmd);
+	simple_cmd->redirect_from = get_token_list_head(simple_cmd->redirect_from);
+	simple_cmd->redirect_to = get_token_list_head(simple_cmd->redirect_to);
+	return (simple_cmd);
+}
 
 static t_simple_cmd	*get_simple_cmd(t_token_list **token_list_p)
 {
@@ -109,19 +112,7 @@ static t_simple_cmd	*get_simple_cmd(t_token_list **token_list_p)
 		else
 			simple_cmd = extract_redirection_token(simple_cmd, token_list_p);
 	}
-	if (*token_list_p)
-	{
-		tmp_token = (*token_list_p)->next;
-		free((*token_list_p)->token);
-		(*token_list_p)->token = NULL;
-		free((*token_list_p));
-		(*token_list_p) = NULL;
-		*token_list_p = tmp_token;
-	}
-	simple_cmd->cmd = get_token_list_head(simple_cmd->cmd);
-	simple_cmd->redirect_from = get_token_list_head(simple_cmd->redirect_from);
-	simple_cmd->redirect_to = get_token_list_head(simple_cmd->redirect_to);
-	return (simple_cmd);
+	return (simple_cmd_end(simple_cmd, token_list_p));
 }
 
 t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p)
@@ -130,9 +121,8 @@ t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p)
 	int				index;
 	t_simple_cmd	**simple_cmd_tab;
 
-	command_count = count_command(*token_list_p);
-	printf("simple_command count : %d\n", command_count);
-	simple_cmd_tab = (t_simple_cmd **)malloc(sizeof(struct s_simple_cmd*)
+	command_count = count_simple_command(*token_list_p);
+	simple_cmd_tab = (t_simple_cmd **)malloc(sizeof(struct s_simple_cmd *)
 			* (command_count + 1));
 	if (!simple_cmd_tab)
 		return (print_error("malloc", strerror(errno)),
@@ -141,7 +131,7 @@ t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p)
 	index = 0;
 	while (index < command_count)
 	{
-		simple_cmd_tab[index] =  get_simple_cmd(token_list_p);
+		simple_cmd_tab[index] = get_simple_cmd(token_list_p);
 		if (*token_list_p)
 			(*token_list_p)->prev = NULL;
 		if (!simple_cmd_tab[index])
