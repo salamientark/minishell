@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/18 13:34:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:48:33 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
 # define HERE_DOC_WARNING_MSG_3 "\')\n"
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	WORD = 0,
 	T_PIPE = 124,
@@ -57,10 +57,9 @@ typedef enum	e_token_type
 	T_OR = 3,
 	T_APPEND = 4,
 	T_HERE_DOC = 5,
-
 }				t_token_type;
 
-typedef struct	s_token_list
+typedef struct s_token_list
 {
 	char				*token;
 	int					size;
@@ -69,7 +68,7 @@ typedef struct	s_token_list
 	struct s_token_list	*next;
 }				t_token_list;
 
-typedef struct	s_simple_cmd
+typedef struct s_simple_cmd
 {
 	t_token_list	*cmd;
 	t_token_list	*redirect_from;
@@ -90,7 +89,7 @@ int					is_metachar(const char c);
 // token_utils.c
 t_token_list		*get_token_list_head(t_token_list *token_list);
 t_token_list		*add_token(t_token_list *last_token,
-	t_token_list *new_token);
+						t_token_list *new_token);
 void				free_token_list(t_token_list **elem);
 
 int					unclosed_delimiter(const char *input);
