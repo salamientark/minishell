@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/17 04:42:56 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 13:45:28 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 		(*cmd_tab)[index]->redirect_from = NULL;
 		free_token_list(&(*cmd_tab)[index]->redirect_to);
 		(*cmd_tab)[index]->redirect_to = NULL;
-		 free((*cmd_tab)[index]);
-		 // (*cmd_tab)[index] = NULL;
+		free((*cmd_tab)[index]);
+		(*cmd_tab)[index] = NULL;
 		index++;
 	}
 	free(*cmd_tab);
@@ -111,14 +111,14 @@ void	print_detailled_token_list(t_token_list *token_l)
 void	print_simple_cmd(t_simple_cmd *cmd)
 {
 	printf("cmd: ");
-	// print_token_list(cmd.cmd);
-	print_detailled_token_list(cmd->cmd);
+	print_token_list(cmd->cmd);
+	// print_detailled_token_list(cmd->cmd);
 	printf("infile: ");
-	// print_token_list(cmd.infile);
-	print_detailled_token_list(cmd->redirect_from);
+	print_token_list(cmd->redirect_from);
+	// print_detailled_token_list(cmd->redirect_from);
 	printf("outfile: ");
-	// print_token_list(cmd.outfile);
-	print_detailled_token_list(cmd->redirect_to);
+	print_token_list(cmd->redirect_to);
+	// print_detailled_token_list(cmd->redirect_to);
 }
 
 void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
@@ -164,7 +164,7 @@ int	main()
 						printf("TOKEN LIST IS NULL\n");
 					else
 					{
-						print_detailled_token_list(token_list);
+						print_token_list(token_list);
 						cmd_tab = split_to_simple_command(&token_list);
 						if (cmd_tab)
 						{
@@ -172,8 +172,8 @@ int	main()
 							print_simple_cmd_tab(cmd_tab);
 							free_cmd_tab(&cmd_tab);
 						}
-						else
-							free_token_list(&token_list);
+// 						else
+// 							free_token_list(&token_list);
 					}
 				}
 			}

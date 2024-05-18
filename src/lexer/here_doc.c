@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 17:49:20 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/18 08:37:20 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ static char	*get_here_doc_limiter(const char *cmd, int ref)
 	return (limiter);
 }
 
-static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2])
+static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2]
+	, int stdin_fd)
 {
 	int		index;
 	char	*here_doc_input;
 
+	close(stdin_fd);
 	close(pipe_fd[0]);
 	index = 0;
 	write(1, HERE_DOC_PROMPT, 2);
@@ -74,6 +76,7 @@ static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2])
 	else
 		free(here_doc_input);
 	close(pipe_fd[1]);
+	free(limiter);
 	exit(EXIT_SUCCESS);
 }
 
@@ -96,20 +99,21 @@ int	here_doc(const char *cmd, int ref, int stdin_fd)
 	pid_t	pid;
 
 	if (pipe(pipe_fd) != 0)
-		return (print_error("pipe", strerror(errno)), 1);
+		return (close(stdin_fd), print_error("pipe", strerror(errno)), 1);
 	if (dup2(stdin_fd, STDIN_FILENO) != 0)
-		return (print_error("dup2", strerror(errno)), 1);
+		return (close(stdin_fd), print_error("dup2", strerror(errno)), 1);
 	limiter = get_here_doc_limiter(cmd, ref);
 	if (!limiter)
-		return (1);
+		return (close(stdin_fd), 1);
 	limiter_len = get_limiter_len(limiter);
 	pid = fork();
 	if (pid == -1)
-		return (print_error("fork", strerror(errno)), free(limiter), 1);
+		return (print_error("fork", strerror(errno)), close(stdin_fd),
+			free(limiter), 1);
 	if (pid == 0)
-		exit(write_here_doc(limiter, limiter_len, pipe_fd));
-	waitpid(pid, NULL, 0);
+		exit(write_here_doc(limiter, limiter_len, pipe_fd, stdin_fd));
 	close(pipe_fd[1]);
+	waitpid(pid, NULL, 0);
 	if (dup2(pipe_fd[0], STDIN_FILENO) != 0)
 		return (print_error("dup2", strerror(errno)), close(pipe_fd[0]),
 			free(limiter), 1);

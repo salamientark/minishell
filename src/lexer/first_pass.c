@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 23:41:21 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 16:10:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 		if (!is_followed_by_word(str + ref, operator))
 			return (syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			here_doc(str, ref, stdin_fd);
+			return (here_doc(str, ref, stdin_fd));
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:54:35 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/17 04:13:35 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/17 14:45:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ void	free_token_list(t_token_list **elem)
 {
 	t_token_list	*tmp_elem;
 
-	if (!(*elem))
+	if (!elem || !(*elem))
 		return ;
 	while ((*elem)->prev)
 		*elem = (*elem)->prev;
 	while (*elem)
 	{
 		tmp_elem = (*elem)->next;
-		free((*elem)->token);
-		(*elem)->token = NULL;
+		if ((*elem)->token)
+		{
+			free((*elem)->token);
+			(*elem)->token = NULL;
+		}
 		free((*elem));
 		(*elem) = NULL;
 		(*elem) = tmp_elem;
@@ -44,10 +47,11 @@ t_token_list	*add_token(t_token_list *last_token
 	}
 	last_token->next = new_token;
 	new_token->prev = last_token;
+	new_token->next = NULL;
 	return (new_token);
 }
 
-t_token_list *get_token_list_head(t_token_list *token_list)
+t_token_list	*get_token_list_head(t_token_list *token_list)
 {
 	t_token_list	*new_head;
 
