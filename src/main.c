@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 00:53:29 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:37:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
+	char	**env_shell = env;
 	char	**cmd_tab;
 	t_simple_cmd	**input_tab;
 	(void)ac;
@@ -160,7 +161,7 @@ int	main(int ac, char **av, char **env)
 			if (input_tab)
 			{
 				cmd_tab = convert_list_to_tab(*input_tab);
-				isbuiltin(cmd_tab, env);
+				isbuiltin(cmd_tab, env_shell);
 				free_cmd_tab(&input_tab);
 			}
 			//lexer DONE

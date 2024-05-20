@@ -74,7 +74,7 @@ static char	*get_var_name(char *var)
 
 	len = 0;
 	i = 0;
-	while (var[len] != '=' && var[len])
+	while (var[len] != '=')
 		len++;
 	if (var[len] != '=')
 		return (NULL);
