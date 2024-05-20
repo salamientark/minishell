@@ -6,12 +6,12 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 18:35:38 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 22:24:21 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/* 
+ 
 // ========= TESTING ======== 
 static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 {
@@ -35,7 +35,7 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	free(*cmd_tab);
 	*cmd_tab = NULL;
 }
-
+/*
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -146,6 +146,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	char	**input_tab;
+	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
 
@@ -154,12 +155,16 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-
+			cmd_tab = parse_input(input);
+			if (cmd_tab)
+			{
+				input_tab = ft_split(input, ' ');
+				isbuiltin(input_tab, env);
+				free_cmd_tab(&cmd_tab);
+			}
 			//lexer DONE
 			//parser DONE
 			//built-in NEARLY DONE
-			input_tab = ft_split(input, ' ');
-			isbuiltin(input_tab, env);
 			//lexer
 			//parser
 			//built-in

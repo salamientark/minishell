@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:28:07 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 21:36:22 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 22:31:36 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,17 @@ static char	*extract_word(const char **str)
 		return (NULL);
 	if (**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1)))
 		word_size = get_expand_len(*str, ref);
-	word_size = 0;
-	while (*)
+	else
+	{
+		word_size = 0;
+		while (**str && !(**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1))))
+		{
+			if (**str == SINGLE_QUOTE)
+				*str += quoted_strlen(*str, 0, **str);
+			else
+				*str++;
+		}
+	}
 }
 
 char	*split_expand(const char *str, const char **path)
@@ -83,7 +92,7 @@ char	*split_expand(const char *str, const char **path)
 	char	**expand_tab;
 
 	if (!str)
-		return (NULL);
+			return (NULL);
 	word_count = count_expand_word(str);
 	expand_tab = (char **)malloc(sizeof(char *) * (word_count + 1));
 	if (!expand_tab)
