@@ -58,7 +58,8 @@ void	ft_export(char **cmd, char **env)
 	if (!cmd[1])
 		return (case_noarg(env));
 	while(cmd[i])
-		i++;
-	if (i <= 4)
+	{
+		check_name(cmd[i]);
 		add_to_env(cmd[i], env);
+	}
 }
