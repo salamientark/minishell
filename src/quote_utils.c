@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:26:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/15 19:25:21 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 21:32:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 // Return the len of quoted word + 2 for quote OR
 // -1 when no quote found 

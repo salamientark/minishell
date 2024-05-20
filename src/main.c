@@ -6,12 +6,12 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/18 13:34:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 18:35:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/* 
 // ========= TESTING ======== 
 static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 {
@@ -141,34 +141,33 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 	print_simple_cmd(cmd_tab[index]);
 }
 //  ===== END OF TESTING =====
-
-int	main()
+*/
+int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	t_simple_cmd	**cmd_tab;
+	char	**input_tab;
+	(void)ac;
+	(void)av;
 
 	while ("this is the best minishell")
 	{
 		input = display_prompt();
-		// 		write(1, input, 4);
-// 		write(1, "\n", 1);
-		if (ft_strlen(input) > 0)
+		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input);
-			if (cmd_tab)
-			{
-				print_simple_cmd_tab(cmd_tab);
-				free_cmd_tab(&cmd_tab);
-			}
 
 			//lexer DONE
 			//parser DONE
 			//built-in NEARLY DONE
+			input_tab = ft_split(input, ' ');
+			isbuiltin(input_tab, env);
+			//lexer
+			//parser
+			//built-in
 			//pipe
-			//expand
 			//redirections
 			//execution
-		}	
+			//expand
+		}
 		free(input);
 	}
 }

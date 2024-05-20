@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unclosed_delimiter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:40:31 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/15 19:30:33 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:44:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
  * A delimiter is a SINGLE_QUOTE, DOUBLE_QUOTE or DOLLAR_BRACE_EXPAND (${...}) 
  * */
 
-#include "parser.h"
+#include "minishell.h"
 
 // Check unclosed quote or dollqr_bqrce_expqnd
 int	unclosed_delimiter(const char *input)

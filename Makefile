@@ -20,12 +20,32 @@ SRC_DIR := src
 PROMPT_DIR := prompt
 PARSER_DIR := parser
 ERROR_DIR := error
+BUILTIN_DIR := builtin
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
-		quote_utils.c \
-		expand_strlen.c \
-		main.c
+		main.c \
+		quote_utils.c\
+		expand_strlen.c
+	)
+endef
+
+define BUILTIN_FILE := 
+	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
+		ft_cd.c \
+		ft_env.c\
+		ft_echo.c \
+		ft_exit.c\
+		ft_pwd.c\
+		ft_export.c\
+		ft_unset.c \
+		builtin_utils.c 
+	)
+endef
+
+define PROMPT_FILE := 
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
+		display.c \
 )
 endef
 
@@ -57,11 +77,13 @@ define ERROR_FILE :=
 )
 endef
 
+SRC := $(SRC_FILE) $(LEXER_FILE)
+
 ### HEADER FILE ###
-HEADER_DIR := -I./includes/  -I./libft/includes/
+HEADER_DIR := -I ./includes/  -I./libft/includes/
 
 # LIBFT
-LIBFT := libft/libft.a
+LIBFT := libft.a
 FT_DIR := ./libft
 FT := ft
 FT_FLAG := -L$(FT_DIR) -l$(FT)
@@ -73,7 +95,8 @@ OBJ_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
 OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
-OBJ :=  $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR)
+OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
+OBJ := $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_PROMPT) $(OBJ_SRC) $(OBJ_BUILTIN)
 
 .PHONY := bonus all clean fclean
 
@@ -102,8 +125,10 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(PARSER_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
-# COMPILING ERROR FILE 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

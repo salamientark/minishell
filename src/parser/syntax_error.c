@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 12:52:58 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 18:28:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  *	IN THE ORDER THEY APPEAR
  *	*/
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {

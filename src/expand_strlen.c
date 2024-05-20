@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_strlen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:22:17 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/17 01:47:29 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 18:28:27 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 // Return the len of braced expand len + 2 for brace 
 // OR -1 on error
