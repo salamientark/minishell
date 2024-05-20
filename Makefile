@@ -91,7 +91,7 @@ $(PROJECT) : $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(LIB_FLAG)
 
 $(LIBFT) : 
-	make -C $(FT_DIR) --silent
+	make -C $(FT_DIR)
 
 # COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
