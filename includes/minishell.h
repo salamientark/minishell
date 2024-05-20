@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/17 01:21:41 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:04:59 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_env(char **cmd, char **env);
 void	ft_echo(char **cmd);
 void	ft_exit(char **cmd);
 void	ft_pwd(char **cmd);
-void	ft_export(char **cmd, char **env)
-;
+void	ft_export(char **cmd, char **env);
+void    ft_unset(char **cmd, char **env);
 
 #endif

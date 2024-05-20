@@ -28,7 +28,7 @@ int	isbuiltin(char **cmd, char **env)
 		return (ft_pwd(cmd), 1);
 	if (!ft_strcmp(cmd[0], "export"))
 		ft_export(cmd, env);
-	// if (!ft_strcmp(cmd[0], "unset"))
-	// 	ft_unset(cmd);
+	if (!ft_strcmp(cmd[0], "unset"))
+		ft_unset(cmd, env);
 	return (0);
 }

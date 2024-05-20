@@ -38,6 +38,7 @@ define BUILTIN_FILE :=
 		ft_exit.c\
 		ft_pwd.c\
 		ft_export.c\
+		ft_unset.c \
 		builtin_utils.c 
 	)
 endef
