@@ -31,6 +31,8 @@ static int	check_valid_var(char *cmd)
 	i = 0;
 	len = 0;
 	is_equal_sign = 0;
+	if (cmd[0] == '=')
+		return(ft_putendl_fd("invalid name for export", 2), 0);
 	while (cmd[i])
 	{
 		if (cmd[i] == '=')
@@ -55,37 +57,47 @@ static char	*get_var(char *cmd, int len)
 {
 	char	*var_env;
 	int		i;
+	int		j;
 
-	var_env = (char *)malloc(sizeof(char) * len);
+	i = 0;
+	j = 0;
+	var_env = (char *)malloc(sizeof(char) * len + 1);
 	if (!var_env)
 	{
 		perror("malloc failed");
 		return (free(var_env), NULL);
 	}
-	while(cmd[i])
+	while(j < len)
 	{
 		if (cmd[i] == '"' || cmd[i] == '\'')
 			i++;
-		*var_env++ = cmd[i];
+		var_env[j++] = cmd[i];
 		i++;
 	}
-	printf("%s\n", var_env);
+	var_env[j] = '\0';
 	return(var_env);
 }
 
 static char	*get_var_name(char *var)
 {
 	char	*name;
+	int		len;
 	int		i;
 
+	len = 0;
 	i = 0;
-	while (var[i] != '=')
-		i++;
-	name = (char*)malloc(i + 1);
+	while (var[len] != '=' && var[len])
+		len++;
+	if (var[len] != '=')
+		return(NULL);
+	name = (char*)malloc(len + 1);
 	if(!name)
-		return(free(name), NULL);
-	while (*var != '=')
-		*name++ = *var++;
+		return(NULL);
+	while (i < len)
+	{
+		name[i] = var[i];
+		i++;
+	}
 	return (name);
 }
 
@@ -96,8 +108,7 @@ static void	add_to_env(char *cmd, char **env)
 	char	*var_name;
 	int		i;
 
-	var = NULL;
-	(void)env;
+	i = 0;
 	len = check_valid_var(cmd);
 	if (!len)
 		return ;
@@ -122,7 +133,10 @@ void	ft_export(char **cmd, char **env)
 	i = 1;
 	if (!cmd[i])
 		return (case_noarg(env));
-	while(cmd[i + 1])
+	while(cmd[i])
+	{
+		add_to_env(cmd[i], env);
 		i++;
-	add_to_env(cmd[i], env);
+	}
 }
+
