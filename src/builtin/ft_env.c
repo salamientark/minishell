@@ -29,10 +29,9 @@ void	ft_env(char **cmd, char **env)
 		env_error(cmd[1]);
 		return ;
 	}
-	while (env[i + 1])
+	while (env[i])
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
 }
-

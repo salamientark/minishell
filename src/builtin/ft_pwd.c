@@ -14,7 +14,7 @@
 
 void	ft_pwd(char **cmd)
 {
-	char pwd[MAX_PATHLEN];
+	char	pwd[MAX_PATHLEN];
 
 	if (cmd[1])
 	{
