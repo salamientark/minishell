@@ -15,19 +15,13 @@ BUILTIN_DIR := builtin
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
-		main.c \
+		expand_strlen.c \
 		quote_utils.c\
-		expand_strlen.c
+		main.c
 	)
 endef
 
 define PROMPT_FILE := 
-	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
-		display.c \
-)
-endef
-
-define PROMPT_FILE :=
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
 		display.c \
 )
@@ -69,11 +63,11 @@ define BUILTIN_FILE :=
 endef
 
 ### HEADER FILE ###
-HEADER_DIR := -I ./includes/  -I./libft/includes/
+HEADER_DIR := -I./includes/  -I./libft/includes/
 
 # LIBFT
-LIBFT := libft.a
 FT_DIR := ./libft
+LIBFT := $(FT_DIR)/libft.a
 FT := ft
 FT_FLAG := -L$(FT_DIR) -l$(FT)
 LIB_FLAG := $(FT_FLAG) -lreadline
