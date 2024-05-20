@@ -62,9 +62,11 @@ void	ft_echo(char **cmd)
 			if (cmd[i][j] == SINGLE_QUOTE || cmd[i][j] == DOUBLE_QUOTE)
 				j += write_quote(cmd[i], j, cmd[i][j]);
 			else
-				ft_putchar_fd(cmd[i][j++], 1);
+				ft_putchar_fd(cmd[i][j], 1);
+			j++;
 		}
-		if (cmd[++i])
+		i++;
+		if (cmd[i])
 			write(1, " ", 1);
 	}
 	if (!flag)
