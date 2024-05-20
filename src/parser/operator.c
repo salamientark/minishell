@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 17:57:13 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:22:54 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@
  *   <<
  *
  * */
+
+int	can_be_operator(const char c)
+{
+	if (c == GREATER_THAN)
+		return (1);
+	if (c == LESS_THAN)
+		return (1);
+	if (c == AMPERSAND)
+		return (1);
+	if (c == PIPE)
+		return (1);
+	return (0);
+}
 
 char	get_operator(const char *s)
 {

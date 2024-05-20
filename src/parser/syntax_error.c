@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/18 13:25:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:52:58 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,6 @@
  *	*/
 
 #include "../../includes/minishell.h"
-
-static int	can_be_operator(const char c)
-{
-	if (c == GREATER_THAN)
-		return (1);
-	if (c == LESS_THAN)
-		return (1);
-	if (c == AMPERSAND)
-		return (1);
-	if (c == PIPE)
-		return (1);
-	return (0);
-}
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {
@@ -80,6 +67,20 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	return (1);
 }
 
+static	int	is_followed_by_newline(const char *cmd)
+{
+	int	index;
+
+	index = 1;
+	if (!cmd[index])
+		return (1);
+	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
+		index++;
+	if (!cmd[index] || (cmd[index] && cmd[index] == NEWLINE))
+		return (1);
+	return (0);
+}
+
 static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 {
 	char	operator;
@@ -89,6 +90,9 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 	{
 		if (!is_preceeded_by_word(str, ref))
 			return (print_syntax_error(str, ref, operator), 2);
+		if (operator == PIPE && is_followed_by_newline(str + ref))
+			return (print_error("analyze_operator_syntax",
+					"nothing aftert pipe"), 1);
 	}
 	if (operator == LESS_THAN || operator == GREATER_THAN
 		|| operator == APPEND || operator == HERE_DOC)

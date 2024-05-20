@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/18 13:48:33 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:23:21 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int					expand_strlen(const char *input, int ref);
 int					quoted_strlen(const char *str, int ref, const char quote);
 
 // operator.c
+int					can_be_operator(const char c);
 char				get_operator(const char *s);
 int					is_space_metachar(const char c);
 int					is_metachar(const char c);
