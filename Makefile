@@ -3,15 +3,6 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -g3
 
 
-### TEST FILES ###
-## To be removed at the end ##
-TEST_DIR := test/
-define TEST_FILE :=
-	$(addprefix $(SRC_DIR)/$(TEST_DIR)/, \
-	)
-endef
-### END OF TEST FILE ###
-
 ### INCLUDES ###
 PROJECT := minishell
 PROJECT_DIR := ./
@@ -27,19 +18,6 @@ define SRC_FILE :=
 		main.c \
 		quote_utils.c\
 		expand_strlen.c
-	)
-endef
-
-define BUILTIN_FILE := 
-	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
-		ft_cd.c \
-		ft_env.c\
-		ft_echo.c \
-		ft_exit.c\
-		ft_pwd.c\
-		ft_export.c\
-		ft_unset.c \
-		builtin_utils.c 
 	)
 endef
 
@@ -77,7 +55,18 @@ define ERROR_FILE :=
 )
 endef
 
-SRC := $(SRC_FILE) $(LEXER_FILE)
+define BUILTIN_FILE := 
+	$(addprefix $(SRC_DIR)/$(BUILTIN_DIR_DIR)/, \
+		ft_cd.c \
+		ft_env.c\
+		ft_echo.c \
+		ft_exit.c\
+		ft_pwd.c\
+		ft_export.c\
+		ft_unset.c \
+		builtin_utils.c 
+	)
+endef
 
 ### HEADER FILE ###
 HEADER_DIR := -I ./includes/  -I./libft/includes/
@@ -96,9 +85,9 @@ OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
-OBJ := $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_PROMPT) $(OBJ_SRC) $(OBJ_BUILTIN)
+OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN)
 
-.PHONY := bonus all clean fclean
+.PHONY := bonus all clean fclean re
 
 ### RULES ###
 all : $(PROJECT)
@@ -126,9 +115,6 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(PARSER_DIR)/%.c
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
-
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
