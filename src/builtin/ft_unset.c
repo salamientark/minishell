@@ -30,5 +30,6 @@ void    ft_unset(char **cmd, char **env)
 			i++;
 		}
 		cmd++;
-    }
+	}
+	env[i] = NULL;
 }
