@@ -92,12 +92,12 @@ OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN)
 ### RULES ###
 all : $(PROJECT)
 
-# PROJECT COmpilation
+# PROJECT Compilation
 $(PROJECT) : $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(LIB_FLAG)
 
 $(LIBFT) : 
-	make -C $(FT_DIR)
+	make -C $(FT_DIR) --silent
 
 # COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
@@ -114,6 +114,12 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(PARSER_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
+# CCOMPILING ERROR_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING BUILTIN_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
