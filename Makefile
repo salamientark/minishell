@@ -8,10 +8,11 @@ PROJECT := minishell
 PROJECT_DIR := ./
 
 SRC_DIR := src
-PROMPT_DIR := prompt
-PARSER_DIR := parser
-ERROR_DIR := error
+PROMPT_DIR	:= prompt
+PARSER_DIR	:= parser
+ERROR_DIR	:= error
 BUILTIN_DIR := builtin
+EXEC_DIR	:= exec
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
@@ -24,6 +25,12 @@ endef
 define PROMPT_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
 		display.c \
+)
+endef
+
+define EXEC_FILE := 
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
+		convert_list.c \
 )
 endef
 
@@ -79,7 +86,8 @@ OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
-OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN)
+OBJ_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(EXEC_FILE:%.c=%.o)))
+OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) $(OBJ_EXEC)
 
 .PHONY := bonus all clean fclean re
 
@@ -115,6 +123,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
 
 # COMPILING BUILTIN_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING EXEC_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXEC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

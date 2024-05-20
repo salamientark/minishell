@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 18:27:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 00:33:27 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	ft_echo(char **cmd);
 void	ft_exit(char **cmd);
 void	ft_pwd(char **cmd);
 void	ft_export(char **cmd, char **env);
-void    ft_unset(char **cmd, char **env);
+void	ft_unset(char **cmd, char **env);
+
+//exec
+char	**convert_list_to_tab(t_simple_cmd *input);
 
 #endif

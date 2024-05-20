@@ -104,12 +104,10 @@ static void	add_to_env(char *cmd, char **env)
 		return ;
 	var = get_var(cmd, len);
 	if (!var)
-		return(free(var));
+		return ;
 	var_name = get_var_name(var);
 	if (!var_name)
-		return(free(var_name));
-	if (!var_name)
-		return(free(var_name));
+		return ;
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], var_name, ft_strlen(var_name)))
@@ -133,7 +131,7 @@ void	ft_export(char **cmd, char **env)
 	{
 		i = 0;
 		while (env[i])
-		printf("export %s\n", env[i++]);
+			printf("export %s\n", env[i++]);
 		return ;
 	}
 	while (cmd[i])

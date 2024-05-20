@@ -6,15 +6,17 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 18:36:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 00:35:30 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "minishell.h"
+// # include "minishell.h"
 # include "error.h"
+# include <errno.h>
+# include <sys/wait.h>
 
 # define DOUBLE_QUOTE '\"' 
 # define SINGLE_QUOTE '\'' 
