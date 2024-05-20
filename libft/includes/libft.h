@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:52:32 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/02/03 12:20:58 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:06:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 // added
 void				*ft_memccpy(void *dest, const void *src, int c, size_t n);
+char				*ft_strndup(const char *s, size_t size);
 
 // ft_printf
 int					ft_printf(const char *s, ...);

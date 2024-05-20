@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:50:11 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/01/17 12:32:59 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:19:17 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strndup(const char *s, size_t size)
 	size_t	s_len;
 	char	*s_cp;
 
+	if (!s || !(*s))
+		return (NULL);
 	if (size > 0)
 	{
 		if (ft_strlen(s) > size)

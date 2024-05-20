@@ -1,7 +1,12 @@
 .obj/
 *.a
+*.o
 README
 README.md
 NOTES
+*_ORIGIN
 minishell
 .vscode/
+*.supp
+tmp
+.old
