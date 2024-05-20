@@ -26,9 +26,10 @@ void    ft_unset(char **cmd, char **env)
 		while(env[i])
 		{
 			if (!ft_strncmp(cmd_tmp, env[i], ft_strlen(cmd_tmp)))
-				return(free(env[i]));
+				free(env[i]);
 			i++;
 		}
+		free(cmd_tmp);
 		cmd++;
     }
 }
