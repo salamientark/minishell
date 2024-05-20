@@ -6,106 +6,84 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:28:07 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 22:31:36 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:06:13 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	get_expand_len(const char *str, int ref)
+static int	expand_error(const char *word)
+{
+	int	index;
+
+	index = 2;
+	if (word[index] && (word[index] == RIGHT_BRACE || ft_isnbr(word[index])))
+		return (print_error(word, "bad substitution"), 1);
+	while (word[index] && word[index] != RIGHT_BRACE)
+	{
+		if (word[index] == SINGLE_QUOTE || word[index] == DOUBLE_QUOTE
+			|| can_be_operator(word[index] || word[index] == LEFT_PARENTHESIS
+				|| word[index] == RIGHT_PARENTHESIS || word[index] == LEFT_BRACE))
+			return (print_error(word, "bad substitution"), 1);
+		index++;
+	}
+	return (0);
+}
+
+static int	get_expand_len(const char *to_expand, char **env)
 {
 	int	len;
 
-	len = 1;
-	if (ft_isnbr(str[len]))
-		return (len + 1);
-	if (str[ref + len] && str[ref + index] == LEFT_BRACE)
-	{
-		len++;
-		while (str[ref + len] && str[ref + len] != RIGHT_BRACE)
-		{
-			if (str[ref + len] == SINGLE_QUOTE
-				|| str[ref + len] == DOUBLE_QUOTE)
-				len += quoted_strlen(str, ref + index, str[ref + index]);
-			else
-				len++;
-		}
-		return (len);
-	}
-	while (str[ref + len]
-		&& (ft_isalnum(str[ref + len]) || str[ref + index] == UNDERSCORE))i
+	len = 0;
+	while (to_expand[len] && (ft_isalnum(to_expand[len])
+		|| to_expand[len] == UNDERSCORE))
 		len++;
 	return (len);
 }
 
-static int	count_expand_word(const char *str)
+char	*expand(const char *to_expand, char **env)
 {
-	int	word_count;
-	int	index;
-	int	in_double_quote;
+	int		ref;
+	int		expand_len;
+	char	*expanded_word;
 
-	word_count = 1;
-	index = 0;
-	while (str[index])
+	ref = 1;
+	if (to_expand[ref] && to_expand[ref] == LEFT_BRACE)
 	{
-		if (str[index] == DOUBLE_QUOTE)
-			in_double_quote = 1 ^ in_double_quote;
-		else if (str[index] == SINGLE_QUOTE && !in_double_quote)
-			index += quoted_strlen(str, index, str[index]);
-		else if (str[index] == DOLLAR && str[index + 1]
-			&& !is_whitespace_metachar(str[index + 1]))
-		{
-			word_count++;
-			index += get_expand_len(str, index);
-		}
-		else
-			index++;
-	}
-	return (word_count);
-}
-
-static char	*extract_word(const char **str)
-{
-	int	word_size;
-
-	if (!*str)
-		return (NULL);
-	if (**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1)))
-		word_size = get_expand_len(*str, ref);
-	else
-	{
-		word_size = 0;
-		while (**str && !(**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1))))
-		{
-			if (**str == SINGLE_QUOTE)
-				*str += quoted_strlen(*str, 0, **str);
-			else
-				*str++;
-		}
-	}
-}
-
-char	*split_expand(const char *str, const char **path)
-{
-	int		word_count;
-	int		index;
-	char	**expand_tab;
-
-	if (!str)
+		ref++;
+		if (expand_error(to_expand))
 			return (NULL);
-	word_count = count_expand_word(str);
-	expand_tab = (char **)malloc(sizeof(char *) * (word_count + 1));
-	if (!expand_tab)
-		return (print_error("malloc", strerror(errno)), NULL);
+		expand_len = get_expand_len(to_expand + ref);
+	}
+	else
+		expand_len = get_expand_len(to_expand + ref);
+	expanded_word = get_env_val(to_expand + ref, )
+}
+
+char	*join_expand(char **splited_expand, char **env)
+{
+	char	*tmp_str;
+	char	*final_str;
+	int		index;
+
+	final_str = NULL;
 	index = 0;
-	while (str[index] = 0)
+	while (splited_expand[index])
 	{
-		expand_tab[index] = extract_word(&str);
-		if (!expand_tab[index])
-			// ERROR -> FREE_ALL
+		if (splited_expand[index][0] == DOLLAR)
+		{
+			tmp_str = expand(splited_expand[index], env);
+			if (!tmp_str)
+				// ERROR
+			free(splited_expand[index]);
+			splited_expand[index] = tmp_str;
+		}
+		tmp_str = final_str;
+		final_str = ft_strjoin(final_str, splited_expand[index]);
+		free(tmp_str);
 		index++;
 	}
-	return (expand_tab);
+	return (final_str);
 }
 
 int	expand_token(t_token_list *token, char **env)
