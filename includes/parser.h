@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 18:36:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 16:42:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 # define OR 3
 # define APPEND 4
 # define HERE_DOC 5
+
+# define UNDERSCORE '_'
+# define ASTERISK '*'
+# define EQUAL '='
 
 # define HERE_DOC_PROMPT "> "
 # define HERE_DOC_WARNING_MSG_1 "minishell: warning: here_document at line "
@@ -100,5 +104,15 @@ t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
 
 // parse_input.c
 t_simple_cmd		**parse_input(const char *input);
+
+
+
+
+int	is_expand(const char *str);
+
+char	**split_expand(const char *str);
+char	*join_splited_expand(char **splited_expand);
+char	*var_expand(const char *to_expand, char **env);
+int	perform_var_expansion(t_simple_cmd *cmd, char **env);
 
 #endif

@@ -12,6 +12,7 @@ PROMPT_DIR := prompt
 PARSER_DIR := parser
 ERROR_DIR := error
 BUILTIN_DIR := builtin
+EXPAND_DIR := expand
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
@@ -62,6 +63,16 @@ define BUILTIN_FILE :=
 	)
 endef
 
+define EXPAND_FILE := 
+	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
+		is_expand.c \
+		split_expand.c \
+		var_expand.c \
+		join_splited_expand.c \
+		perform_var_expansion.c
+	)
+endef
+
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/
 
@@ -79,7 +90,9 @@ OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
-OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN)
+OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
+OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
+		$(OBJ_EXPAND)
 
 .PHONY := bonus all clean fclean re
 
@@ -115,6 +128,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
 
 # COMPILING BUILTIN_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING EXPAND_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

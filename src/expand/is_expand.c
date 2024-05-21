@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   is_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 23:40:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 16:49:06 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/21 14:31:54 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/21 14:44:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "parser.h"
 
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include "../libft/includes/libft.h"
-# include "parser.h"
-# define BASH "minishell"
+int	is_expand(const char *str)
+{
+	int	index;
 
-void	print_syntax_error(const char *input, int ref, char operator);
-void	print_error(char *function, char *error);
-void	unclosed_delimiter_error(const char *str, int ref);
-
-#endif
+	if (!str)
+		return (0);
+	index = 0;
+	if (str[index] == DOLLAR && str[index + 1]
+		&& !is_space_metachar(str[index + 1]) && !ft_isdigit(str[index + 1]))
+		return (1);
+	return (0);
+}

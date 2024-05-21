@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 22:24:21 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:18:43 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	free(*cmd_tab);
 	*cmd_tab = NULL;
 }
-/*
+
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -140,12 +140,46 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 	}
 	print_simple_cmd(cmd_tab[index]);
 }
+
+void	print_char_tab(char **tab)
+{
+	int	index;
+
+	if (!tab)
+	{
+		printf("print_char_tab : No tab\n");
+		return ;
+	}
+	index = 0;
+	while (tab[index + 1])
+	{
+		printf("%s -> ", tab[index]);
+		index++;
+	}
+	printf("%s\n", tab[index]);
+}
+
+void	free_char_tab(char ***tab_p)
+{
+	int	index;
+
+	if (!tab_p || !(*tab_p))
+		return ;
+	index = 0;
+	while ((*tab_p)[index])
+	{
+		free((*tab_p)[index]);
+		(*tab_p)[index] = NULL;
+		index++;
+	}
+	free(*tab_p);
+	*tab_p = NULL;
+}
+
 //  ===== END OF TESTING =====
-*/
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	**input_tab;
 	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
@@ -158,8 +192,15 @@ int	main(int ac, char **av, char **env)
 			cmd_tab = parse_input(input);
 			if (cmd_tab)
 			{
-				input_tab = ft_split(input, ' ');
-				isbuiltin(input_tab, env);
+				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
+				print_simple_cmd_tab(cmd_tab);
+				if (perform_var_expansion(cmd_tab[0], env) == 0)
+				{
+					printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
+					print_simple_cmd_tab(cmd_tab);
+				}
+				else
+					printf("EXPAND ERROR");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE
