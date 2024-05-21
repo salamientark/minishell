@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 17:30:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:56:35 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	expand_error(const char *word)
 		if (word[index] == SINGLE_QUOTE || word[index] == DOUBLE_QUOTE
 			|| can_be_operator(word[index] || word[index] == LEFT_PARENTHESIS
 				|| word[index] == RIGHT_PARENTHESIS || word[index] == LEFT_BRACE
-					|| word[index] == ASTERISK))
+				|| word[index] == ASTERISK))
 			return (print_error((char *)word, "bad substitution"), 1);
 		if (!ft_isalnum(word[index]) && word[index] != UNDERSCORE)
 			break ;
@@ -39,7 +39,7 @@ static int	get_key_len(const char *to_expand)
 
 	len = 0;
 	while (to_expand[len] && (ft_isalnum(to_expand[len])
-		|| to_expand[len] == UNDERSCORE))
+			|| to_expand[len] == UNDERSCORE))
 		len++;
 	return (len);
 }
@@ -55,8 +55,7 @@ static char	*get_env_val(const char *key, int key_len, char **env)
 	while (env[index])
 	{
 		if (ft_strncmp(key, env[index], key_len) == 0
-			&& env[index][key_len]
-				&& env[index][key_len] == EQUAL)
+			&& env[index][key_len] && env[index][key_len] == EQUAL)
 		{
 			while (env[index][key_len + 1 + val_len])
 				val_len++;

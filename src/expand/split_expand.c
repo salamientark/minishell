@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 23:25:41 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 19:53:29 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:57:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ static char	*extract_word(const char **str, int *in_double_quote)
 		}
 	}
 	word = ft_strndup((char *)*str, word_len);
-	if (!word)
-		return (print_error("malloc", strerror(errno)), NULL);
 	*str += word_len;
 	return (word);
 }
