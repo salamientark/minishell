@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:40:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 16:49:06 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:13:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "../libft/includes/libft.h"
 # include "parser.h"
 # define BASH "minishell"
+# define HERE_DOC_COUNT_EXCEEDED "minishell: maximum here-document count \
+exceeded"
 
 void	print_syntax_error(const char *input, int ref, char operator);
 void	print_error(char *function, char *error);

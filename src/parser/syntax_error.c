@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 19:17:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:19:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,9 @@
  *	IN THE ORDER THEY APPEAR
  *	*/
 
-#include "minishell.h"
+#include "parser.h"
 
-static int	is_preceeded_by_word(const char *cmd, int ref)
-{
-	int	index;
-
-	index = ref - 1;
-	while (index >= 0 && (cmd[index] == SPACE || cmd[index] == TAB))
-		index--;
-	if (index == -1 || cmd[index] == '\n')
-		return (0);
-	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
-		|| cmd[index] == PIPE)
-		return (0);
-	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
-		return (0);
-	return (1);
-}
-
-static int	is_followed_by_word(const char *cmd, int operator)
+int	is_followed_by_word(const char *cmd, int operator)
 {
 	int	index;
 
@@ -63,6 +46,23 @@ static int	is_followed_by_word(const char *cmd, int operator)
 		|| cmd[index] == PIPE)
 		return (0);
 	if (cmd[index] == AMPERSAND && cmd[index + 1] && cmd[index] == AMPERSAND)
+		return (0);
+	return (1);
+}
+
+static int	is_preceeded_by_word(const char *cmd, int ref)
+{
+	int	index;
+
+	index = ref - 1;
+	while (index >= 0 && (cmd[index] == SPACE || cmd[index] == TAB))
+		index--;
+	if (index == -1 || cmd[index] == '\n')
+		return (0);
+	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
+		|| cmd[index] == PIPE)
+		return (0);
+	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
 		return (0);
 	return (1);
 }

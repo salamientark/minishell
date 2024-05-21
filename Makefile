@@ -30,6 +30,7 @@ endef
 
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		heredoc_count.c \
 		operator.c \
 		unclosed_delimiter.c \
 		syntax_error.c \

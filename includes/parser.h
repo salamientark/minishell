@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 19:47:54 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:19:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ char				get_operator(const char *s);
 int					is_space_metachar(const char c);
 int					is_metachar(const char c);
 
+// count_here_doc.c
+int					heredoc_count(const char *input);
+
 // token_utils.c
 t_token_list		*get_token_list_head(t_token_list *token_list);
 t_token_list		*add_token(t_token_list *last_token,
@@ -96,6 +99,7 @@ void				free_token_list(t_token_list **elem);
 
 int					unclosed_delimiter(const char *input);
 int					here_doc(const char *cmd, int ref, int stdin_fd);
+int					is_followed_by_word(const char *cmd, int operator);
 int					syntax_error(const char *cmd);
 t_token_list		*tokenize(const char *input);
 
