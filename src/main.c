@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 18:43:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:47:31 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ void	free_char_tab(char ***tab_p)
 //  ===== END OF TESTING =====
 int	main(int ac, char **av, char **env)
 {
+	int		index;
 	char	*input;
 	t_simple_cmd	**cmd_tab;
 	(void)ac;
@@ -193,27 +194,28 @@ int	main(int ac, char **av, char **env)
 			printf("\n\n\n");
 			if (cmd_tab)
 			{
+				index = 0;
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
 				print_simple_cmd_tab(cmd_tab);
-				if (perform_var_expansion(cmd_tab[0], env) == 0)
+				while (cmd_tab[index])
 				{
-					printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
-					print_simple_cmd_tab(cmd_tab);
+					if (perform_var_expansion(cmd_tab[index], env) == 0)
+						printf("Expansion success\n");
+					else
+						printf("Expansion error\n");
+					index++;
 				}
-				else
-					printf("EXPAND ERROR");
+				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
+				print_simple_cmd_tab(cmd_tab);
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE
 			//parser DONE
-			//built-in NEARLY DONE
-			//lexer
-			//parser
-			//built-in
+			//built-in DONE
+			//expand DONE
 			//pipe
 			//redirections
 			//execution
-			//expand
 		}
 		free(input);
 	}
