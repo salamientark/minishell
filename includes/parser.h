@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 20:19:44 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 20:51:50 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@
 # define HERE_DOC_WARNING_MSG_1 "minishell: warning: here_document at line "
 # define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
 # define HERE_DOC_WARNING_MSG_3 "\')\n"
+
+# define HERE_DOC_1 "/tmp/.here_doc_1"
+# define HERE_DOC_2 "/tmp/.here_doc_2"
+# define HERE_DOC_3 "/tmp/.here_doc_3"
+# define HERE_DOC_4 "/tmp/.here_doc_4"
+# define HERE_DOC_5 "/tmp/.here_doc_5"
+# define HERE_DOC_6 "/tmp/.here_doc_6"
+# define HERE_DOC_7 "/tmp/.here_doc_7"
+# define HERE_DOC_8 "/tmp/.here_doc_8"
+# define HERE_DOC_9 "/tmp/.here_doc_9"
+# define HERE_DOC_10 "/tmp/.here_doc_10"
+# define HERE_DOC_11 "/tmp/.here_doc_11"
+# define HERE_DOC_12 "/tmp/.here_doc_12"
+# define HERE_DOC_13 "/tmp/.here_doc_13"
+# define HERE_DOC_14 "/tmp/.here_doc_14"
+# define HERE_DOC_15 "/tmp/.here_doc_15"
+# define HERE_DOC_16 "/tmp/.here_doc_16"
+
 
 typedef enum e_token_type
 {
