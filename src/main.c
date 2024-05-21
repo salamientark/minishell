@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 17:18:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 18:43:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(input)> 0)
 		{
 			cmd_tab = parse_input(input);
+			printf("\n\n\n");
 			if (cmd_tab)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");

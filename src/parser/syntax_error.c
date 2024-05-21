@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 18:28:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:17:25 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	syntax_error(const char *cmd)
 		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)
 			i += quoted_strlen(cmd, i, cmd[i]);
 		else if (cmd[i] == DOLLAR && cmd[i + 1] && cmd[i + 1] == LEFT_BRACE)
-			i += expand_strlen(cmd, i);
+			i += expand_strlen(cmd, i, 0);
 		else
 			i++;
 	}

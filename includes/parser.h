@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 16:42:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:47:54 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ typedef struct s_simple_cmd
 }				t_simple_cmd;
 
 // expand_strlen.c
-int					expand_strlen(const char *input, int ref);
+// int					expand_strlen(const char *input, int ref);
+int					expand_strlen(const char *input, int ref, int in_double_quote);
 
 // quoted_strlen.c
 int					quoted_strlen(const char *str, int ref, const char quote);
@@ -114,5 +115,9 @@ char	**split_expand(const char *str);
 char	*join_splited_expand(char **splited_expand);
 char	*var_expand(const char *to_expand, char **env);
 int	perform_var_expansion(t_simple_cmd *cmd, char **env);
+
+
+
+void	print_char_tab(char **tab);
 
 #endif

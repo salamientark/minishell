@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 17:52:38 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 22:20:51 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:17:54 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	get_word_size(const char *input, int ref)
 			word_size += quoted_strlen(input, ref + word_size,
 					input[ref + word_size]);
 		else if (input[ref + word_size] == DOLLAR)
-			word_size += expand_strlen(input, ref + word_size);
+			word_size += expand_strlen(input, ref + word_size, 0);
 		else
 			word_size++;
 	}

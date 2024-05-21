@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:40:31 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/16 16:44:17 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:16:47 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	unclosed_delimiter(const char *input)
 		if (input[index] == SINGLE_QUOTE || input[index] == DOUBLE_QUOTE)
 			delimited_word_len = quoted_strlen(input, index, input[index]);
 		if (input[index] == DOLLAR)
-			delimited_word_len = expand_strlen(input, index);
+			delimited_word_len = expand_strlen(input, index, 0);
 		if (delimited_word_len == -1)
 			return (1);
 		index += delimited_word_len;

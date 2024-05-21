@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:26:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/16 21:32:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:16:13 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,38 @@
 int	quoted_strlen(const char *str, int ref, const char quote)
 {
 	int	len;
+	int	var_expand_len;
 
 	len = 1;
 	while (str[ref + len] && str[ref + len] != quote)
-		len++;
+	{
+		if (str[ref + len] == DOLLAR && str[ref + len + 1]
+			&& str[ref + len + 1] == LEFT_BRACE && quote == DOUBLE_QUOTE)
+		{
+			if (quote == DOUBLE_QUOTE)
+				var_expand_len = expand_strlen(str, ref + len, 1);
+			else
+				var_expand_len = expand_strlen(str, ref + len, 0);
+			if (var_expand_len == -1)
+				return (-1);
+			len += var_expand_len;
+		}
+		else
+			len++;
+	}
 	if (!str[ref + len])
 		return (unclosed_delimiter_error(str, ref), -1);
 	return (len + 1);
 }
+
+// int	quoted_strlen(const char *str, int ref, const char quote)
+// {
+// 	int	len;
+// 
+// 	len = 1;
+// 	while (str[ref + len] && str[ref + len] != quote)
+// 		len++;
+// 	if (!str[ref + len])
+// 		return (unclosed_delimiter_error(str, ref), -1);
+// 	return (len + 1);
+// }
