@@ -21,7 +21,9 @@ SRC_FILE = ft_isascii.c ft_isalnum.c ft_isalpha.c ft_isdigit.c ft_isprint.c \
 			print_x.c print_xup.c printf_utils.c ft_printf_opt.c ft_printf.c \
 			ft_strcat.c ft_strncat.c ft_strlcat.c \
 			ft_strcpy.c \
-			ft_strndup.c
+			ft_strndup.c \
+			ft_split_str.c\
+			ft_free_char_tab.c
 
 BONUS_FILE = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 			 ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \

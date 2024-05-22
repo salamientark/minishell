@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 20:51:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:55:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef enum e_token_type
 	T_OR = 3,
 	T_APPEND = 4,
 	T_HERE_DOC = 5,
+	T_EXPAND = 6,
 }				t_token_type;
 
 typedef struct s_token_list
@@ -110,10 +111,16 @@ int					is_metachar(const char c);
 int					heredoc_count(const char *input);
 
 // token_utils.c
-t_token_list		*get_token_list_head(t_token_list *token_list);
-t_token_list		*add_token(t_token_list *last_token,
+void				ft_token_free_list(t_token_list **elem);
+t_token_list		*ft_token_get_head(t_token_list *token_list);
+t_token_list		*ft_token_add_back(t_token_list *last_token,
 						t_token_list *new_token);
-void				free_token_list(t_token_list **elem);
+t_token_list		*ft_token_init_one(const char *input);
+t_token_list		*ft_token_make_one(char *input, t_token_type type);
+t_token_list		*ft_token_replace_by(t_token_list **src, t_token_list *replace_with);
+t_token_list		*ft_token_insert_list(t_token_list *src, t_token_list *to_insert);
+t_token_list		*ft_token_append_list(t_token_list *dest, t_token_list *src);
+t_token_list		*ft_token_list_from_tab(char **tab);
 
 int					unclosed_delimiter(const char *input);
 int					here_doc(const char *cmd, int ref, int stdin_fd);
@@ -130,16 +137,31 @@ t_simple_cmd		**parse_input(const char *input);
 
 
 
+// === EXPAND ===
+// is_expand.c
+int					is_expand(const char *str);
 
-int	is_expand(const char *str);
+// var_expand.c
+char				*var_expand(const char *to_expand, char **env);
 
-char	**split_expand(const char *str);
-char	*join_splited_expand(char **splited_expand);
-char	*var_expand(const char *to_expand, char **env);
-int	perform_var_expansion(t_simple_cmd *cmd, char **env);
+// split_expand.c
+char				**split_expand(const char *str);
+
+// remove_quote.c
+int					remove_quote(t_token_list *expansion_result);
+
+// expand_cmd_list.c
+int					expand_cmd_list(t_token_list **cmd_list, char **env);
+
+// join_cmd_expand.c
+t_token_list		*join_cmd_expand(t_token_list *src);
+
+// expand_all.c
+int					expand_all(t_simple_cmd *cmd, char **env);
 
 
 
+void	print_detailled_token_list(t_token_list *token_l);
 void	print_char_tab(char **tab);
 
 #endif

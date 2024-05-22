@@ -16,6 +16,15 @@ EXPAND_DIR := expand
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
+		ft_token_add_back.c \
+		ft_token_free_list.c \
+		ft_token_get_head.c \
+		ft_token_insert_list.c \
+		ft_token_list_from_tab.c \
+		ft_token_init_one.c \
+		ft_token_make_one.c \
+		ft_token_replace_by.c \
+		ft_token_append_list.c \
 		expand_strlen.c \
 		quote_utils.c\
 		main.c
@@ -35,7 +44,6 @@ define PARSER_FILE :=
 		unclosed_delimiter.c \
 		syntax_error.c \
 		here_doc.c \
-		token_utils.c \
 		tokenizer.c \
 		count_simple_command.c \
 		split_to_simple_command.c \
@@ -66,11 +74,13 @@ endef
 
 define EXPAND_FILE := 
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
+		expand_all.c \
+		expand_cmd_list.c \
 		is_expand.c \
+		join_cmd_expand.c \
+		remove_quote.c \
 		split_expand.c \
-		var_expand.c \
-		join_splited_expand.c \
-		perform_var_expansion.c
+		var_expand.c
 	)
 endef
 
