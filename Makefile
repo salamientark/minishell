@@ -74,13 +74,10 @@ endef
 
 define EXPAND_FILE := 
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
-		expand_all.c \
-		expand_cmd_list.c \
 		is_expand.c \
-		join_cmd_expand.c \
-		remove_quote.c \
-		split_expand.c \
-		var_expand.c
+		var_expand_strlen.c \
+		expand_var.c \
+		str_var_expansion.c
 	)
 endef
 

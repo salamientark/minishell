@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/22 16:55:23 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/22 23:06:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ t_simple_cmd		**parse_input(const char *input);
 // is_expand.c
 int					is_expand(const char *str);
 
-// var_expand.c
-char				*var_expand(const char *to_expand, char **env);
+// expand_var.c
+char				*expand_var(const char *to_expand, char **env);
 
 // split_expand.c
 char				**split_expand(const char *str);
@@ -159,7 +159,12 @@ t_token_list		*join_cmd_expand(t_token_list *src);
 // expand_all.c
 int					expand_all(t_simple_cmd *cmd, char **env);
 
-
+// NEW_EXPAND
+// var_expand_strlen.c
+int	get_expand_len(const char *str, int ref);
+size_t	var_expand_strlen(const char *word, char **env);
+// expand_var.c
+char	*str_var_expansion(const char *word, char **env);
 
 void	print_detailled_token_list(t_token_list *token_l);
 void	print_char_tab(char **tab);

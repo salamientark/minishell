@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:24:04 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 13:27:27 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:31:19 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static t_simple_cmd	*extract_redirection_token(t_simple_cmd *cmd,
 	*token_list = tmp_token->next;
 	if (tmp_token->type == T_LESS_THAN || tmp_token->type == T_HERE_DOC)
 	{
-		cmd_cp->redirect_from = ft_token_add_back(cmd_cp->redirect_from, tmp_token);
+		cmd_cp->redirect_from = ft_token_add_back(cmd_cp->redirect_from,
+				tmp_token);
 		cmd_cp->redirect_from->next = NULL;
 	}
 	else
