@@ -133,7 +133,7 @@ void	ft_export(char **cmd, char **env)
 	{
 		i = 0;
 		while (env[i])
-		printf("export %s\n", env[i++]);
+			printf("export %s\n", env[i++]);
 		return ;
 	}
 	while (cmd[i])
