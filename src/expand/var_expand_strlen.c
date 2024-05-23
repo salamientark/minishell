@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:24:43 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 23:31:53 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 02:45:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static void	update_size_and_word(size_t *size, const char **word,
 		*word += 1;
 		*size += 1;
 	}
-	else if (**word == SINGLE_QUOTE && !in_double_quote)
+	else if (**word == SINGLE_QUOTE && !(*in_double_quote))
 	{
-		*word += quoted_strlen(*word, 0, **word);
 		*size += quoted_strlen(*word, 0, **word);
+		*word += quoted_strlen(*word, 0, **word);
 	}
 	else
 	{

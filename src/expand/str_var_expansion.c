@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 23:33:07 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 02:39:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ char	*str_var_expansion(const char *word, char **env)
 	char	*final_str;
 
 	final_strlen = var_expand_strlen(word, env);
+	printf("final_strlen : %d\n", final_strlen);
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), NULL);
 	final_str[0] = '\0';
+	ft_bzero(final_str, final_strlen);
 	in_double_quote = 0;
 	while (*word)
 	{

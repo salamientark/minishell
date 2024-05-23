@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/22 23:06:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 01:42:40 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,15 @@ int	get_expand_len(const char *str, int ref);
 size_t	var_expand_strlen(const char *word, char **env);
 // expand_var.c
 char	*str_var_expansion(const char *word, char **env);
+// word_split.c
+char	**word_split(const char *word);
+// perform_var_expansion.c
+int		perform_var_expansion(char **tab, int cmd_flag, char **env);
+
+char	**token_list_to_tab(t_token_list *token_list);
+
+
+
 
 void	print_detailled_token_list(t_token_list *token_l);
 void	print_char_tab(char **tab);

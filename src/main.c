@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/22 23:06:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 02:21:07 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void	free_char_tab(char ***tab_p)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	*new_var;
+	char	**cmd_cmd;
 	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
@@ -200,20 +200,19 @@ int	main(int ac, char **av, char **env)
 			if (cmd_tab)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				print_simple_cmd_tab(cmd_tab);
-				if (cmd_tab[0]->cmd && cmd_tab[0]->cmd->token)
+				cmd_cmd = token_list_to_tab(cmd_tab[0]->cmd);
+				if (cmd_cmd)
 				{
-					new_var = str_var_expansion(cmd_tab[0]->cmd->token, env);
-					if (new_var)
+					if (perform_var_expansion(cmd_cmd, 1,  env) == 0)
 					{
-						printf("expanded_var = <%s>\n", new_var);
-						free(new_var);
-						
+						print_char_tab(cmd_cmd);
 					}
+					else
+						printf("EXPAND_ERROR\n");
+					ft_free_char_tab(&cmd_cmd);
 					
 				}
 				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
-				print_simple_cmd_tab(cmd_tab);
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE

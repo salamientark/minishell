@@ -21,6 +21,7 @@ define SRC_FILE :=
 		ft_token_get_head.c \
 		ft_token_insert_list.c \
 		ft_token_list_from_tab.c \
+		token_list_to_tab.c \
 		ft_token_init_one.c \
 		ft_token_make_one.c \
 		ft_token_replace_by.c \
@@ -77,7 +78,8 @@ define EXPAND_FILE :=
 		is_expand.c \
 		var_expand_strlen.c \
 		expand_var.c \
-		str_var_expansion.c
+		str_var_expansion.c \
+		perform_var_expansion.c
 	)
 endef
 
