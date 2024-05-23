@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:41:39 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 01:16:29 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/23 03:37:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*extract_word(const char **str)
 	char	*word;
 
 	size = 0;
-	while (*str && is_space_metachar(*str))
+	while (**str && is_space_metachar(**str))
 		(*str)++;
 	while ((*str)[size] && !is_space_metachar((*str)[size]))
 	{
@@ -78,14 +78,17 @@ static char	*extract_word(const char **str)
 		return (print_error("malloc", strerror(errno)), NULL);
 	index = 0;
 	while (index < size)
-		word[index] = (*str)[index++];
+	{
+		word[index] = (*str)[index];
+		index++;
+	}
 	word[index] = '\0';
 	return (word);
 }
 
 char	**word_split(const char *word)
 {
-	char	*word_tab;
+	char	**word_tab;
 	size_t	tab_size;
 	size_t	index;
 

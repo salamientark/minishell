@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/23 02:21:07 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 05:05:50 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int	main(int ac, char **av, char **env)
 				cmd_cmd = token_list_to_tab(cmd_tab[0]->cmd);
 				if (cmd_cmd)
 				{
-					if (perform_var_expansion(cmd_cmd, 1,  env) == 0)
+					if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
 					{
 						print_char_tab(cmd_cmd);
 					}

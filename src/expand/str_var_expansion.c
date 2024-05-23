@@ -6,11 +6,27 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 02:39:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 05:37:16 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static int	set_split_flag(const char *str, int in_double_quote)
+{
+	int	index;
+
+	if (!in_double_quote)
+		return (0);
+	index = 0;
+	while (str[index])
+	{
+		if (is_space_metachar(str[index]))
+			return (1);
+		index++;
+	}
+	return (0);
+}
 
 static char	*cat_until_expand(char *dest, const char **word,
 	int *in_double_quote)
@@ -35,37 +51,28 @@ static char	*cat_until_expand(char *dest, const char **word,
 	return (dest);
 }
 
-static char	*cat_expansion(char **final_str, const char **word, char **env)
+static char	*alloc_final_str(const char *word, char **env)
 {
-	char	*expand_result;
-
-	expand_result = expand_var(*word, env);
-	if (!expand_result)
-	{
-		print_error("malloc", strerror(errno));
-		free(*final_str);
-		*final_str = NULL;
-		return (*final_str);
-	}
-	*word += get_expand_len(*word, 0);
-	*final_str = ft_strcat(*final_str, expand_result);
-	free(expand_result);
-	return (*final_str);
-}
-
-char	*str_var_expansion(const char *word, char **env)
-{
-	int		in_double_quote;
 	int		final_strlen;
 	char	*final_str;
 
 	final_strlen = var_expand_strlen(word, env);
-	printf("final_strlen : %d\n", final_strlen);
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), NULL);
-	final_str[0] = '\0';
 	ft_bzero(final_str, final_strlen);
+	return (final_str);
+}
+
+char	*str_var_expansion(const char *word, int *split_flag, char **env)
+{
+	int		in_double_quote;
+	char	*expand_result;
+	char	*final_str;
+
+	final_str = alloc_final_str(word, env);
+	if (!final_str)
+		return (NULL);
 	in_double_quote = 0;
 	while (*word)
 	{
@@ -73,9 +80,13 @@ char	*str_var_expansion(const char *word, char **env)
 			final_str = cat_until_expand(final_str, &word, &in_double_quote);
 		else
 		{
-			final_str = cat_expansion(&final_str, &word, env);
-			if (!final_str)
-				return (NULL);
+			expand_result = expand_var(word, env);
+			if (!expand_result)
+				return (free(final_str), NULL);
+			*split_flag = set_split_flag(expand_result, in_double_quote);
+			final_str = ft_strcat(final_str, expand_result);
+			free(expand_result);
+			word += get_expand_len(word, 0);
 		}
 	}
 	return (final_str);

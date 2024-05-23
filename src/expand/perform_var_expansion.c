@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 01:43:34 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 05:38:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,78 @@ static int	contain_var_expansion(const char *str)
 	return (0);
 }
 
-int	perform_var_expansion(char **tab, int cmd_flag, char **env)
+static char	**replace_by(char **final_tab, char **word_tab,
+	char **splited_word, int *replace_index)
 {
 	int		index;
+
+	index = 0;
+	while (index < *replace_index)
+	{
+		final_tab[index] = word_tab[index];
+		index++;
+	}
+	free(word_tab[index]);
+	index = 0;
+	while (splited_word[index])
+	{
+		final_tab[(*replace_index) + index] = splited_word[index];
+		index++;
+	}
+	index = 0;
+	while (word_tab[(*replace_index) + index + 1])
+	{
+		final_tab[*replace_index + index] = word_tab[*replace_index
+			+ index + 1];
+		index++;
+	}
+	return (final_tab);
+}
+
+static char	**perform_word_split(char ***tab, char *expanded_word, int *index)
+{
+	size_t	final_tab_size;
+	char	**splited_word;
+	char	**final_tab;
+
+	splited_word = word_split(expanded_word);
+	if (!splited_word)
+		return (ft_free_char_tab(tab), free(expanded_word), NULL);
+	free(expanded_word);
+	final_tab_size = ft_tab_size(*tab) + ft_tab_size(splited_word);
+	final_tab = (char **)malloc(sizeof(char *) * (final_tab_size + 1));
+	if (!final_tab)
+		return (print_error("malloc", strerror(errno)), ft_free_char_tab(tab),
+			ft_free_char_tab(&splited_word), NULL);
+	final_tab = replace_by(final_tab, *tab, splited_word, index);
+	free(*tab);
+	free(splited_word);
+	return (final_tab);
+}
+
+int	perform_var_expansion(char ***tab, int cmd_flag, char **env)
+{
+	int		index;
+	int		split_flag;
 	char	*expanded_word;
 
-	(void) cmd_flag;
 	index = 0;
-	while (tab[index])
+	while ((*tab)[index])
 	{
-		if (contain_var_expansion(tab[index]))
+		if (contain_var_expansion((*tab)[index]))
 		{
-			expanded_word = str_var_expansion(tab[index], env);
+			split_flag = 0;
+			expanded_word = str_var_expansion((*tab)[index], &split_flag, env);
 			if (!expanded_word)
 				return (1);
-			free(tab[index]);
-			tab[index] = expanded_word;
+			free((*tab)[index]);
+			(*tab)[index] = expanded_word;
+			if (cmd_flag && split_flag)
+			{
+				*tab = perform_word_split(tab, expanded_word, &index);
+				if (!(*tab))
+					return (1);
+			}
 		}
 		index++;
 	}
