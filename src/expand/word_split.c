@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 00:41:39 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 03:37:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 06:06:49 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,11 @@ static char	*extract_word(const char **str)
 	word = (char *)malloc(size + 1);
 	if (!word)
 		return (print_error("malloc", strerror(errno)), NULL);
-	index = 0;
-	while (index < size)
-	{
+	index = -1;
+	while (++index < size)
 		word[index] = (*str)[index];
-		index++;
-	}
 	word[index] = '\0';
+	(*str) += size;
 	return (word);
 }
 
@@ -93,7 +91,7 @@ char	**word_split(const char *word)
 	size_t	index;
 
 	tab_size = count_word(word);
-	word_tab = (char **)malloc(sizeof(char *) * tab_size + 1);
+	word_tab = (char **)malloc(sizeof(char *) * (tab_size + 1));
 	if (!word_tab)
 		return (print_error("malloc", strerror(errno)), NULL);
 	index = 0;

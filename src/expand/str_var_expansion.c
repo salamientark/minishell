@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 05:37:16 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 05:43:22 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	set_split_flag(const char *str, int in_double_quote)
 {
 	int	index;
 
-	if (!in_double_quote)
+	if (in_double_quote)
 		return (0);
 	index = 0;
 	while (str[index])

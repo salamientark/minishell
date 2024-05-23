@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 05:38:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/23 12:38:53 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ static char	**perform_word_split(char ***tab, char *expanded_word, int *index)
 	splited_word = word_split(expanded_word);
 	if (!splited_word)
 		return (ft_free_char_tab(tab), free(expanded_word), NULL);
-	free(expanded_word);
 	final_tab_size = ft_tab_size(*tab) + ft_tab_size(splited_word);
-	final_tab = (char **)malloc(sizeof(char *) * (final_tab_size + 1));
+	final_tab = (char **)malloc(sizeof(char *) * (final_tab_size));
+	final_tab[final_tab_size] = NULL;
 	if (!final_tab)
 		return (print_error("malloc", strerror(errno)), ft_free_char_tab(tab),
 			ft_free_char_tab(&splited_word), NULL);
