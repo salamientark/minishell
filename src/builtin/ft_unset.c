@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    ft_unset(char **cmd, char **env)
+void	ft_unset(char **cmd, char **env)
 {
 	char *cmd_tmp;
 	int i;

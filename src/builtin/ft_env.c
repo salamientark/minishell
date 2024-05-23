@@ -31,7 +31,8 @@ void	ft_env(char **cmd, char **env)
 	}
 	while (env[i])
 	{
-		printf("%s\n", env[i]);
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
 		i++;
 	}
 }

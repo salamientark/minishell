@@ -32,6 +32,7 @@ static void	case_noargs(char **env)
 			}
 			j++;
 		}
+		i++;
 	}
 	i = 0;
 	while (env[i])
@@ -104,7 +105,7 @@ static char	*get_var_name(char *var)
 		len++;
 	if (var[len] != '=')
 		return (NULL);
-	name = (char *)malloc(len + 1);
+	name = (char *)malloc(len + 2);
 	if (!name)
 		return (NULL);
 	while (i < len)
