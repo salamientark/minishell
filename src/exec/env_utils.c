@@ -31,12 +31,12 @@ char	**copy_env(char **env)
 	i = 0;
 	len = tabsize(env);
 	if(!(new_env = (char **)malloc(sizeof(char *) * (len + 1))))
-		return(free(new_env), NULL);
+		return(NULL);
 	while(env[i] && i < len)
 	{
 		new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
-//	new_env[i] = NULL;
+	new_env[i] = NULL;
 	return (new_env);
 }

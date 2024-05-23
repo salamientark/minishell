@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/22 21:33:45 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:42:54 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,14 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	**env_shell;
+	t_chill shell;
 	char	**cmd_tab;
 	t_simple_cmd	**input_tab;
 	(void)ac;
 	(void)av;
 	(void)env;
 
-	env_shell = copy_env(env);
+	shell.env = copy_env(env);
 	while ("this is the best minishell")
 	{
 		input = display_prompt();
@@ -162,7 +162,7 @@ int	main(int ac, char **av, char **env)
 			if (input_tab)
 			{
 				cmd_tab = convert_list_to_tab(*input_tab);
-				isbuiltin(cmd_tab, env_shell);
+				isbuiltin(cmd_tab, &shell);
 				free_cmd_tab(&input_tab);
 			}
 			//lexer DONE

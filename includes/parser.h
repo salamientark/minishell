@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 00:35:30 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:10:49 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_simple_cmd
 	t_token_list	*redirect_from;
 	t_token_list	*redirect_to;
 }				t_simple_cmd;
+
+void	**builtin_tab(void);
 
 // expand_strlen.c
 int					expand_strlen(const char *input, int ref);

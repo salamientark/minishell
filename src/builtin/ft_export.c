@@ -12,6 +12,36 @@
 
 #include "minishell.h"
 
+static int	tabsize(char **tab)
+{
+	int len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	return(len);
+}
+
+static char	**update_env(char **env)
+{
+	char	**new_env;
+	int		size;
+	int		i;
+
+	i = 0;
+	size = tabsize(env);
+	new_env = (char **)malloc((sizeof(char *) * (size + 2)));
+	if (!new_env)
+		return (NULL);
+	while (env[i])
+	{
+		new_env[i] = env[i];
+		i++;
+	}
+	return(new_env);
+}
+
+
 static void	case_noargs(char **env)
 {
 	char	*tmp;
@@ -49,7 +79,7 @@ static int	check_valid_var(char *cmd)
 	i = 0;
 	len = 0;
 	is_equal_sign = 0;
-	if (cmd[0] == '=')
+	if (cmd[0] == '=' || ft_isdigit(cmd[0]))
 		return (ft_putendl_fd("invalid name for export", 2), 0);
 	while (cmd[i])
 	{
@@ -58,7 +88,7 @@ static int	check_valid_var(char *cmd)
 		if ((cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE) && cmd[i])
 			i++;
 		if ((cmd[i] == '{' || cmd[i] == '}' || cmd[i] == '[' || cmd[i] == ']')
-			&& !is_equal_sign)
+			  && !is_equal_sign)
 			return (ft_putendl_fd("invalid name for export", 2), 0);
 		len++;
 		i++;
@@ -148,14 +178,22 @@ static void	add_to_env(char *cmd, char **env)
 	env[i + 1] = NULL;
 }
 
-void	ft_export(char **cmd, char **env)
+void	ft_export(char **cmd, t_chill *shell)
 {
-	int	i;
-	
+	char	**new_env;
+	int		i;
 
+	i = 0;
+	if (!cmd[1])
+		return(case_noargs(shell->env));
 	i = 1;
-	if (!cmd[i])
-		return(case_noargs(env));
 	while (cmd[i])
-		add_to_env(cmd[i++], env);
+	{
+		new_env = update_env(shell->env);
+		if (!new_env)
+			return ;
+		free(shell->env);
+		shell->env = new_env;
+		add_to_env(cmd[i++], shell->env);
+	}
 }

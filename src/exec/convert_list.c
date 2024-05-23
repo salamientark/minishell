@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 00:14:39 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/22 22:53:38 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:45:28 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**convert_list_to_tab(t_simple_cmd *input)
 		return NULL;
 	cmd_tab = (char **)malloc(sizeof(char *) * (ft_toksize(cmd) + 1));
 	if (!cmd_tab)
-		return(free(cmd_tab), NULL);
+		return(NULL);
 	while (cmd)
 	{
 		cmd_tab[i++] = cmd->token;
