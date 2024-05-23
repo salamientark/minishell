@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 00:33:27 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:46:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # include "parser.h"
 
 # define MAX_PATHLEN 2048
+
+//init minishell
+char	**copy_env(char **env);
 
 // prompt
 char	*display_prompt(void);

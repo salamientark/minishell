@@ -12,6 +12,32 @@
 
 #include "minishell.h"
 
+static void	case_noargs(char **env)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[j])
+		{
+			if (ft_strcmp(env[j], env[j + 1]) > 0)
+			{
+				tmp = env[j];
+				env[j] = env[j + 1];
+				env[j + 1] = tmp;
+			}
+			j++;
+		}
+	}
+	i = 0;
+	while (env[i])
+		printf("export %s", env[i++]);
+}
+
 //check input error and return the len to malloc for the export variable
 static int	check_valid_var(char *cmd)
 {
@@ -128,12 +154,7 @@ void	ft_export(char **cmd, char **env)
 
 	i = 1;
 	if (!cmd[i])
-	{
-		i = 0;
-		while (env[i])
-			printf("export %s\n", env[i++]);
-		return ;
-	}
+		return(case_noargs(env));
 	while (cmd[i])
 		add_to_env(cmd[i++], env);
 }
