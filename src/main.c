@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/23 05:05:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/24 00:35:22 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ void	print_char_tab(char **tab)
 		printf("%s -> ", tab[index]);
 		index++;
 	}
-	printf("%s\n", tab[index]);
+	if (tab[index][0])
+		printf("%s\n", tab[index]);
 }
 
 void	free_char_tab(char ***tab_p)
@@ -204,9 +205,7 @@ int	main(int ac, char **av, char **env)
 				if (cmd_cmd)
 				{
 					if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
-					{
 						print_char_tab(cmd_cmd);
-					}
 					else
 						printf("EXPAND_ERROR\n");
 					ft_free_char_tab(&cmd_cmd);
