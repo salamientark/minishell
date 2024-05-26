@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/24 17:08:41 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:22:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	index = 0;
 	while ((*cmd_tab)[index])
 	{
-		ft_token_free_list(&(*cmd_tab)[index]->cmd);
+		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		ft_token_free_list(&(*cmd_tab)[index]->redirect_from);
-		(*cmd_tab)[index]->redirect_from = NULL;
-		ft_token_free_list(&(*cmd_tab)[index]->redirect_to);
-		(*cmd_tab)[index]->redirect_to = NULL;
+		ft_free_char_tab(&(*cmd_tab)[index]->infile);
+		(*cmd_tab)[index]->infile = NULL;
+		ft_free_char_tab(&(*cmd_tab)[index]->outfile);
+		(*cmd_tab)[index]->outfile = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
@@ -110,16 +110,48 @@ void	print_detailled_token_list(t_token_list *token_l)
 				token_l->token, str_token_type(token_l->type));
 }
 
+void	print_char_tab(char **tab)
+{
+	int	index;
+
+	if (!tab)
+	{
+		printf("print_char_tab : No tab\n");
+		return ;
+	}
+	if (!(*tab))
+	{
+		printf("(null)\n");
+		return ;
+	}
+	index = 0;
+	while (tab[index + 1])
+	{
+		printf("%s -> ", tab[index]);
+		index++;
+	}
+	printf("%s\n", tab[index]);
+}
+
 void	print_simple_cmd(t_simple_cmd *cmd)
 {
 	printf("cmd: ");
-	print_token_list(cmd->cmd);
+	if (cmd->cmd)
+		print_char_tab(cmd->cmd);
+	else
+		printf("(null)\n");
 	// print_detailled_token_list(cmd->cmd);
 	printf("infile: ");
-	print_token_list(cmd->redirect_from);
+	if (cmd->infile)
+		print_char_tab(cmd->infile);
+	else
+		printf("(null)\n");
 	// print_detailled_token_list(cmd->redirect_from);
 	printf("outfile: ");
-	print_token_list(cmd->redirect_to);
+	if (cmd->outfile)
+		print_char_tab(cmd->outfile);
+	else
+		printf("(null)\n");
 	// print_detailled_token_list(cmd->redirect_to);
 }
 
@@ -141,29 +173,6 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 		index++;
 	}
 	print_simple_cmd(cmd_tab[index]);
-}
-
-void	print_char_tab(char **tab)
-{
-	int	index;
-
-	if (!tab)
-	{
-		printf("print_char_tab : No tab\n");
-		return ;
-	}
-	index = 0;
-	while (tab[index + 1])
-	{
-		printf("%s -> ", tab[index]);
-		index++;
-	}
-// 	if (index == 0 && tab[0])
-// 	{
-// 		printf("Empty_tab\n");
-// 		return ;
-// 	}
-	printf("%s\n", tab[index]);
 }
 
 void	free_char_tab(char ***tab_p)
@@ -190,10 +199,10 @@ void	free_char_tab(char ***tab_p)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	**cmd_cmd;
 	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
+	(void)env;
 
 	while ("this is the best minishell")
 	{
@@ -205,17 +214,13 @@ int	main(int ac, char **av, char **env)
 			if (cmd_tab)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				cmd_cmd = token_list_to_tab(cmd_tab[0]->cmd);
-				if (cmd_cmd)
-				{
-					if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
-						print_char_tab(cmd_cmd);
-					else
-						printf("EXPAND_ERROR\n");
-					ft_free_char_tab(&cmd_cmd);
-					
-				}
-				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
+				print_simple_cmd_tab(cmd_tab);
+// 				if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
+// 					print_char_tab(cmd_cmd);
+// 				else
+// 					printf("EXPAND_ERROR\n");
+// 				ft_free_char_tab(&cmd_cmd);
+// 				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE

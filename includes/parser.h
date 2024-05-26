@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 13:22:29 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:40:28 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ typedef struct s_token_list
 
 typedef struct s_simple_cmd
 {
-	t_token_list	*cmd;
-	t_token_list	*redirect_from;
-	t_token_list	*redirect_to;
-	int				here_doc_count;
+	char	**cmd;
+	char	**infile;
+	char	**outfile;
+	int		here_doc_count;
 }				t_simple_cmd;
 
 // expand_strlen.c
@@ -117,11 +117,6 @@ t_token_list		*ft_token_get_head(t_token_list *token_list);
 t_token_list		*ft_token_add_back(t_token_list *last_token,
 						t_token_list *new_token);
 t_token_list		*ft_token_init_one(const char *input);
-t_token_list		*ft_token_make_one(char *input, t_token_type type);
-t_token_list		*ft_token_replace_by(t_token_list **src, t_token_list *replace_with);
-t_token_list		*ft_token_insert_list(t_token_list *src, t_token_list *to_insert);
-t_token_list		*ft_token_append_list(t_token_list *dest, t_token_list *src);
-t_token_list		*ft_token_list_from_tab(char **tab);
 
 int					unclosed_delimiter(const char *input);
 int					here_doc(const char *cmd, int ref, int stdin_fd);
@@ -129,12 +124,11 @@ int					is_followed_by_word(const char *cmd, int operator);
 int					syntax_error(const char *cmd);
 t_token_list		*tokenize(const char *input);
 
-// split_to_simple_cmd.c
-int					count_simple_command(t_token_list *token_list);
-t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
+// alloc_simple_cmd.c
+t_simple_cmd		*alloc_simple_cmd(t_token_list *token_list);
 
-// token_list_to_tab.c
-char				**token_list_to_tab(t_token_list *token_list);
+// split_to_simple_cmd.c
+t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
 
 // parse_input.c
 t_simple_cmd		**parse_input(const char *input);
