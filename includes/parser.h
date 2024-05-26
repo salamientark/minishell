@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 20:51:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:45:07 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_simple_cmd
 	t_token_list	*cmd;
 	t_token_list	*redirect_from;
 	t_token_list	*redirect_to;
+	int				here_doc_count;
 }				t_simple_cmd;
 
 // expand_strlen.c
@@ -124,6 +125,9 @@ t_token_list		*tokenize(const char *input);
 // split_to_simple_cmd.c
 int					count_simple_command(t_token_list *token_list);
 t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
+
+// token_list_to_tab.c
+char				**token_list_to_tab(t_token_list *token_list);
 
 // parse_input.c
 t_simple_cmd		**parse_input(const char *input);
