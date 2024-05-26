@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 18:22:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:47:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,12 +215,11 @@ int	main(int ac, char **av, char **env)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
 				print_simple_cmd_tab(cmd_tab);
-// 				if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
-// 					print_char_tab(cmd_cmd);
-// 				else
-// 					printf("EXPAND_ERROR\n");
-// 				ft_free_char_tab(&cmd_cmd);
-// 				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
+				if (perform_var_expansion(&(cmd_tab[0]->cmd), 1,  env) == 0)
+ 					print_simple_cmd_tab(cmd_tab);
+ 				else
+ 					printf("EXPAND_ERROR\n");
+ 				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE

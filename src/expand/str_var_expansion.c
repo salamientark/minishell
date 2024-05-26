@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 10:27:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 23:05:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*alloc_final_str(const char *word, char **env)
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), NULL);
-	ft_bzero(final_str, final_strlen);
+	final_str[0] = '\0';
 	return (final_str);
 }
 
@@ -90,7 +90,7 @@ int	str_var_expansion(char **final_str, const char *word, int *split_flag,
 			*final_str = ft_strcat(*final_str, expand_result);
 			if (expand_result)
 				free(expand_result);
-			word += get_expand_len(word, 0);
+			word += expand_strlen(word, 0, 0);
 		}
 	}
 	return (0);

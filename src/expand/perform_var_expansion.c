@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 10:34:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 23:08:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ int	perform_var_expansion(char ***tab, int cmd_flag, char **env)
 	index = 0;
 	while ((*tab)[index])
 	{
-		printf("perf car expan index %d\n", index);
 		if (contain_var_expansion((*tab)[index]))
 		{
 			if (expand_and_split(tab, cmd_flag, &index, env) != 0)

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 10:28:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 23:06:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int	expand_var(char **expand_result, const char *to_expand, char **env)
 		key_len = get_key_len(to_expand + ref);
 	if (get_env_val(expand_result, to_expand + ref, key_len, env) != 0)
 		return (1);
-	printf("env_val = %s\n", *expand_result);
 	return (0);
 }
