@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 19:35:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 23:32:29 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 typedef struct s_expand
 {
 	char	**word_tab;
-	char	**type;
+	int		**type;
+	int		cmd;
 }				t_expand;
 
 // is_expand.c

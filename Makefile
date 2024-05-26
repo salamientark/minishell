@@ -74,7 +74,8 @@ define EXPAND_FILE :=
 		var_expand_strlen.c \
 		str_var_expansion.c \
 		word_split.c \
-		perform_var_expansion.c
+		perform_var_expansion.c \
+		expand.c
 	)
 endef
 
