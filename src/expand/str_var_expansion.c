@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/24 17:04:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 10:27:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static char	*alloc_final_str(const char *word, char **env)
 	return (final_str);
 }
 
-int	str_var_expansion(char **final_str, const char *word, int *split_flag, char **env)
+int	str_var_expansion(char **final_str, const char *word, int *split_flag,
+	char **env)
 {
 	int		in_double_quote;
 	char	*expand_result;
@@ -78,7 +79,8 @@ int	str_var_expansion(char **final_str, const char *word, int *split_flag, char 
 	while (*word)
 	{
 		if (!is_expand(word))
-			(*final_str) = cat_until_expand((*final_str), &word, &in_double_quote);
+			(*final_str) = cat_until_expand((*final_str), &word,
+					&in_double_quote);
 		else
 		{
 			expand_result = NULL;

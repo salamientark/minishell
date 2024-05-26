@@ -149,7 +149,6 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 
 fclean : clean
 	rm -f $(PROJECT)
-	make fclean -C $(FT_DIR)
 
 #Suppresion des fichiers objet
 clean :

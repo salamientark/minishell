@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/24 17:08:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 10:34:18 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	remove_from_tab(char ***tab, int ref)
 	int	index;
 
 	index = ref;
-	while  (tab[index + 1])
+	while (tab[index + 1])
 	{
 		tab[index] = tab[index + 1];
 		index++;
@@ -112,8 +112,8 @@ static int	expand_and_split(char ***tab, int cmd_flag, int *index, char **env)
 	split_flag = 0;
 	expanded_word = NULL;
 	if (str_var_expansion(&expanded_word, (*tab)[*index], &split_flag,
-			env) != 0)
-	return (1);
+		env) != 0)
+		return (1);
 	free((*tab)[*index]);
 	(*tab)[*index] = expanded_word;
 	if (!(*tab)[*index])

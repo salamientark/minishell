@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/24 16:18:39 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 10:28:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	get_key_len(const char *to_expand)
 	return (len);
 }
 
-static int get_env_val(char **expand_result, const char *key, int key_len,
+static int	get_env_val(char **expand_result, const char *key, int key_len,
 	char **env)
 {
 	int		index;
@@ -74,7 +74,7 @@ static int get_env_val(char **expand_result, const char *key, int key_len,
 	return (0);
 }
 
-int	expand_var(char **expand_result,  const char *to_expand, char **env)
+int	expand_var(char **expand_result, const char *to_expand, char **env)
 {
 	int		ref;
 	int		key_len;
@@ -89,7 +89,7 @@ int	expand_var(char **expand_result,  const char *to_expand, char **env)
 	}
 	else
 		key_len = get_key_len(to_expand + ref);
-	 if(get_env_val(expand_result, to_expand + ref, key_len, env) != 0)
+	if (get_env_val(expand_result, to_expand + ref, key_len, env) != 0)
 		return (1);
 	printf("env_val = %s\n", *expand_result);
 	return (0);
