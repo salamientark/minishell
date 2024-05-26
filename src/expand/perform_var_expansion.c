@@ -5,34 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 08:28:07 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 17:08:36 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/26 10:34:18 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static void	free_splited_token(char ***splited_token_p)
-{
-	int	index;
-
-	if (!splited_token_p || !(*splited_token_p))
-		return ;
-	index = 0;
-	while ((*splited_token_p)[index])
-	{
-		if ((*splited_token_p)[index])
-		{
-			free((*splited_token_p)[index]);
-			(*splited_token_p)[index] = NULL;
-		}
-		index++;
-	}
-	free(*splited_token_p);
-	*splited_token_p = NULL;
-}
-
-static int	contain_expand(const char *str)
+static int	contain_var_expansion(const char *str)
 {
 	int	index;
 	int	in_double_quote;
@@ -58,72 +38,110 @@ static int	contain_expand(const char *str)
 	return (0);
 }
 
-static char	*expand_token(const char *token, char **env)
+static void	remove_from_tab(char ***tab, int ref)
 {
-	char	**splited_token;
-	char	*tmp_expand;
-	char	*final_token;
-	int		index;
+	int	index;
 
-	splited_token = split_expand(token);
-	if (!splited_token)
-		return (NULL);
-	index = 0;
-	while (splited_token[index])
+	index = ref;
+	while (tab[index + 1])
 	{
-		if (is_expand(splited_token[index]))
-		{
-			tmp_expand = var_expand(splited_token[index], env);
-			if (!tmp_expand)
-				return (free_splited_token(&splited_token), NULL);
-			free(splited_token[index]);
-			splited_token[index] = tmp_expand;
-		}
+		tab[index] = tab[index + 1];
 		index++;
 	}
-	final_token = join_splited_expand(splited_token);
-	if (!final_token)
-		return (free_splited_token(&splited_token), NULL);
-	return (free_splited_token(&splited_token), final_token);
+	tab[index] = NULL;
 }
 
-static int	expand_token_list(t_token_list *token_list, char **env)
+static char	**replace_by(char **final_tab, char **word_tab,
+	char **splited_word, int *replace_index)
 {
-	char			*tmp_str;
-	t_token_list	*token;
+	int		word_index;
+	int		index;
 
-	if (!token_list)
-		return (0);
-	token = token_list;
-	while (token)
+	word_index = 0;
+	while (word_index < *replace_index)
 	{
-		if (contain_expand(token->token))
-		{
-			tmp_str = expand_token(token->token, env);
-			if (!tmp_str)
-				return (1);
-			free(token->token);
-			token->token = tmp_str;
-		}
-		token = token->next;
+		final_tab[word_index] = word_tab[word_index];
+		word_index++;
+	}
+	free(word_tab[word_index]);
+	index = 0;
+	while (splited_word[index])
+	{
+		final_tab[(*replace_index)] = splited_word[index];
+		index++;
+		*replace_index += 1;
+	}
+	index = 0;
+	while (word_tab[word_index + 1 + index])
+	{
+		final_tab[*replace_index + index] = word_tab[word_index + 1 + index];
+		index++;
+	}
+	final_tab[*replace_index + index] = NULL;
+	return (final_tab);
+}
+
+static int	perform_word_split(char ***tab, char *expanded_word, int *index)
+{
+	size_t	final_tab_size;
+	char	**splited_word;
+	char	**final_tab;
+
+	splited_word = word_split(expanded_word);
+	if (!splited_word)
+		return (ft_free_char_tab(tab), free(expanded_word), 1);
+	final_tab_size = ft_tab_size(*tab) + ft_tab_size(splited_word);
+	final_tab = (char **)malloc(sizeof(char *) * (final_tab_size));
+	if (!final_tab)
+		return (print_error("malloc", strerror(errno)), ft_free_char_tab(tab),
+			ft_free_char_tab(&splited_word), 1);
+	final_tab[final_tab_size - 1] = NULL;
+	final_tab = replace_by(final_tab, *tab, splited_word, index);
+	free(*tab);
+	free(splited_word);
+	*index -= 1;
+	*tab = final_tab;
+	return (0);
+}
+
+static int	expand_and_split(char ***tab, int cmd_flag, int *index, char **env)
+{
+	int		split_flag;
+	char	*expanded_word;
+
+	split_flag = 0;
+	expanded_word = NULL;
+	if (str_var_expansion(&expanded_word, (*tab)[*index], &split_flag,
+		env) != 0)
+		return (1);
+	free((*tab)[*index]);
+	(*tab)[*index] = expanded_word;
+	if (!(*tab)[*index])
+		remove_from_tab(tab, *index);
+	if (cmd_flag && split_flag)
+	{
+		if (perform_word_split(tab, expanded_word, index) != 0)
+			return (1);
 	}
 	return (0);
 }
 
-int	perform_var_expansion(t_simple_cmd *cmd, char **env)
+int	perform_var_expansion(char ***tab, int cmd_flag, char **env)
 {
-	int	expand_status;
+	int		index;
 
-	if (!cmd)
-		return (0);
-	expand_status = expand_token_list(cmd->cmd, env);
-	if (expand_status != 0)
-		return (expand_status);
-	expand_status = expand_token_list(cmd->redirect_from, env);
-	if (expand_status != 0)
-		return (expand_status);
-	expand_status = expand_token_list(cmd->redirect_to, env);
-	if (expand_status != 0)
-		return (expand_status);
+	index = 0;
+	while ((*tab)[index])
+	{
+		printf("perf car expan index %d\n", index);
+		if (contain_var_expansion((*tab)[index]))
+		{
+			if (expand_and_split(tab, cmd_flag, &index, env) != 0)
+				return (1);
+			if (!(*tab))
+				return (0);
+		}
+		index++;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:24:04 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 13:18:45 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/26 13:24:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	free_all(t_simple_cmd ***cmd_tab, int last_cmd)
 	index = 0;
 	while (index < last_cmd)
 	{
-		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
+		ft_token_free_list(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirect_from);
+		ft_token_free_list(&(*cmd_tab)[index]->redirect_from);
 		(*cmd_tab)[index]->redirect_from = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirect_to);
+		ft_token_free_list(&(*cmd_tab)[index]->redirect_to);
 		(*cmd_tab)[index]->redirect_to = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
@@ -58,13 +58,18 @@ static t_simple_cmd	*extract_redirection_token(t_simple_cmd *cmd,
 	*token_list = tmp_token->next;
 	if (tmp_token->type == T_LESS_THAN || tmp_token->type == T_HERE_DOC)
 	{
+<<<<<<< HEAD
 		cmd_cp->redirect_from = add_token(cmd_cp->redirect_from, tmp_token);
 		cmd_cp->here_doc_count += (tmp_token->type == HERE_DOC);
+=======
+		cmd_cp->redirect_from = ft_token_add_back(cmd_cp->redirect_from,
+				tmp_token);
+>>>>>>> quote_removal
 		cmd_cp->redirect_from->next = NULL;
 	}
 	else
 	{
-		cmd_cp->redirect_to = add_token(cmd_cp->redirect_to, tmp_token);
+		cmd_cp->redirect_to = ft_token_add_back(cmd_cp->redirect_to, tmp_token);
 		cmd_cp->redirect_to->next = NULL;
 	}
 	return (cmd_cp);
@@ -84,9 +89,9 @@ static t_simple_cmd	*simple_cmd_end(t_simple_cmd *simple_cmd,
 		(*token_list_p) = NULL;
 		*token_list_p = tmp_token;
 	}
-	simple_cmd->cmd = get_token_list_head(simple_cmd->cmd);
-	simple_cmd->redirect_from = get_token_list_head(simple_cmd->redirect_from);
-	simple_cmd->redirect_to = get_token_list_head(simple_cmd->redirect_to);
+	simple_cmd->cmd = ft_token_get_head(simple_cmd->cmd);
+	simple_cmd->redirect_from = ft_token_get_head(simple_cmd->redirect_from);
+	simple_cmd->redirect_to = ft_token_get_head(simple_cmd->redirect_to);
 	return (simple_cmd);
 }
 
@@ -211,7 +216,7 @@ t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p)
 			* (command_count + 1));
 	if (!simple_cmd_tab)
 		return (print_error("malloc", strerror(errno)),
-			free_token_list(token_list_p), NULL);
+			ft_token_free_list(token_list_p), NULL);
 	simple_cmd_tab[command_count] = NULL;
 	index = 0;
 	while (index < command_count)

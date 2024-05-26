@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_expand.c                                        :+:      :+:    :+:   */
+/*   ft_free_char_tab.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:31:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 23:29:34 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/22 15:14:20 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/22 15:17:14 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../includes/libft.h"
 
-int	is_expand(const char *str)
+void	ft_free_char_tab(char ***tab_p)
 {
 	int	index;
 
-	if (!str)
-		return (0);
+	if (!tab_p || !(*tab_p))
+		return ;
 	index = 0;
-	if (str[index] == DOLLAR && str[index + 1]
-		&& (ft_isalnum(str[index + 1]) || str[index + 1] == UNDERSCORE
-			|| str[index + 1] == LEFT_BRACE))
-		return (1);
-	return (0);
+	while ((*tab_p)[index])
+	{
+		if ((*tab_p)[index])
+		{
+			free((*tab_p)[index]);
+			(*tab_p)[index] = NULL;
+		}
+		index++;
+	}
+	free(*tab_p);
+	*tab_p = NULL;
 }

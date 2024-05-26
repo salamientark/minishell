@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 20:47:31 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:08:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	index = 0;
 	while ((*cmd_tab)[index])
 	{
-		free_token_list(&(*cmd_tab)[index]->cmd);
+		ft_token_free_list(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		free_token_list(&(*cmd_tab)[index]->redirect_from);
+		ft_token_free_list(&(*cmd_tab)[index]->redirect_from);
 		(*cmd_tab)[index]->redirect_from = NULL;
-		free_token_list(&(*cmd_tab)[index]->redirect_to);
+		ft_token_free_list(&(*cmd_tab)[index]->redirect_to);
 		(*cmd_tab)[index]->redirect_to = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
@@ -88,6 +88,8 @@ char	*str_token_type(t_token_type type)
 		return ("APPEND");
 	if (type == T_HERE_DOC)
 		return ("HERE_DOC");
+	if (type == T_EXPAND)
+		return ("T_EXPAND");
 	return ("WTF");
 }
 
@@ -156,6 +158,11 @@ void	print_char_tab(char **tab)
 		printf("%s -> ", tab[index]);
 		index++;
 	}
+// 	if (index == 0 && tab[0])
+// 	{
+// 		printf("Empty_tab\n");
+// 		return ;
+// 	}
 	printf("%s\n", tab[index]);
 }
 
@@ -168,8 +175,11 @@ void	free_char_tab(char ***tab_p)
 	index = 0;
 	while ((*tab_p)[index])
 	{
-		free((*tab_p)[index]);
-		(*tab_p)[index] = NULL;
+		if ((*tab_p)[index])
+		{
+			free((*tab_p)[index]);
+			(*tab_p)[index] = NULL;
+		}
 		index++;
 	}
 	free(*tab_p);
@@ -179,8 +189,8 @@ void	free_char_tab(char ***tab_p)
 //  ===== END OF TESTING =====
 int	main(int ac, char **av, char **env)
 {
-	int		index;
 	char	*input;
+	char	**cmd_cmd;
 	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
@@ -194,19 +204,18 @@ int	main(int ac, char **av, char **env)
 			printf("\n\n\n");
 			if (cmd_tab)
 			{
-				index = 0;
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				print_simple_cmd_tab(cmd_tab);
-				while (cmd_tab[index])
+				cmd_cmd = token_list_to_tab(cmd_tab[0]->cmd);
+				if (cmd_cmd)
 				{
-					if (perform_var_expansion(cmd_tab[index], env) == 0)
-						printf("Expansion success\n");
+					if (perform_var_expansion(&cmd_cmd, 1,  env) == 0)
+						print_char_tab(cmd_cmd);
 					else
-						printf("Expansion error\n");
-					index++;
+						printf("EXPAND_ERROR\n");
+					ft_free_char_tab(&cmd_cmd);
+					
 				}
 				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
-				print_simple_cmd_tab(cmd_tab);
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE

@@ -16,6 +16,16 @@ EXPAND_DIR := expand
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
+		ft_token_add_back.c \
+		ft_token_free_list.c \
+		ft_token_get_head.c \
+		ft_token_insert_list.c \
+		ft_token_list_from_tab.c \
+		token_list_to_tab.c \
+		ft_token_init_one.c \
+		ft_token_make_one.c \
+		ft_token_replace_by.c \
+		ft_token_append_list.c \
 		expand_strlen.c \
 		quote_utils.c\
 		main.c
@@ -35,7 +45,6 @@ define PARSER_FILE :=
 		unclosed_delimiter.c \
 		syntax_error.c \
 		here_doc.c \
-		token_utils.c \
 		tokenizer.c \
 		count_simple_command.c \
 		split_to_simple_command.c \
@@ -67,9 +76,10 @@ endef
 define EXPAND_FILE := 
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		is_expand.c \
-		split_expand.c \
-		var_expand.c \
-		join_splited_expand.c \
+		var_expand_strlen.c \
+		expand_var.c \
+		str_var_expansion.c \
+		word_split.c \
 		perform_var_expansion.c
 	)
 endef
@@ -139,7 +149,6 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 
 fclean : clean
 	rm -f $(PROJECT)
-	make fclean -C $(FT_DIR)
 
 #Suppresion des fichiers objet
 clean :
