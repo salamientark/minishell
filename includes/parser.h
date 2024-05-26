@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/23 05:04:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:03:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,6 @@ t_simple_cmd		**parse_input(const char *input);
 // is_expand.c
 int					is_expand(const char *str);
 
-// expand_var.c
-char				*expand_var(const char *to_expand, char **env);
 
 // split_expand.c
 char				**split_expand(const char *str);
@@ -164,7 +162,9 @@ int					expand_all(t_simple_cmd *cmd, char **env);
 int	get_expand_len(const char *str, int ref);
 size_t	var_expand_strlen(const char *word, char **env);
 // expand_var.c
-char	*str_var_expansion(const char *word, int *split_flag, char **env);
+int		expand_var(char **expand_result,  const char *to_expand, char **env);
+// expand_var.c
+int	str_var_expansion(char **finale_str, const char *word, int *split_flag, char **env);
 // word_split.c
 char	**word_split(const char *word);
 // perform_var_expansion.c

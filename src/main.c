@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/24 00:35:22 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:08:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,12 @@ void	print_char_tab(char **tab)
 		printf("%s -> ", tab[index]);
 		index++;
 	}
-	if (tab[index][0])
-		printf("%s\n", tab[index]);
+// 	if (index == 0 && tab[0])
+// 	{
+// 		printf("Empty_tab\n");
+// 		return ;
+// 	}
+	printf("%s\n", tab[index]);
 }
 
 void	free_char_tab(char ***tab_p)

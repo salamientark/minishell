@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/23 05:43:22 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:04:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	set_split_flag(const char *str, int in_double_quote)
 {
 	int	index;
 
+	if (!str)
+		return (0);
 	if (in_double_quote)
 		return (0);
 	index = 0;
@@ -64,30 +66,30 @@ static char	*alloc_final_str(const char *word, char **env)
 	return (final_str);
 }
 
-char	*str_var_expansion(const char *word, int *split_flag, char **env)
+int	str_var_expansion(char **final_str, const char *word, int *split_flag, char **env)
 {
 	int		in_double_quote;
 	char	*expand_result;
-	char	*final_str;
 
-	final_str = alloc_final_str(word, env);
-	if (!final_str)
-		return (NULL);
+	*final_str = alloc_final_str(word, env);
+	if (!(*final_str))
+		return (1);
 	in_double_quote = 0;
 	while (*word)
 	{
 		if (!is_expand(word))
-			final_str = cat_until_expand(final_str, &word, &in_double_quote);
+			(*final_str) = cat_until_expand((*final_str), &word, &in_double_quote);
 		else
 		{
-			expand_result = expand_var(word, env);
-			if (!expand_result)
-				return (free(final_str), NULL);
+			expand_result = NULL;
+			if (expand_var(&expand_result, word, env) != 0)
+				return (free((*final_str)), 1);
 			*split_flag = set_split_flag(expand_result, in_double_quote);
-			final_str = ft_strcat(final_str, expand_result);
-			free(expand_result);
+			*final_str = ft_strcat(*final_str, expand_result);
+			if (expand_result)
+				free(expand_result);
 			word += get_expand_len(word, 0);
 		}
 	}
-	return (final_str);
+	return (0);
 }

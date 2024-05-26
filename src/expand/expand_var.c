@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 21:36:53 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:18:39 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static int	get_key_len(const char *to_expand)
 	return (len);
 }
 
-static char	*get_env_val(const char *key, int key_len, char **env)
+static int get_env_val(char **expand_result, const char *key, int key_len,
+	char **env)
 {
 	int		index;
 	int		val_len;
-	char	*value;
 
 	index = 0;
 	val_len = 0;
@@ -63,35 +63,34 @@ static char	*get_env_val(const char *key, int key_len, char **env)
 		}
 		index++;
 	}
-	value = (char *)malloc(val_len + 1);
-	if (!value)
-		return (print_error("malloc", strerror(errno)), NULL);
-	value[val_len] = '\0';
 	if (val_len == 0)
-		return (value);
-	value = ft_strcpy(value, &(env[index][key_len + 1]));
-	return (value);
+		*expand_result = NULL;
+	if (val_len == 0)
+		return (0);
+	*expand_result = (char *)malloc(val_len + 1);
+	if (!(*expand_result))
+		return (print_error("malloc", strerror(errno)), 1);
+	*expand_result = ft_strcpy(*expand_result, &(env[index][key_len + 1]));
+	return (0);
 }
 
-char	*expand_var(const char *to_expand, char **env)
+int	expand_var(char **expand_result,  const char *to_expand, char **env)
 {
 	int		ref;
 	int		key_len;
-	char	*env_val;
 
 	ref = 1;
 	if (to_expand[ref] && to_expand[ref] == LEFT_BRACE)
 	{
 		ref++;
 		if (expand_error(to_expand))
-			return (NULL);
+			return (1);
 		key_len = get_key_len(to_expand + ref);
 	}
 	else
 		key_len = get_key_len(to_expand + ref);
-	env_val = get_env_val(to_expand + ref, key_len, env);
-	printf("env_val = %s\n", env_val);
-	if (env_val == NULL)
-		return (NULL);
-	return (env_val);
+	 if(get_env_val(expand_result, to_expand + ref, key_len, env) != 0)
+		return (1);
+	printf("env_val = %s\n", *expand_result);
+	return (0);
 }
