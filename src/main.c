@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 22:47:34 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/29 12:52:46 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,40 @@ void	free_char_tab(char ***tab_p)
 	*tab_p = NULL;
 }
 
+void	print_expand(t_expand *expand)
+{
+	int	tab_index;
+	int	index;
+
+	tab_index = 0;
+	while (expand->word_tab[tab_index + 1])
+	{
+		printf("%s -> ", expand->word_tab[tab_index]);
+		tab_index++;
+	}
+	printf("%s\n", expand->word_tab[tab_index]);
+	tab_index = 0;
+	while (expand->word_tab[tab_index + 1])
+	{
+		index = 0;
+		while (expand->word_tab[tab_index][index])
+		{
+			printf("%d", expand->quote[tab_index][index]);
+			index++;
+		}
+		printf((" -> "));
+		tab_index++;
+	}
+	index = 0;
+	while (expand->word_tab[tab_index][index])
+	{
+		printf("%d", (expand->quote)[tab_index][index]);
+		index++;
+	}
+	printf("\n");
+}
+
+
 //  ===== END OF TESTING =====
 int	main(int ac, char **av, char **env)
 {
@@ -215,10 +249,15 @@ int	main(int ac, char **av, char **env)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
 				print_simple_cmd_tab(cmd_tab);
-				if (perform_var_expansion(&(cmd_tab[0]->cmd), 1,  env) == 0)
- 					print_simple_cmd_tab(cmd_tab);
- 				else
- 					printf("EXPAND_ERROR\n");
+				if (expand(cmd_tab[0]) != 0)
+					printf("EXPAND ERROR\n");
+				else
+					printf("EXPAND OK\n");
+			// 	if (ex)
+			// 	if (perform_var_expansion(&(cmd_tab[0]->cmd), 1,  env) == 0)
+ 			// 		print_simple_cmd_tab(cmd_tab);
+ 			// 	else
+ 			// 		printf("EXPAND_ERROR\n");
  				printf("\n\001\033\[0;32m\002=== AFTER EXPAND ===\001\033\[0m\n");
 				free_cmd_tab(&cmd_tab);
 			}
@@ -232,4 +271,5 @@ int	main(int ac, char **av, char **env)
 		}
 		free(input);
 	}
+	rl_clear_history();
 }

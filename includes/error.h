@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:40:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 20:13:52 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/29 01:09:17 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
+# include <errno.h>
 # include "../libft/includes/libft.h"
 # include "parser.h"
 # define BASH "minishell"

@@ -6,14 +6,14 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 18:48:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/29 01:09:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "minishell.h"
+# include <sys/wait.h>
 # include "error.h"
 
 # define DOUBLE_QUOTE '\"' 
