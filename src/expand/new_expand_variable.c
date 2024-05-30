@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_var.c                                       :+:      :+:    :+:   */
+/*   new_expand_variable.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 23:06:23 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/30 02:33:33 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/30 02:42:49 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expander.h"
 
+/* Print error message when a wrong expansion occur
+ * */
 static int	expand_error(const char *word)
 {
 	int	index;
@@ -33,6 +35,9 @@ static int	expand_error(const char *word)
 	return (0);
 }
 
+/* get the key len of env variable based on the word given as input.
+ * to_expand = $[something]
+ * */
 static int	get_key_len(const char *to_expand)
 {
 	int	len;
@@ -44,11 +49,14 @@ static int	get_key_len(const char *to_expand)
 	return (len);
 }
 
-static int	get_env_val(char **expand_result, const char *key, int key_len,
-	char **env)
+/* Return the env value when found. If not found return an empty string that
+ * can be freed (whichi mean it have benn malloced)
+ * */
+static char	*get_env_val(const char *key, int key_len, char **env)
 {
 	int		index;
 	int		val_len;
+	char	*expand_result;
 
 	index = 0;
 	val_len = 0;
@@ -63,33 +71,32 @@ static int	get_env_val(char **expand_result, const char *key, int key_len,
 		}
 		index++;
 	}
-	if (val_len == 0)
-		*expand_result = NULL;
-	if (val_len == 0)
-		return (0);
-	*expand_result = (char *)malloc(val_len + 1);
+	expand_result = (char *)malloc(val_len + 1);
 	if (!(*expand_result))
-		return (print_error("malloc", strerror(errno)), 1);
-	*expand_result = ft_strcpy(*expand_result, &(env[index][key_len + 1]));
-	return (0);
+		return (print_error("malloc", strerror(errno)), NULL);
+	expand_result[0] = '\0';
+	expand_result = ft_strcpy(expand_result, &(env[index][key_len + 1]));
+	return (expand_result);
 }
 
-int	expand_var(char **expand_result, const char *to_expand, char **env)
+char	*expand_variable(const char *to_expand, char **env)
 {
 	int		ref;
 	int		key_len;
+	char	*expand_result;
 
 	ref = 1;
 	if (to_expand[ref] && to_expand[ref] == LEFT_BRACE)
 	{
 		ref++;
 		if (expand_error(to_expand))
-			return (1);
+			return (NULL);
 		key_len = get_key_len(to_expand + ref);
 	}
 	else
 		key_len = get_key_len(to_expand + ref);
-	if (get_env_val(expand_result, to_expand + ref, key_len, env) != 0)
-		return (1);
-	return (0);
+	expand_result = get_env_val(to_expand + ref, key_len, env);
+	if (!expand_result)
+		return (NULL);
+	return (expand_result);
 }

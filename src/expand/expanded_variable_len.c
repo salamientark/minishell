@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_expand_strlen.c                                :+:      :+:    :+:   */
+/*   expanded_variable_len.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -81,7 +81,7 @@ static void	update_size_and_word(size_t *size, const char **word,
 	}
 }
 
-size_t	var_expand_strlen(const char *word, char **env)
+size_t	expanded_variable_len(const char *word, char **env)
 {
 	size_t	size;
 	int		in_double_quote;

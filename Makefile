@@ -70,14 +70,21 @@ endef
 define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		is_expand.c \
-		expand_var.c \
-		var_expand_strlen.c \
-		str_var_expansion.c \
-		word_split.c \
-		perform_var_expansion.c \
-		expand.c
+		make_expand_tab.c \
+		expand.c \
+		expanded_variable_len.c \
+		var_expand_elem.c \
+		new_perform_variable_expansion.c \
+		new_expand_variable.c
 	)
 endef
+# 		expand_variable.c \
+		expanded_variable_len.c \
+		var_expand_elem.c \
+		word_split.c \
+		perform_variable_expansion.c
+#	)
+#endef
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 20:00:56 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/29 01:11:27 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/29 14:03:49 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	set_split_flag(const char *str, int in_double_quote)
 	return (0);
 }
 
-static char	*cat_until_expand(char *dest, const char **word,
-	int *in_double_quote)
+static void	cat_until_expand(char **final_str, char **final_quote,
+	const char **word)
 {
 	int	str_size;
 
@@ -58,7 +58,7 @@ static char	*alloc_final_str(const char *word, char **env)
 	int		final_strlen;
 	char	*final_str;
 
-	final_strlen = var_expand_strlen(word, env);
+	final_strlen = expanded_variable_len(word, env);
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), NULL);
@@ -66,12 +66,33 @@ static char	*alloc_final_str(const char *word, char **env)
 	return (final_str);
 }
 
-int	str_var_expansion(char **final_str, const char *word, int *split_flag,
+int	str_var_expansion(char **finale_str, int **final_quote, const char *word,
 	char **env)
 {
 	int		in_double_quote;
 	char	*expand_result;
+	size_t	final_strlen;
 
+	final_strlen = expanded_variable_len(word, env);
+	*final_str = (char *)malloc(final_strlen + 1);
+	if (!final_str)
+		return (print_error("malloc", strerror(errno)), 1);
+	*final_quote = (int *)malloc(sizeof(int) * final_strlen);
+	if (!final_quote)
+		return (print_error("malloc", strerror(errno)), free(*final_str), 1);
+	in_double_quote = 0;
+	while (*word)
+	{
+		if (*is_expand(word))
+		{
+			cat_until_expand(&final_str, &final_quote, word);
+		}
+		else
+		{
+
+		}
+
+	}
 	*final_str = alloc_final_str(word, env);
 	if (!(*final_str))
 		return (1);
@@ -84,7 +105,7 @@ int	str_var_expansion(char **final_str, const char *word, int *split_flag,
 		else
 		{
 			expand_result = NULL;
-			if (expand_var(&expand_result, word, env) != 0)
+			if (expand_variable(&expand_result, word, env) != 0)
 				return (free((*final_str)), 1);
 			*split_flag = set_split_flag(expand_result, in_double_quote);
 			*final_str = ft_strcat(*final_str, expand_result);

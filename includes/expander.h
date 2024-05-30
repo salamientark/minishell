@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/29 18:38:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:13:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,30 @@ typedef struct s_expand
 // is_expand.c
 int		is_expand(const char *str);
 
-// expand_variable.c
-int		expand_variable(char **expand_result, const char *to_expand, char **env);
-
 // expanded_variable_len.c
 size_t	expanded_variable_len(const char *word, char **env);
 
-// str_var_expansion.c
-int		str_var_expansion(char **final_str, const char *word, int *split_flag,
-			char **env);
+// expand_variable.c
+char		*expand_variable(const char *to_expand, char **env);
+
+// var_expand_elem.c
+t_expand		*var_expand_elem(t_expand *elem, char **env);
 
 // word_split.c
 char	**word_split(const char *word);
 
 // perform_variable_expansion.c
-int		perform_variable_expansion(char ***tab, int cmd_flag, char **env);
+int		perform_variable_expansion(t_expand **expand_tab, char **env);
+
+
+// new.c
 
 
 // makae_rexpand_tab.c
 t_expand	**make_expand_tab(char **tab);
 // expand.c
 void	free_expand_tab(t_expand ***expand_p);
-int	expand(t_simple_cmd *cmd);
+int	expand(t_simple_cmd *cmd, char **env);
 // FOR TESTING PURPOSE
 void	print_expand_tab(t_expand **expand);
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   perform_var_expansion.c                            :+:      :+:    :+:   */
+/*   perform_variable_expansion.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 01:27:45 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/29 01:11:49 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/29 19:02:47 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,28 @@ static int	perform_word_split(char ***tab, char *expanded_word, int *index)
 	return (0);
 }
 
+static int	new_expand_and_split(t_expand ***expand, int *index, char **env)
+{
+	int		split_flag;
+	char	*expanded_word;
+
+	split_flag = 0;
+	expanded_word = NULL;
+	if (str_var_expansion(&expanded_word, (*expand)[*index], &split_flag,
+		env) != 0)
+		return (1);
+	free((*tab)[*index]);
+	(*tab)[*index] = expanded_word;
+	if (!(*tab)[*index])
+		remove_from_tab(tab, *index);
+	if (cmd_flag && split_flag)
+	{
+		if (perform_word_split(tab, expanded_word, index) != 0)
+			return (1);
+	}
+	return (0);
+}
+
 static int	expand_and_split(char ***tab, int cmd_flag, int *index, char **env)
 {
 	int		split_flag;
@@ -126,18 +148,21 @@ static int	expand_and_split(char ***tab, int cmd_flag, int *index, char **env)
 	return (0);
 }
 
-int	perform_var_expansion(char ***tab, int cmd_flag, char **env)
+int	perform_variable_expansion(t_expand **expand, char **env)
 {
 	int		index;
+	char	*tmp_expand;
 
+	if (!expand)
+		return (0);
 	index = 0;
-	while ((*tab)[index])
+	while (expand[index])
 	{
-		if (contain_var_expansion((*tab)[index]))
+		if (contain_var_expansion(expand[index]->word))
 		{
-			if (expand_and_split(tab, cmd_flag, &index, env) != 0)
+			if (expand_and_split(expand, &index, env) != 0)
 				return (1);
-			if (!(*tab))
+			if (!expand[index]->word)
 				return (0);
 		}
 		index++;

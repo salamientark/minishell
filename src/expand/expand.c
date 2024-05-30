@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/29 18:46:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:14:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ void	free_expand_tab(t_expand ***expand_p)
 //  - pattern matching (BONUS)
 //  - quote_removal
 // On success return 0 else return 1
-int	expand(t_simple_cmd *cmd)
+int	expand(t_simple_cmd *cmd, char **env)
 {
 	t_expand	**expand;
 
 	expand = make_expand_tab(cmd->cmd);
 	if (!expand)
 		return (1);
+	if (perform_variable_expansion(expand, env) != 0)
+		return (free_expand_tab(&expand), 1);
+	// perform every expansion
 	print_expand_tab(expand);
 	free_expand_tab(&expand);
 	return (0);

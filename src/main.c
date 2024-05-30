@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/29 18:44:39 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 13:41:53 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,11 @@ void	print_expand_tab(t_expand **expand_tab)
 	int	tab_index;
 	int	index;
 
+	if (!expand_tab || !*expand_tab)
+	{
+		printf("Expand tab is EMPTY\n");
+		return ;
+	}
 	tab_index = 0;
 	while (expand_tab[tab_index + 1])
 	{
@@ -236,10 +241,8 @@ int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_simple_cmd	**cmd_tab;
-	t_expand		**expand_tab;
 	(void)ac;
 	(void)av;
-	(void)env;
 
 	while ("this is the best minishell")
 	{
@@ -251,14 +254,10 @@ int	main(int ac, char **av, char **env)
 			if (cmd_tab)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				expand_tab = make_expand_tab(cmd_tab[0]->cmd);
-				if (!expand_tab)
-					printf("COULD MAKE EXPAND TAB < ERROR >\n");
+				if (expand(cmd_tab[0], env) != 0)
+					printf("expand_error\n");
 				else
-				{
-					print_expand_tab(expand_tab);
-					free_expand_tab(&expand_tab);
-				}
+					printf("expand OK\n");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE
