@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 13:14:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:05:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ void	free_expand_tab(t_expand ***expand_p)
 	index = 0;
 	while ((*expand_p)[index])
 	{
-		// free((*expand_p)[index]->word);
-		// (*expand_p)[index]->word = NULL;
+		if ((*expand_p)[index]->word)
+		{
+			free((*expand_p)[index]->word);
+			(*expand_p)[index]->word = NULL;
+
+		}
 		free((*expand_p)[index]->quote);
 		(*expand_p)[index]->quote= NULL;
 		free((*expand_p)[index]);
@@ -32,6 +36,33 @@ void	free_expand_tab(t_expand ***expand_p)
 	}
 	free(*expand_p);
 	*expand_p = NULL;
+}
+
+int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
+{
+	int		index;
+	char	**new_tab;
+
+	*result = NULL;
+	index = 0;
+	while ((*expand_tab)[index])
+		index++;
+	new_tab = (char **)malloc(sizeof(char *) * (index + 1));
+	if (!new_tab)
+		return (print_error("malloc", strerror(errno)), 1);
+	index = 0;
+	while ((*expand_tab)[index])
+	{
+		free((*expand_tab)[index]->quote);
+		new_tab[index] = (*expand_tab)[index]->word;
+		free((*expand_tab)[index]);
+		index++;
+	}
+	new_tab[index] = NULL;
+	free(*expand_tab);
+	*expand_tab = NULL;
+	*result = new_tab; 
+	return (0);
 }
 
 // Perform every expansion of the t_simple_cmd then remove_quote
@@ -52,6 +83,10 @@ int	expand(t_simple_cmd *cmd, char **env)
 		return (free_expand_tab(&expand), 1);
 	// perform every expansion
 	print_expand_tab(expand);
+	free(cmd->cmd);
+	cmd->cmd = NULL;
+	if (expand_tab_to_char_tab(&cmd->cmd, &expand) != 0)
+		return (1);
 	free_expand_tab(&expand);
 	return (0);
 

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 12:49:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:09:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ static t_expand	*alloc_expanded_element(const char *word, char **env)
 	final_expand = (t_expand *)malloc(sizeof(struct s_expand));
 	if (!final_expand)
 		return (print_error("malloc", strerror(errno)), NULL);
+	final_expand->size = final_strlen;
+	if (final_strlen == 0)
+		return (final_expand);
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), free(final_expand),
@@ -56,7 +59,6 @@ static t_expand	*alloc_expanded_element(const char *word, char **env)
 	memset(final_quote, 0, final_strlen);
 	final_expand->word = final_str;
 	final_expand->quote = final_quote;
-	final_expand->size = final_strlen;
 	return (final_expand);
 }
 
@@ -78,7 +80,7 @@ static t_expand	*cat_until_expand(t_expand *final_expand, t_expand *elem,
 	{
 		if (elem->word[size] == SINGLE_QUOTE)
 			size += quoted_strlen(elem->word, size, elem->word[size]);
-			else
+		else
 			size++;
 	}
 	size -= *ref;
@@ -110,13 +112,14 @@ static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
 	if (!expand_result)
 		return (free_all(final_expand), NULL);
 	expand_result_len = ft_strlen(expand_result);
+	*index += (elem->word[*index + 1] == LEFT_BRACE)
+		+ expand_strlen(elem->word, *index, 0);
 	if (expand_result_len == 0)
-		return (*final_expand);
+		return (free(expand_result), *final_expand);
 	final_word_len = ft_strlen((*final_expand)->word);
 	memset((*final_expand)->word + final_word_len, 0, expand_result_len);
 	(*final_expand)->word = ft_strcat((*final_expand)->word, expand_result);
 	free(expand_result);
-	*index += expand_strlen(elem->word, *index, 0);
 	return (*final_expand);
 }
 

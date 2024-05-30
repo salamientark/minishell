@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_expand_variable.c                              :+:      :+:    :+:   */
+/*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 02:33:33 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 02:42:49 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:00:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ static char	*get_env_val(const char *key, int key_len, char **env)
 		index++;
 	}
 	expand_result = (char *)malloc(val_len + 1);
-	if (!(*expand_result))
+	if (!expand_result)
 		return (print_error("malloc", strerror(errno)), NULL);
 	expand_result[0] = '\0';
+	if (val_len == 0)
+		return (expand_result);
 	expand_result = ft_strcpy(expand_result, &(env[index][key_len + 1]));
 	return (expand_result);
 }

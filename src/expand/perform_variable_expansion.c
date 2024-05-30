@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_perform_variable_expansion.c                   :+:      :+:    :+:   */
+/*   perform_variable_expansion.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 13:06:19 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:08:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ static t_expand	**remove_from_tab(t_expand **dest, int remove_index)
 	int	index;
 
 	index = remove_index;
+	free(dest[index]->word);
+	dest[index]->word = NULL;
+	free(dest[index]->quote);
+	dest[index]->quote = NULL;
+	free(dest[index]);
+	dest[index] = NULL;
 	while (dest[index + 1])
 	{
 		dest[index] = dest[index + 1];
@@ -89,6 +95,7 @@ int	perform_variable_expansion(t_expand **expand_tab, char **env)
 				expand_tab[index] = expand_result;
 				continue ;
 			}
+			free(expand_result);
 			expand_tab = remove_from_tab(expand_tab, index);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:14:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/29 18:49:28 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:40:20 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static	t_expand	*make_expand_elem(char *str)
 		else
 			index++;
 	}
+	expand_elem->size = ft_strlen(str);
 	expand_elem->word = str;
 	return (expand_elem);
 }
@@ -77,6 +78,7 @@ t_expand	**make_expand_tab(char **tab)
 	while (tab[index])
 	{
 		expand_tab[index] = make_expand_elem(tab[index]);
+		tab[index] = NULL;
 		if (!expand_tab[index])
 			return (free_all(&expand_tab, index), NULL);
 		index++;

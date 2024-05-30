@@ -74,8 +74,8 @@ define EXPAND_FILE :=
 		expand.c \
 		expanded_variable_len.c \
 		var_expand_elem.c \
-		new_perform_variable_expansion.c \
-		new_expand_variable.c
+		perform_variable_expansion.c \
+		expand_variable.c
 	)
 endef
 # 		expand_variable.c \
