@@ -71,13 +71,14 @@ define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		is_expand.c \
 		make_expand_tab.c \
-		expand.c \
 		expanded_variable_len.c \
+		expand_variable.c \
 		var_expand_elem.c \
 		perform_variable_expansion.c \
 		word_split.c \
 		perform_word_split.c \
-		expand_variable.c
+		remove_quote.c \
+		expand.c
 	)
 endef
 # 		expand_variable.c \

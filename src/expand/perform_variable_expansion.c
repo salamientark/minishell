@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 16:18:19 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:31:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	perform_variable_expansion(t_expand **expand_tab, char **env)
 	index = 0;
 	while (expand_tab[index])
 	{
+		printf("INDEX = %d\n", index);
 		if (contain_var_expansion(expand_tab[index]->word))
 		{
 			expand_result = var_expand_elem(expand_tab[index], env);
@@ -91,13 +92,13 @@ int	perform_variable_expansion(t_expand **expand_tab, char **env)
 			{
 				free_expand_elem(&expand_tab[index]);
 				expand_tab[index] = expand_result;
+				index++;
 				continue ;
 			}
 			free(expand_result);
 			expand_tab = remove_from_tab(expand_tab, index);
 		}
-		else
-			index++;
+		index++;
 	}
 	return (0);
 }

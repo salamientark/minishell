@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 16:30:44 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:22:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_expand	*alloc_expanded_element(const char *word, char **env)
  * It will update the 'quote' field and the index of elem->word
  * */
 static t_expand	*cat_until_expand(t_expand *final_expand, t_expand *elem,
-		int *ref)
+		int *ref, int *in_double_quote)
 {
 	int	size;
 	int	index;
@@ -77,19 +77,19 @@ static t_expand	*cat_until_expand(t_expand *final_expand, t_expand *elem,
 	size = *ref;
 	while (elem->word[size] && !is_expand(elem->word + size))
 	{
-		if (elem->word[size] == SINGLE_QUOTE)
-			size += quoted_strlen(elem->word, size, elem->word[size]);
-		else
-			size++;
+		if (elem->word[size] == DOUBLE_QUOTE)
+			*in_double_quote = 1 ^ *in_double_quote;
+		else if (elem->word[size] == SINGLE_QUOTE && *in_double_quote == 0)
+			size += quoted_strlen(elem->word, size, elem->word[size]) - 1;
+		size++;
 	}
 	size -= *ref;
-	index = 0;
 	result_ref = ft_strlen(final_expand->word);
-	while (index < size)
+	index = -1;
+	while (++index < size)
 	{
 		final_expand->word[result_ref + index] = elem->word[*ref + index];
 		final_expand->quote[result_ref + index] = elem->quote[*ref + index];
-		index++;
 	}
 	final_expand->word[result_ref + index] = '\0';
 	*ref += size;
@@ -128,27 +128,29 @@ static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
  * */
 t_expand	*var_expand_elem(t_expand *elem, char **env)
 {
-	t_expand	*expand_result;
+	t_expand	*result;
 	int			index;
+	int			in_double_quote;
 	char		*word_cp;
 
-	expand_result = alloc_expanded_element(elem->word, env);
-	if (!expand_result)
+	result = alloc_expanded_element(elem->word, env);
+	if (!result)
 		return (NULL);
-	if (expand_result->size == 0)
-		return (expand_result);
+	if (result->size == 0)
+		return (result);
 	word_cp = elem->word;
 	index = 0;
+	in_double_quote = 0;
 	while (word_cp[index])
 	{
 		if (!is_expand(word_cp + index))
-			expand_result = cat_until_expand(expand_result, elem, &index);
+			result = cat_until_expand(result, elem, &index, &in_double_quote);
 		else
 		{
-			expand_result = cat_expand(&expand_result, elem, &index, env);
-			if (!expand_result)
+			result = cat_expand(&result, elem, &index, env);
+			if (!result)
 				return (NULL);
 		}
 	}
-	return (expand_result);
+	return (result);
 }

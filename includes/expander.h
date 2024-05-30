@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 19:09:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:33:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ void	free_expand_tab(t_expand ***expand_p);
 t_expand	**make_expand_tab(char **tab);
 // expand.c
 int	expand(t_simple_cmd *cmd, char **env);
+//remove_quote.c
+void	remove_quote(t_expand **expand_tab);
+
+
+
+
 // FOR TESTING PURPOSE
 void	print_expand_tab(t_expand **expand);
 

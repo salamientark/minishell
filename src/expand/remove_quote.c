@@ -6,59 +6,48 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:24:08 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 15:26:49 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:32:15 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expander.h"
 
-static char	*remove_quote_str(char *str, int *in_quote)
+static void	remove_quote_on_element(t_expand *elem)
 {
-	int		index;
-	int		token_index;
-	char	*new_str;
+	int		word_pos;
+	int		diff;
+	size_t	word_len;
 
-	if (!str)
-		return (0);
-	new_str = (char *)malloc(ft_strlen(str) + 1);
-	if (!new_str)
-		return (print_error("malloc", strerror(errno)), NULL);
-	index = 0;
-	token_index = 0;
-	while (str[index])
+	word_pos = 0;
+	diff = 0;
+	word_len = ft_strlen(elem->word);
+	while (elem->word[word_pos + diff])
 	{
-		if (str[index] == *in_quote)
-			*in_quote = 0;
-		else if (*in_quote == 0 && (str[index] == DOUBLE_QUOTE
-				|| str[index] == SINGLE_QUOTE))
-			*in_quote = str[index];
+		if (elem->quote[word_pos + diff] == 1)
+		{
+			elem->word[word_pos] = '\0';
+			diff++;
+		}
 		else
-			new_str[token_index++] = str[index];
-		index++;
+		{
+			elem->word[word_pos] = elem->word[word_pos + diff];
+			word_pos++;
+		}
 	}
-	new_str[token_index] = '\0';
-	return (ft_memset(new_str + token_index, 0, token_index - index), new_str);
+	memset(elem->word + word_pos, 0, word_len - word_pos);
+	memset(elem->quote, 0, sizeof(int) * word_len);
 }
 
-int	remove_quote(t_token_list *expansion_result)
+void	remove_quote(t_expand **expand_tab)
 {
-	int				in_quote;
-	char			*unquoted_token;
-	t_token_list	*pos;
+	int	index;
 
-	pos = expansion_result;
-	while (pos)
+	if (!expand_tab)
+		return ;
+	index = 0;
+	while (expand_tab[index])
 	{
-		if (pos->type == WORD)
-		{
-			unquoted_token = remove_quote_str(pos->token, &in_quote);
-			if (!unquoted_token)
-				return (1);
-			free(pos->token);
-			pos->token = NULL;
-			pos->token = unquoted_token;
-		}
-		pos = pos->next;
+		remove_quote_on_element(expand_tab[index]);
+		index++;
 	}
-	return (0);
 }
