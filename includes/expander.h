@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 13:13:44 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:34:33 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,17 @@ char		*expand_variable(const char *to_expand, char **env);
 t_expand		*var_expand_elem(t_expand *elem, char **env);
 
 // word_split.c
-char	**word_split(const char *word);
+t_expand	**word_split(t_expand *elem);
 
 // perform_variable_expansion.c
 int		perform_variable_expansion(t_expand **expand_tab, char **env);
 
+// word_split.c
+t_expand	**word_split(t_expand *elem);
 
-// new.c
+
+// perform_word_split.c
+int	perform_word_split(t_expand ***expand_tab);
 
 
 // makae_rexpand_tab.c

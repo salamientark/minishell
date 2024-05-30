@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 15:11:32 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 18:37:39 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,17 @@ int	expand(t_simple_cmd *cmd, char **env)
 		return (1);
 	if (perform_variable_expansion(expand, env) != 0)
 		return (free_expand_tab(&expand), 1);
+	print_expand_tab(expand);
+	printf("\n");
+	if (perform_word_split(&expand) != 0)
+		return (free_expand_tab(&expand), 1);
 	// perform every expansion
 	print_expand_tab(expand);
 	free(cmd->cmd);
 	cmd->cmd = NULL;
 	if (expand_tab_to_char_tab(&cmd->cmd, &expand) != 0)
 		return (1);
+
 	free_expand_tab(&expand);
 	return (0);
 

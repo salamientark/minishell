@@ -75,6 +75,8 @@ define EXPAND_FILE :=
 		expanded_variable_len.c \
 		var_expand_elem.c \
 		perform_variable_expansion.c \
+		word_split.c \
+		perform_word_split.c \
 		expand_variable.c
 	)
 endef
