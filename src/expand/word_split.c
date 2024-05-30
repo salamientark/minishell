@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:37:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 19:04:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:26:18 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,11 @@ static t_expand	*extract_word(t_expand *elem, int *word_index)
 	t_expand	*new_elem;
 
 	size = 0;
-	while (elem->word[*word_index] && is_space_metachar(elem->word[*word_index]))
+	while (elem->word[*word_index]
+		&& is_space_metachar(elem->word[*word_index]))
 		*word_index += 1;
 	while (elem->word[*word_index + size]
-			&& !is_space_metachar(elem->word[*word_index + size]))
+		&& !is_space_metachar(elem->word[*word_index + size]))
 	{
 		if (elem->quote[*word_index + size] == 1)
 		{
@@ -114,14 +115,15 @@ static t_expand	*extract_word(t_expand *elem, int *word_index)
 		else
 			size++;
 	}
-	new_elem = expand_ndup(elem, size, *word_index); 
+	new_elem = expand_ndup(elem, size, *word_index);
 	if (!new_elem)
 		return (NULL);
 	*word_index += ft_strlen(new_elem->word);
 	return (new_elem);
 }
 
-/* Split a t_expand element to an array of t_expand following the bash word_split rule
+/* Split a t_expand element to an array of t_expand
+ * following the bash word_split rule
  * */
 t_expand	**word_split(t_expand *elem)
 {

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:34 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 19:12:16 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:25:32 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
 	int			index;
 	t_expand	**final_expand;
 
-	final_expand = alloc_final_tab(expand_tab, to_insert); 
+	final_expand = alloc_final_tab(expand_tab, to_insert);
 	if (!final_expand)
 		return (free_expand_tab(&expand_tab), free_expand_tab(&to_insert),
 			NULL);
@@ -125,7 +125,8 @@ int	perform_word_split(t_expand ***expand_tab)
 			word_split_result = word_split((*expand_tab)[index]);
 			if (!word_split_result)
 				return (1);
-			*expand_tab = expand_replace(*expand_tab, word_split_result, &index);
+			*expand_tab = expand_replace(*expand_tab, word_split_result,
+					&index);
 			if (!*expand_tab)
 				return (1);
 		}
