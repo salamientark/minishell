@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 19:33:24 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:50:00 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,34 @@ typedef struct s_expand
 }				t_expand;
 
 // is_expand.c
-int		is_expand(const char *str);
+int			is_expand(const char *str);
 
 // expanded_variable_len.c
-size_t	expanded_variable_len(const char *word, char **env);
+size_t		expanded_variable_len(const char *word, char **env);
 
 // expand_variable.c
 char		*expand_variable(const char *to_expand, char **env);
 
 // var_expand_elem.c
-t_expand		*var_expand_elem(t_expand *elem, char **env);
-
-// word_split.c
-t_expand	**word_split(t_expand *elem);
+t_expand	*var_expand_elem(t_expand *elem, char **env);
 
 // perform_variable_expansion.c
-int		perform_variable_expansion(t_expand **expand_tab, char **env);
+int			perform_variable_expansion(t_expand **expand_tab, char **env);
 
 // word_split.c
 t_expand	**word_split(t_expand *elem);
 
-
 // perform_word_split.c
-int	perform_word_split(t_expand ***expand_tab);
+int			perform_word_split(t_expand ***expand_tab);
 
-
-// makae_rexpand_tab.c
-void	free_expand_tab(t_expand ***expand_p);
+// make_rexpand_tab.c
+void		free_expand_tab(t_expand ***expand_p);
 t_expand	**make_expand_tab(char **tab);
+
 // expand.c
-int	expand(t_simple_cmd *cmd, char **env);
+int			expand(t_simple_cmd *cmd, char **env);
+
 //remove_quote.c
-void	remove_quote(t_expand **expand_tab);
-
-
-
-
-// FOR TESTING PURPOSE
-void	print_expand_tab(t_expand **expand);
+void		remove_quote(t_expand **expand_tab);
 
 #endif
