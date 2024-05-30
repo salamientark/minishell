@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 15:09:24 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 16:20:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ static t_expand	*alloc_expanded_element(const char *word, char **env)
 	final_str = (char *)malloc(final_strlen + 1);
 	if (!final_str)
 		return (print_error("malloc", strerror(errno)), free(final_expand),
-				NULL);
+			NULL);
 	final_quote = (int *)malloc(sizeof(int) * final_strlen);
 	if (!final_quote)
 		return (print_error("malloc", strerror(errno)), free(final_str),
-				free(final_expand), NULL);
+			free(final_expand), NULL);
 	final_str[0] = '\0';
 	memset(final_quote, 0, final_strlen);
 	final_expand->word = final_str;
@@ -73,7 +73,6 @@ static t_expand	*cat_until_expand(t_expand *final_expand, t_expand *elem,
 	int	size;
 	int	index;
 	int	result_ref;
-
 
 	size = *ref;
 	while (elem->word[size] && !is_expand(elem->word + size))
@@ -145,7 +144,7 @@ t_expand	*var_expand_elem(t_expand *elem, char **env)
 			expand_result = cat_until_expand(expand_result, elem, &index);
 		else
 		{
-			expand_result = cat_expand(&expand_result, elem, &index, env); 
+			expand_result = cat_expand(&expand_result, elem, &index, env);
 			if (!expand_result)
 				return (NULL);
 		}

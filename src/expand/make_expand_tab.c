@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:14:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 14:40:20 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:12:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,31 @@ static void	free_all(t_expand ***expand_p, int last_pos)
 // Create a t_expand element
 static	t_expand	*make_expand_elem(char *str)
 {
-	t_expand	*expand_elem;
+	t_expand	*new_elem;
 	int			index;
 
-	expand_elem = (t_expand *)malloc(sizeof(struct s_expand));
-	if (!expand_elem)
+	new_elem = (t_expand *)malloc(sizeof(struct s_expand));
+	if (!new_elem)
 		return (print_error("malloc", strerror(errno)), NULL);
-	expand_elem->quote = (int *)malloc(sizeof(int) * ft_strlen(str));
-	if (!expand_elem->quote)
-		return (print_error("malloc", strerror(errno)), free(expand_elem),
-			NULL);
+	new_elem->quote = (int *)malloc(sizeof(int) * ft_strlen(str));
+	if (!new_elem->quote)
+		return (print_error("malloc", strerror(errno)), free(new_elem), NULL);
 	index = 0;
-	memset(expand_elem->quote, 0, ft_strlen(str) * sizeof(int));
+	memset(new_elem->quote, 0, ft_strlen(str) * sizeof(int));
 	while (str[index])
 	{
 		if (str[index] == DOUBLE_QUOTE || str[index] == SINGLE_QUOTE)
 		{
-			expand_elem->quote[index] = 1;
+			new_elem->quote[index] = 1;
 			index += quoted_strlen(str, index, str[index]);
-			expand_elem->quote[index - 1] = 1;
+			new_elem->quote[index - 1] = 1;
 		}
 		else
 			index++;
 	}
-	expand_elem->size = ft_strlen(str);
-	expand_elem->word = str;
-	return (expand_elem);
+	new_elem->size = ft_strlen(str);
+	new_elem->word = str;
+	return (new_elem);
 }
 
 // Create a t_expand array filling the type part using the following rule :

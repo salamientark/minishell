@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 15:08:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 16:18:19 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int	perform_variable_expansion(t_expand **expand_tab, char **env)
 	int			index;
 	t_expand	*expand_result;
 
-	if (!expand_tab)
-		return (0);
 	index = 0;
 	while (expand_tab[index])
 	{
