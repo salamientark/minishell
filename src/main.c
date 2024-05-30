@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 13:41:53 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:31:07 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,10 +254,10 @@ int	main(int ac, char **av, char **env)
 			if (cmd_tab)
 			{
 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				if (expand(cmd_tab[0], env) != 0)
-					printf("expand_error\n");
+				if (expand(cmd_tab[0], env) == 0)
+					print_simple_cmd_tab(cmd_tab);
 				else
-					printf("expand OK\n");
+					printf("expand ERROR\n");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE
