@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 18:37:39 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:09:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_expand_tab(t_expand ***expand_p)
 	*expand_p = NULL;
 }
 
-int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
+static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 {
 	int		index;
 	char	**new_tab;

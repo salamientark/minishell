@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:37:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 18:50:40 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:04:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_expand	*expand_ndup(t_expand *elem, size_t size, size_t ref)
 	if (!new_elem)
 		return (print_error("malloc", strerror(errno)), NULL);
 	new_elem->word = ft_strndup(elem->word + ref, size);
-	if (!elem->word)
+	if (!new_elem->word)
 		return (print_error("malloc", strerror(errno)), free(new_elem), NULL);
 	new_elem->quote = (int *)malloc(sizeof(int) * size);
 	if (!new_elem->quote)

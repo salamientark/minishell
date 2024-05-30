@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 18:34:33 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 19:09:14 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	perform_word_split(t_expand ***expand_tab);
 
 
 // makae_rexpand_tab.c
+void	free_expand_tab(t_expand ***expand_p);
 t_expand	**make_expand_tab(char **tab);
 // expand.c
-void	free_expand_tab(t_expand ***expand_p);
 int	expand(t_simple_cmd *cmd, char **env);
 // FOR TESTING PURPOSE
 void	print_expand_tab(t_expand **expand);
