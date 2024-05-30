@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 19:33:53 by madlab           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:49:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,73 +64,46 @@ static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 	return (0);
 }
 
-// Perform every expansion of the t_simple_cmd then remove_quote
-// In order :
-//  - Variable expansion
-//   - word splitting resulting from unquoted variable expansion
-//  - pattern matching (BONUS)
-//  - quote_removal
-// On success return 0 else return 1
-int	expand(t_simple_cmd *cmd, char **env)
+/* Perform variable_expansion, word_split and quote removal on word_tab
+ * cmd_flag is set to one if the cmd part is expanded
+ * It indicates if the word_split should happened
+ * */
+static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
+		char **env)
 {
-	t_expand	**expand;
+	t_expand	**expand_tab;
 
-	expand = make_expand_tab(cmd->cmd);
-	if (!expand)
+	expand_tab = make_expand_tab(*word_tab_p);
+	if (!expand_tab)
 		return (1);
-	if (perform_variable_expansion(expand, env) != 0)
-		return (free_expand_tab(&expand), 1);
-	print_expand_tab(expand);
-	printf("\n");
-	if (perform_word_split(&expand) != 0)
-		return (free_expand_tab(&expand), 1);
-	// perform every expansion
-	print_expand_tab(expand);
-	remove_quote(expand);
-	printf("\n");
-	print_expand_tab(expand);
-	free(cmd->cmd);
-	cmd->cmd = NULL;
-	if (expand_tab_to_char_tab(&cmd->cmd, &expand) != 0)
-		return (1);
-
-	free_expand_tab(&expand);
+	if (perform_variable_expansion(expand_tab, env) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	if (cmd_flag == 1 && perform_word_split(&expand_tab) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	remove_quote(expand_tab);
+	free(*word_tab_p);
+	*word_tab_p = NULL;
+	if (expand_tab_to_char_tab(word_tab_p, &expand_tab) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	free_expand_tab(&expand_tab);
 	return (0);
-
-// 	expand = make_expand(cmd->infile, 0);
-// 	if (!expand)
-// 		return (1);
-
-// expand = make_expand(cmd->outfile, 0);
-// if (!expand)
-// 	return (1);
 }
 
-// Create a t_expand type filling every expand->quote value with 1
-// We will fill every expan->quote value resulting from expansion with 0
-// t_expand	*make_t_expand(char **tab, int cmd)
-// {
-// 	t_expand	*expand;
-// 	int			index;
-// 	size_t		word_len;
-// 
-// 	expand = (t_expand *)malloc(sizeof(struct s_expand));
-// 	if (!expand)
-// 		return (NULL);
-// 	expand->cmd = cmd;
-// 	expand->word_tab = tab;
-// 	expand->quote = (int **)malloc(sizeof(int) * ft_tab_size(tab));
-// 	if (!expand->quote)
-// 		return (free(expand), NULL);
-// 	index = 0;
-// 	while (tab[index])
-// 	{
-// 		word_len = ft_strlen(tab[index]);
-// 		expand->quote[index] = (int *)malloc(sizeof(int) * word_len); 
-// 		if (!expand->quote[index])
-// 			return (free_all(&expand, index), NULL);
-// 		memset(expand->quote[index], 1, word_len);
-// 		index++;
-// 	}
-// 	return (expand);
-// }
+/* Perform expansion + quote_removal on every part of the t_simple_cmd
+ * In order :
+ *  - Variable expansion
+ *  - word splitting resulting from unquoted variable expansion
+ * - pattern matching (BONUS)
+ * - quote_removal
+ *  On success return 0 else return 1
+ *  */
+int	expand(t_simple_cmd *cmd, char **env)
+{
+	if (perform_every_expansion(&cmd->cmd, 1, env) != 0)
+		return (1);
+	if (perform_every_expansion(&cmd->infile, 0, env) != 0)
+		return (1);
+	if (perform_every_expansion(&cmd->outfile, 0, env) != 0)
+		return (1);
+	return (0);
+}
