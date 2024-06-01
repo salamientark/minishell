@@ -12,36 +12,6 @@
 
 #include "minishell.h"
 
-static int	tabsize(char **tab)
-{
-	int len;
-
-	len = 0;
-	while (tab[len])
-		len++;
-	return(len);
-}
-
-static char	**update_env(char **env)
-{
-	char	**new_env;
-	int		size;
-	int		i;
-
-	i = 0;
-	size = tabsize(env);
-	new_env = (char **)malloc((sizeof(char *) * (size + 2)));
-	if (!new_env)
-		return (NULL);
-	while (env[i])
-	{
-		new_env[i] = env[i];
-		i++;
-	}
-	return(new_env);
-}
-
-
 static void	case_noargs(char **env)
 {
 	char	*tmp;
@@ -51,14 +21,14 @@ static void	case_noargs(char **env)
 	i = 0;
 	while (env[i])
 	{
-		j = 0;
+		j = 1;
 		while (env[j])
 		{
-			if (ft_strcmp(env[j], env[j + 1]) > 0)
+			if (ft_strcmp(env[j], env[j - 1]) < 0)
 			{
-				tmp = env[j];
-				env[j] = env[j + 1];
-				env[j + 1] = tmp;
+				tmp = env[j - 1];
+				env[j - 1] = env[j];
+				env[j] = tmp;
 			}
 			j++;
 		}
@@ -66,7 +36,7 @@ static void	case_noargs(char **env)
 	}
 	i = 0;
 	while (env[i])
-		printf("export %s", env[i++]);
+		printf("export %s\n", env[i++]);
 }
 
 //check input error and return the len to malloc for the export variable
@@ -148,7 +118,7 @@ static char	*get_var_name(char *var)
 	return (name);
 }
 
-static void	add_to_env(char *cmd, char **env)
+static void	add_to_env(char *cmd, t_chill *shell)
 {
 	int		len;
 	char	*var;
@@ -165,22 +135,21 @@ static void	add_to_env(char *cmd, char **env)
 	var_name = get_var_name(var);
 	if (!var_name)
 		return ;
-	while (env[i])
+	while (shell->env[i])
 	{
-		if (!ft_strncmp(env[i], var_name, ft_strlen(var_name)))
+		if (!ft_strncmp(shell->env[i], var_name, ft_strlen(var_name)))
 		{
-			env[i] = var;
-			return ;
+			shell->env[i] = var;
+			return(free(var_name));
 		}
 		i++;
 	}
-	env[i] = var;
-	env[i + 1] = NULL;
+	update_env(shell, var);
+	free(var_name);
 }
 
 void	ft_export(char **cmd, t_chill *shell)
 {
-	char	**new_env;
 	int		i;
 
 	i = 0;
@@ -188,12 +157,5 @@ void	ft_export(char **cmd, t_chill *shell)
 		return(case_noargs(shell->env));
 	i = 1;
 	while (cmd[i])
-	{
-		new_env = update_env(shell->env);
-		if (!new_env)
-			return ;
-		free(shell->env);
-		shell->env = new_env;
-		add_to_env(cmd[i++], shell->env);
-	}
+		add_to_env(cmd[i++], shell);
 }

@@ -12,31 +12,3 @@
 
 #include "minishell.h"
 
-static int	tabsize(char **tab)
-{
-	int len;
-
-	len = 0;
-	while (tab[len])
-		len++;
-	return(len);
-}
-
-char	**copy_env(char **env)
-{
-	char	**new_env;
-	int		len;
-	int		i;
-
-	i = 0;
-	len = tabsize(env);
-	if(!(new_env = (char **)malloc(sizeof(char *) * (len + 1))))
-		return(NULL);
-	while(env[i] && i < len)
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new_env[i] = NULL;
-	return (new_env);
-}

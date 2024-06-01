@@ -22,13 +22,14 @@ static int	ft_tabsize(char **tab)
 	return(len);
 }
 
-static char **remove_env(char **env, int remove_pos, int size)
+static char **realloc_env(char **env, int remove_pos, int size)
 {
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	if (!(new_env = (char**)malloc(sizeof(char *) * size)))
+	new_env = (char**)malloc(sizeof(char *) * size);
+	if (!new_env)
 		return(NULL);
 	while (i < remove_pos)
 	{
@@ -45,38 +46,45 @@ static char **remove_env(char **env, int remove_pos, int size)
 	return (new_env);
 }
 
+static int	remove_env(t_chill *shell, char *cmd)
+{
+	int		i;
+	int		size;
+	char	**new_env;
+
+	i = 0;
+	size = ft_tabsize(shell->env);
+	while(shell->env[i])
+	{
+		if (!ft_strncmp(cmd, shell->env[i], ft_strlen(cmd)))
+		{
+			new_env = realloc_env(shell->env, i, size);
+			if (!new_env)
+				return (1);
+			free(shell->env);
+			shell->env = new_env;
+			return (0);
+		}
+		i++;
+	}
+	return(0);
+}
+
 int	ft_unset(char **cmd, t_chill *shell)
 {
-	char *cmd_tmp;
-	int i;
-	int	size;
-	int j = 1;
-	char **new_env;
+	char	*cmd_tmp;
+	int		i;
 
-	size = ft_tabsize(shell->env);
-	while(cmd[j])
+	i = 1;
+	while(cmd[i])
 	{
-		i = 0;
-		cmd_tmp = ft_strjoin(cmd[j], "=");
+		cmd_tmp = ft_strjoin(cmd[i], "=");
 		if (!cmd_tmp)
 			return(1);
-		while(shell->env[i])
-		{
-			if (!ft_strncmp(cmd_tmp, shell->env[i], ft_strlen(cmd_tmp)))
-			{
-				new_env = remove_env(shell->env, i, size);
-				if (!new_env)
-					return (1);
-				free(shell->env);
-				shell->env = new_env;
-				size--;
-				break;
-			}
-			i++;
-		}
+		if (remove_env(shell, cmd_tmp))
+			return(1);
 		free(cmd_tmp);
-		j++;
+		i++;
 	}
-	//shell->env[i] = NULL;
 	return (0);
 }

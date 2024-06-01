@@ -18,7 +18,8 @@ define SRC_FILE :=
 	$(addprefix $(SRC_DIR)/, \
 		expand_strlen.c \
 		quote_utils.c\
-		main.c
+		main.c \
+		init_minishell.c
 	)
 endef
 

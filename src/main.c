@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/23 17:42:54 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/05/25 17:59:28 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 
-	shell.env = copy_env(env);
+	init_minishell(&shell, env);
 	while ("this is the best minishell")
 	{
 		input = display_prompt();
