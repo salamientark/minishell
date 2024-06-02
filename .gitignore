@@ -1,0 +1,15 @@
+.obj/
+*.a
+*.o
+README
+README.md
+NOTES
+*_ORIGIN
+minishell
+.vscode/
+tmp
+.old
+TODO
+test_dir/
+redirection.h
+src/redirection
