@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/02 23:03:17 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/02 23:09:31 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,24 @@ static void	str_remove_quote(char *str)
 {
 	char	quote;
 	int		pos;
-	int		diff;
+	int		dif;
 	size_t	len;
 
 	pos = 0;
-	diff = 0;
+	dif = 0;
 	len = ft_strlen(str);
-	while (str[pos + diff])
+	while (str[pos + dif])
 	{
-		if (str[pos + diff] == SINGLE_QUOTE || str[pos + diff] == DOUBLE_QUOTE)
+		if (str[pos + dif] == SINGLE_QUOTE || str[pos + dif] == DOUBLE_QUOTE)
 		{
-			quote = str[pos + diff];
-			ft_memmove(str + pos + diff, str + pos + diff + 1, len - (pos + diff));
-			pos += quoted_strlen(str, pos + diff - 1, quote) - 2;
-			ft_memmove(str + pos + diff, str + pos + diff + 1, len - pos - diff);
+			quote = str[pos + dif];
+			ft_memmove(str + pos + dif, str + pos + dif + 1, len - pos - dif);
+			pos += quoted_strlen(str, pos + dif - 1, quote) - 2;
+			ft_memmove(str + pos + dif, str + pos + dif + 1, len - pos - dif);
 		}
 		else
 		{
-			str[pos] = str[pos + diff];
+			str[pos] = str[pos + dif];
 			pos++;
 		}
 	}
@@ -137,7 +137,7 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count)
 	int		fd;
 
 	fd = open(here_doc_name(heredoc_filename, *here_doc_count),
-		O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600);
+			O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd == -1)
 		return (print_error("open", strerror(errno)), 1);
 	expand_flag = 0;

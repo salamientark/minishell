@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/02 22:31:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/02 23:09:59 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ static	int	is_followed_by_newline(const char *cmd)
 
 /*
  * */
-static int	analyze_operator_syntax(const char *str, int ref, int *here_doc_count)
+static int	analyze_operator_syntax(const char *str, int ref,
+		int *here_doc_count)
 {
 	char	operator;
 
