@@ -6,12 +6,33 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/30 21:31:07 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/02 22:34:02 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
- 
+
+void	unlink_all(void)
+{
+	unlink("/tmp/.00000");
+	unlink("/tmp/.00001");
+	unlink("/tmp/.00002");
+	unlink("/tmp/.00003");
+	unlink("/tmp/.00004");
+	unlink("/tmp/.00005");
+	unlink("/tmp/.00006");
+	unlink("/tmp/.00007");
+	unlink("/tmp/.00008");
+	unlink("/tmp/.00009");
+	unlink("/tmp/.00010");
+	unlink("/tmp/.00011");
+	unlink("/tmp/.00012");
+	unlink("/tmp/.00013");
+	unlink("/tmp/.00014");
+	unlink("/tmp/.00015");
+}
+
+
 // ========= TESTING ======== 
 static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 {
@@ -246,6 +267,7 @@ int	main(int ac, char **av, char **env)
 
 	while ("this is the best minishell")
 	{
+		unlink_all();
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{

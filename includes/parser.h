@@ -6,14 +6,14 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/29 01:09:52 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/02 22:31:13 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <sys/wait.h>
+# include <fcntl.h>
 # include "error.h"
 
 # define DOUBLE_QUOTE '\"' 
@@ -120,7 +120,7 @@ t_token_list	*ft_token_init_one(const char *input);
 int				unclosed_delimiter(const char *input);
 
 // here_doc.c
-int				here_doc(const char *cmd, int ref, int stdin_fd);
+int				here_doc(const char *cmd, int ref, int *here_doc_count);
 
 // syntax_error.c
 int				is_followed_by_word(const char *cmd, int operator);
