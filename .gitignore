@@ -11,3 +11,5 @@ tmp
 .old
 TODO
 test_dir/
+redirection.h
+src/redirection

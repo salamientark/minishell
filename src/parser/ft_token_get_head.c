@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_expand.c                                        :+:      :+:    :+:   */
+/*   ft_token_get_head.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:31:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/22 23:29:34 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/22 13:31:27 by dbaladro          #+#    #+#             */
+/*   Updated: 2024/05/26 18:43:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	is_expand(const char *str)
+t_token_list	*ft_token_get_head(t_token_list *token_list)
 {
-	int	index;
+	t_token_list	*new_head;
 
-	if (!str)
-		return (0);
-	index = 0;
-	if (str[index] == DOLLAR && str[index + 1]
-		&& (ft_isalnum(str[index + 1]) || str[index + 1] == UNDERSCORE
-			|| str[index + 1] == LEFT_BRACE))
-		return (1);
-	return (0);
+	if (!token_list)
+		return (NULL);
+	new_head = token_list;
+	while (new_head->prev)
+		new_head = new_head->prev;
+	return (new_head);
 }

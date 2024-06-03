@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 15:45:11 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:10:43 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "minishell.h"
-//# include "error.h"
+# include <fcntl.h>
+# include "error.h"
 
 # define DOUBLE_QUOTE '\"' 
 # define SINGLE_QUOTE '\'' 
@@ -62,7 +62,6 @@
 # define HERE_DOC_15 "/tmp/.here_doc_15"
 # define HERE_DOC_16 "/tmp/.here_doc_16"
 
-
 typedef enum e_token_type
 {
 	WORD = 0,
@@ -75,6 +74,7 @@ typedef enum e_token_type
 	T_OR = 3,
 	T_APPEND = 4,
 	T_HERE_DOC = 5,
+	T_EXPAND = 6,
 }				t_token_type;
 
 typedef struct s_token_list
@@ -88,58 +88,54 @@ typedef struct s_token_list
 
 typedef struct s_simple_cmd
 {
-	t_token_list	*cmd;
-	t_token_list	*redirect_from;
-	t_token_list	*redirect_to;
+	char	**cmd;
+	char	**infile;
+	char	**outfile;
+	int		here_doc_count;
 }				t_simple_cmd;
 
 // expand_strlen.c
-// int					expand_strlen(const char *input, int ref);
-int					expand_strlen(const char *input, int ref, int in_double_quote);
+int				expand_strlen(const char *input, int ref, int in_double_quote);
 
 // quoted_strlen.c
-int					quoted_strlen(const char *str, int ref, const char quote);
+int				quoted_strlen(const char *str, int ref, const char quote);
 
 // operator.c
-int					can_be_operator(const char c);
-char				get_operator(const char *s);
-int					is_space_metachar(const char c);
-int					is_metachar(const char c);
+int				can_be_operator(const char c);
+char			get_operator(const char *s);
+int				is_space_metachar(const char c);
+int				is_metachar(const char c);
 
 // count_here_doc.c
-int					heredoc_count(const char *input);
+int				heredoc_count(const char *input);
 
-// token_utils.c
-t_token_list		*get_token_list_head(t_token_list *token_list);
-t_token_list		*add_token(t_token_list *last_token,
-						t_token_list *new_token);
-void				free_token_list(t_token_list **elem);
+// token_utils
+void			ft_token_free_list(t_token_list **elem);
+t_token_list	*ft_token_get_head(t_token_list *token_list);
+t_token_list	*ft_token_add_back(t_token_list *last_token,
+					t_token_list *new_token);
+t_token_list	*ft_token_init_one(const char *input);
 
-int					unclosed_delimiter(const char *input);
-int					here_doc(const char *cmd, int ref, int stdin_fd);
-int					is_followed_by_word(const char *cmd, int operator);
-int					syntax_error(const char *cmd);
-t_token_list		*tokenize(const char *input);
+// unclose_delimiter.c
+int				unclosed_delimiter(const char *input);
+
+// here_doc.c
+int				here_doc(const char *cmd, int ref, int *here_doc_count);
+
+// syntax_error.c
+int				is_followed_by_word(const char *cmd, int operator);
+int				syntax_error(const char *cmd);
+
+// tokenize.c
+t_token_list	*tokenize(const char *input);
+
+// alloc_simple_cmd.c
+t_simple_cmd	*alloc_simple_cmd(t_token_list *token_list);
 
 // split_to_simple_cmd.c
-int					count_simple_command(t_token_list *token_list);
-t_simple_cmd		**split_to_simple_command(t_token_list **token_list_p);
+t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p);
 
 // parse_input.c
-t_simple_cmd		**parse_input(const char *input);
-
-
-
-
-int	is_expand(const char *str);
-
-char	**split_expand(const char *str);
-char	*join_splited_expand(char **splited_expand);
-char	*var_expand(const char *to_expand, char **env);
-int	perform_var_expansion(t_simple_cmd *cmd, char **env);
-
-
-
-void	print_char_tab(char **tab);
+t_simple_cmd	**parse_input(const char *input);
 
 #endif

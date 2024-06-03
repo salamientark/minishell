@@ -30,14 +30,17 @@ endef
 
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		ft_token_add_back.c \
+		ft_token_free_list.c \
+		ft_token_get_head.c \
+		ft_token_init_one.c \
 		heredoc_count.c \
 		operator.c \
 		unclosed_delimiter.c \
 		syntax_error.c \
 		here_doc.c \
-		token_utils.c \
-		tokenizer.c \
-		count_simple_command.c \
+		tokenize.c \
+		alloc_simple_cmd.c \
 		split_to_simple_command.c \
 		parse_input.c
 	)
@@ -47,7 +50,8 @@ define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
 		error.c \
 		unclosed_delimiter_error.c \
-		print_syntax_error.c
+		print_syntax_error.c \
+		print_here_doc_warning.c
 )
 endef
 
@@ -64,15 +68,27 @@ define BUILTIN_FILE :=
 	)
 endef
 
-define EXPAND_FILE := 
+define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		is_expand.c \
-		split_expand.c \
-		var_expand.c \
-		join_splited_expand.c \
-		perform_var_expansion.c
+		make_expand_tab.c \
+		expanded_variable_len.c \
+		expand_variable.c \
+		var_expand_elem.c \
+		perform_variable_expansion.c \
+		word_split.c \
+		perform_word_split.c \
+		remove_quote.c \
+		expand.c
 	)
 endef
+# 		expand_variable.c \
+		expanded_variable_len.c \
+		var_expand_elem.c \
+		word_split.c \
+		perform_variable_expansion.c
+#	)
+#endef
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/
@@ -139,7 +155,6 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 
 fclean : clean
 	rm -f $(PROJECT)
-	make fclean -C $(FT_DIR)
 
 #Suppresion des fichiers objet
 clean :
