@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/21 20:51:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:45:11 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 # include "minishell.h"
-# include "error.h"
+//# include "error.h"
 
 # define DOUBLE_QUOTE '\"' 
 # define SINGLE_QUOTE '\'' 

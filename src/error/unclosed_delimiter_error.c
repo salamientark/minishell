@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unclosed_delimiter_error.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:39 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 18:28:10 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:49:24 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 void	unclosed_delimiter_error(const char *str, int ref)
 {
-	write(2, BASH, 9);
+	write(2, "Minishell", 9);
 	write(2, ": unclosed \'", 12);
 	write(2, str + ref, 1);
 	write(2, "\' at col ", 9);

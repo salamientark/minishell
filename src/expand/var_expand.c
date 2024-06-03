@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   var_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:56:59 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 19:56:35 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:41:25 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 static int	expand_error(const char *word)
 {
