@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 20:49:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:23:07 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,7 @@ int	expand(t_simple_cmd *cmd, char **env)
 {
 	if (perform_every_expansion(&cmd->cmd, 1, env) != 0)
 		return (1);
-	if (perform_every_expansion(&cmd->infile, 0, env) != 0)
-		return (1);
-	if (perform_every_expansion(&cmd->outfile, 0, env) != 0)
+	if (perform_every_expansion(&cmd->redirection, 0, env) != 0)
 		return (1);
 	return (0);
 }

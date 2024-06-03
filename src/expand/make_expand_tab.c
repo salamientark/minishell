@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:14:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 17:00:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:26:54 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static void	free_all(t_expand ***expand_p, int last_pos)
 	*expand_p = NULL;
 }
 
-// Create a t_expand element
-static	t_expand	*make_expand_elem(char *str)
+/* Create a t_expand element
+ * */
+t_expand	*make_expand_elem(char *str)
 {
 	t_expand	*new_elem;
 	int			index;

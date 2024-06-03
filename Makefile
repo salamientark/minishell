@@ -38,7 +38,8 @@ define PARSER_FILE :=
 		ft_token_free_list.c \
 		ft_token_get_head.c \
 		ft_token_init_one.c \
-		heredoc_count.c \
+		here_doc_count.c \
+		here_doc_name.c \
 		operator.c \
 		unclosed_delimiter.c \
 		syntax_error.c \
@@ -162,6 +163,7 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 
 fclean : clean
 	rm -f $(PROJECT)
+	make fclean -C $(FT_DIR)
 
 #Suppresion des fichiers objet
 clean :

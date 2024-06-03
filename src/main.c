@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/02 22:34:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 20:14:21 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	{
 		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->infile);
-		(*cmd_tab)[index]->infile = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->outfile);
-		(*cmd_tab)[index]->outfile = NULL;
+		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+		(*cmd_tab)[index]->redirection = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
@@ -162,18 +160,12 @@ void	print_simple_cmd(t_simple_cmd *cmd)
 	else
 		printf("(null)\n");
 	// print_detailled_token_list(cmd->cmd);
-	printf("infile: ");
-	if (cmd->infile)
-		print_char_tab(cmd->infile);
+	printf("redirection: ");
+	if (cmd->redirection)
+		print_char_tab(cmd->redirection);
 	else
 		printf("(null)\n");
 	// print_detailled_token_list(cmd->redirect_from);
-	printf("outfile: ");
-	if (cmd->outfile)
-		print_char_tab(cmd->outfile);
-	else
-		printf("(null)\n");
-	// print_detailled_token_list(cmd->redirect_to);
 }
 
 void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
@@ -271,7 +263,7 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input);
+			cmd_tab = parse_input(input, env);
 			printf("\n\n\n");
 			if (cmd_tab)
 			{
@@ -291,6 +283,7 @@ int	main(int ac, char **av, char **env)
 			//execution
 		}
 		free(input);
+		sleep(5);
 	}
 	rl_clear_history();
 }
