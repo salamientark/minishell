@@ -3,10 +3,11 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -g3
 
 
-### INCLUDES ###
+### PROJECT NAME ###
 PROJECT := minishell
 PROJECT_DIR := ./
 
+### SOURCE DIR ###
 SRC_DIR := src
 PROMPT_DIR := prompt
 PARSER_DIR := parser
@@ -14,6 +15,9 @@ ERROR_DIR := error
 BUILTIN_DIR := builtin
 EXPAND_DIR := expand
 
+# *************************************************************************** #
+#                             MANDATORY SOURCE FILE                           #
+# *************************************************************************** #
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		expand_strlen.c \
@@ -82,13 +86,16 @@ define EXPAND_FILE :=
 		expand.c
 	)
 endef
-# 		expand_variable.c \
-		expanded_variable_len.c \
-		var_expand_elem.c \
-		word_split.c \
-		perform_variable_expansion.c
-#	)
-#endef
+
+# *************************************************************************** #
+#                               BONUS SOURCE FILE                             #
+# *************************************************************************** #
+define BONUS_EXPAND_FILE :=
+	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR), \
+		
+	)
+endef
+
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/
