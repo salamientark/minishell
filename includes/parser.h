@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 18:34:02 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:12:02 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,16 @@ t_token_list	*ft_token_init_one(const char *input);
 // unclose_delimiter.c
 int				unclosed_delimiter(const char *input);
 
+// here_doc_name.c
+char			*here_doc_name(char buff_name[11], int here_doc_count);
+
 // here_doc.c
-int				here_doc(const char *cmd, int ref, int *here_doc_count);
+int				here_doc(const char *cmd, int ref, int *here_doc_count,
+					char **env);
 
 // syntax_error.c
 int				is_followed_by_word(const char *cmd, int operator);
-int				syntax_error(const char *cmd);
+int				syntax_error(const char *cmd, char **env);
 
 // tokenize.c
 t_token_list	*tokenize(const char *input);
@@ -135,6 +139,6 @@ t_simple_cmd	*alloc_simple_cmd(t_token_list *token_list);
 t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p);
 
 // parse_input.c
-t_simple_cmd	**parse_input(const char *input);
+t_simple_cmd	**parse_input(const char *input, char **env);
 
 #endif
