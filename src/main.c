@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/02 22:34:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:44:24 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input);
+			cmd_tab = parse_input(input, env);
 			printf("\n\n\n");
 			if (cmd_tab)
 			{
@@ -291,6 +291,7 @@ int	main(int ac, char **av, char **env)
 			//execution
 		}
 		free(input);
+		sleep(5);
 	}
 	rl_clear_history();
 }
