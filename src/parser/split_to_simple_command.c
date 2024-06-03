@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:24:04 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/26 18:42:06 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:23:51 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ static void	free_all(t_simple_cmd ***cmd_tab, int last_cmd)
 	{
 		ft_free_char_tab(&((*cmd_tab)[index]->cmd));
 		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&((*cmd_tab)[index]->infile));
-		(*cmd_tab)[index]->infile = NULL;
-		ft_free_char_tab(&((*cmd_tab)[index]->outfile));
-		(*cmd_tab)[index]->outfile = NULL;
+		ft_free_char_tab(&((*cmd_tab)[index]->redirection));
+		(*cmd_tab)[index]->redirection = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
@@ -57,28 +55,16 @@ static int	count_simple_command(t_token_list *token_list)
 	return (simple_cmd_count);
 }
 
-static t_simple_cmd	*add_redirection(t_simple_cmd *cmd, int *infile_index,
-	int *outfile_index, t_token_list **list_p)
+static t_simple_cmd	*add_redirection(t_simple_cmd *cmd, int *redirection_index,
+		t_token_list **list_p)
 {
-	if ((*list_p)->type == T_HERE_DOC || (*list_p)->type == T_LESS_THAN)
-	{
-		cmd->here_doc_count += ((*list_p)->type == T_HERE_DOC);
-		cmd->infile[*infile_index] = (*list_p)->token;
-		(*list_p)->token = NULL;
-		*infile_index += 1;
-		(*list_p) = (*list_p)->next;
-		cmd->infile[*infile_index] = (*list_p)->token;
-		(*list_p)->token = NULL;
-		*infile_index += 1;
-		return (cmd);
-	}
-	cmd->outfile[*outfile_index] = (*list_p)->token;
+	cmd->redirection[*redirection_index] = (*list_p)->token;
 	(*list_p)->token = NULL;
-	*outfile_index += 1;
+	*redirection_index += 1;
 	(*list_p) = (*list_p)->next;
-	cmd->outfile[*outfile_index] = (*list_p)->token;
+	cmd->redirection[*redirection_index] = (*list_p)->token;
 	(*list_p)->token = NULL;
-	*outfile_index += 1;
+	*redirection_index += 1;
 	return (cmd);
 }
 
@@ -86,15 +72,13 @@ static t_simple_cmd	*add_simple_cmd(t_token_list **tok_list_p)
 {
 	t_simple_cmd	*simple_cmd;
 	int				cmd_index;
-	int				infile_index;
-	int				outfile_index;
+	int				redirection_index;
 
 	simple_cmd = alloc_simple_cmd(*tok_list_p);
 	if (!simple_cmd)
 		return (NULL);
 	cmd_index = 0;
-	infile_index = 0;
-	outfile_index = 0;
+	redirection_index = 0;
 	while (*tok_list_p && (*tok_list_p)->type != T_PIPE)
 	{
 		if ((*tok_list_p)->type == WORD)
@@ -104,8 +88,8 @@ static t_simple_cmd	*add_simple_cmd(t_token_list **tok_list_p)
 			cmd_index++;
 		}
 		else
-			simple_cmd = add_redirection(simple_cmd, &infile_index,
-					&outfile_index, tok_list_p);
+			simple_cmd = add_redirection(simple_cmd, &redirection_index,
+					tok_list_p);
 		(*tok_list_p) = (*tok_list_p)->next;
 	}
 	return (simple_cmd);

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 18:10:43 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:17:34 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ typedef struct s_token_list
 typedef struct s_simple_cmd
 {
 	char	**cmd;
-	char	**infile;
-	char	**outfile;
-	int		here_doc_count;
+	char	**redirection;
 }				t_simple_cmd;
 
 // expand_strlen.c

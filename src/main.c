@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 18:10:02 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:18:55 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	{
 		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->infile);
-		(*cmd_tab)[index]->infile = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->outfile);
-		(*cmd_tab)[index]->outfile = NULL;
+		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+		(*cmd_tab)[index]->redirection = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
@@ -162,18 +160,12 @@ void	print_simple_cmd(t_simple_cmd *cmd)
 	else
 		printf("(null)\n");
 	// print_detailled_token_list(cmd->cmd);
-	printf("infile: ");
-	if (cmd->infile)
-		print_char_tab(cmd->infile);
+	printf("redirection: ");
+	if (cmd->redirection)
+		print_char_tab(cmd->redirection);
 	else
 		printf("(null)\n");
 	// print_detailled_token_list(cmd->redirect_from);
-	printf("outfile: ");
-	if (cmd->outfile)
-		print_char_tab(cmd->outfile);
-	else
-		printf("(null)\n");
-	// print_detailled_token_list(cmd->redirect_to);
 }
 
 void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
