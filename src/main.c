@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/02 11:00:54 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:37:50 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	free(*cmd_tab);
 	*cmd_tab = NULL;
 }
-/*
+
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -141,7 +141,6 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 	print_simple_cmd(cmd_tab[index]);
 }
 //  ===== END OF TESTING =====
-*/
 
 static void print_cmd(char **cmd)
 {
@@ -169,6 +168,7 @@ int	main(int ac, char **av, char **env)
 			input_tab = parse_input(input);
 			if (input_tab)
 			{
+				print_simple_cmd_tab(input_tab);
 				cmd_tab = convert_list_to_tab(*input_tab);
 				print_cmd(cmd_tab);
 				isbuiltin(cmd_tab, &shell);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 00:14:39 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/02 11:57:32 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:57:26 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ char	**convert_list_to_tab(t_simple_cmd *input)
 	while (cmd)
 	{
 		cmd_tab[i++] = cmd->token;
-		if (cmd->type == T_PIPE)
-			cmd = cmd->next;
 		cmd = cmd->next;
 	}
 	cmd_tab[i] = NULL;

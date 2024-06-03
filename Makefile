@@ -32,7 +32,6 @@ endef
 define EXEC_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
 		convert_list.c \
-		env_utils.c
 )
 endef
 

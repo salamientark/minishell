@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/01 17:52:40 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:37:39 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,16 @@
 
 typedef struct s_chill
 {
-	char	**env;
-	t_simple_cmd *rastaman;
+	t_simple_cmd	**cmd_tab;
+	char			**cmd;
+	char			**env;
+	char			*infile;
+	char			*outfile;
+	char			*infile_name;
+	char			*path;
+	int				pipefd[2];
+	int				fdi;
+	int				fdo;
 }	t_chill;
 
 //init minishell
