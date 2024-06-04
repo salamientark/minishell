@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 17:57:16 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:33:28 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
 	pattern = simplify_pattern(tab[*index]);
 	if (!pattern)
 		return (NULL);
+	printf("simplified pattern :%s\n", pattern);
 	dir_p = opendir(cwd);
 	if (!dir_p)
 		return (print_error("opendir", strerror(errno)), free(pattern), NULL);
