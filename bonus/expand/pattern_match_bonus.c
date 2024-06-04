@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:38:28 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 18:30:35 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:07:49 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static int	begin_the_same(const char *pattern, const char *word)
 
 static int	end_the_same(const char *pattern, const char *word)
 {
-	size_t	pattern_len;
-	size_t	word_len;
-	size_t	index;
+	int	pattern_len;
+	int	word_len;
+	int	index;
 
 	pattern_len = ft_strlen(pattern);
 	word_len = ft_strlen(word);
