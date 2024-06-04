@@ -12,11 +12,8 @@ PROMPT_DIR	:= prompt
 PARSER_DIR	:= parser
 ERROR_DIR	:= error
 BUILTIN_DIR := builtin
-<<<<<<< HEAD
 EXEC_DIR	:= exec
-=======
 EXPAND_DIR := expand
->>>>>>> main
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
