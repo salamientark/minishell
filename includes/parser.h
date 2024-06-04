@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 15:22:04 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:11:09 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ typedef struct s_token_list
 typedef struct s_simple_cmd
 {
 	char	**cmd;
-	char	**redirection;
+	char	**infile;
+	char	**outfile;
+	int		here_doc_count;
 }				t_simple_cmd;
 
 void	**builtin_tab(void);
