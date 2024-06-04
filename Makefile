@@ -12,7 +12,11 @@ PROMPT_DIR	:= prompt
 PARSER_DIR	:= parser
 ERROR_DIR	:= error
 BUILTIN_DIR := builtin
+<<<<<<< HEAD
 EXEC_DIR	:= exec
+=======
+EXPAND_DIR := expand
+>>>>>>> main
 
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
@@ -37,13 +41,18 @@ endef
 
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		ft_token_add_back.c \
+		ft_token_free_list.c \
+		ft_token_get_head.c \
+		ft_token_init_one.c \
+		here_doc_count.c \
+		here_doc_name.c \
 		operator.c \
 		unclosed_delimiter.c \
 		syntax_error.c \
 		here_doc.c \
-		token_utils.c \
-		tokenizer.c \
-		count_simple_command.c \
+		tokenize.c \
+		alloc_simple_cmd.c \
 		split_to_simple_command.c \
 		parse_input.c
 	)
@@ -53,7 +62,8 @@ define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
 		error.c \
 		unclosed_delimiter_error.c \
-		print_syntax_error.c
+		print_syntax_error.c \
+		print_here_doc_warning.c
 )
 endef
 
@@ -69,6 +79,28 @@ define BUILTIN_FILE :=
 		builtin_utils.c 
 	)
 endef
+
+define EXPAND_FILE :=
+	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
+		is_expand.c \
+		make_expand_tab.c \
+		expanded_variable_len.c \
+		expand_variable.c \
+		var_expand_elem.c \
+		perform_variable_expansion.c \
+		word_split.c \
+		perform_word_split.c \
+		remove_quote.c \
+		expand.c
+	)
+endef
+# 		expand_variable.c \
+		expanded_variable_len.c \
+		var_expand_elem.c \
+		word_split.c \
+		perform_variable_expansion.c
+#	)
+#endef
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/
@@ -89,6 +121,9 @@ OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
 OBJ_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(EXEC_FILE:%.c=%.o)))
 OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) $(OBJ_EXEC)
+OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
+OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
+		$(OBJ_EXPAND)
 
 .PHONY := bonus all clean fclean re
 
@@ -129,6 +164,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
 
 # COMPILING EXEC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXEC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING EXPAND_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

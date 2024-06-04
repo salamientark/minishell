@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_token_init_one.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 17:52:38 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/20 22:20:51 by dbaladro         ###   ########.fr       */
+/*   Created: 2024/05/22 13:30:49 by dbaladro          #+#    #+#             */
+/*   Updated: 2024/05/26 18:42:48 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static int	get_word_size(const char *input, int ref)
 			word_size += quoted_strlen(input, ref + word_size,
 					input[ref + word_size]);
 		else if (input[ref + word_size] == DOLLAR)
-			word_size += expand_strlen(input, ref + word_size);
+			word_size += expand_strlen(input, ref + word_size, 0);
 		else
 			word_size++;
 	}
 	return (word_size);
 }
 
-static t_token_list	*make_token(const char *input, int ref)
+t_token_list	*ft_token_init_one(const char *input)
 {
 	t_token_list	*new_token;
 	int				token_size;
@@ -41,42 +41,17 @@ static t_token_list	*make_token(const char *input, int ref)
 	new_token = (t_token_list *)malloc(sizeof(struct s_token_list));
 	if (!new_token)
 		return (print_error("malloc", strerror(errno)), NULL);
-	if (get_operator(&input[ref]) != 0)
-		token_size = 1 + (input[ref + 1] && input[ref] == input[ref + 1]);
+	if (get_operator(input) != 0)
+		token_size = 1 + (input[1] && input[0] == input[1]);
 	else
-		token_size = get_word_size(input, ref);
-	new_token->token = ft_strndup(input + ref, token_size);
+		token_size = get_word_size(input, 0);
+	new_token->token = ft_strndup(input, token_size);
 	if (!new_token->token)
 		return (print_error("ft_strndup", "malloc error"), free(new_token)
 			, NULL);
 	new_token->size = token_size;
-	new_token->type = (int)get_operator(input + ref);
+	new_token->type = (int)get_operator(input);
 	new_token->prev = NULL;
 	new_token->next = NULL;
 	return (new_token);
-}
-
-t_token_list	*tokenize(const char *input)
-{
-	int				index;
-	t_token_list	*last_token;
-	t_token_list	*new_token;
-
-	index = 0;
-	last_token = NULL;
-	while (input[index])
-	{
-		if (!is_space_metachar(input[index]))
-		{
-			new_token = make_token(input, index);
-			if (!new_token)
-				return (free_token_list(&last_token), NULL);
-			last_token = add_token(last_token, new_token);
-			index += last_token->size;
-		}
-		else
-			index++;
-	}
-	last_token = get_token_list_head(last_token);
-	return (last_token);
 }

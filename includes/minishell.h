@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 18:03:57 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:22:13 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "parser.h"
+# include "expander.h"
 
 # define MAX_PATHLEN 2048
 

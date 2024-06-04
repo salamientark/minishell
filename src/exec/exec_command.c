@@ -6,9 +6,16 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/03 17:17:49 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:15:29 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	cmd_exec(t_chill *shell)
+{
+	int	i;
+
+	
+	while ()
+}

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 22:20:03 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:06:06 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,41 @@
  * */
 
 #include "parser.h"
+#include "expander.h"
 
-static void	print_here_doc_warning(int line, char *limiter)
+/* Remove quote on here_doc limiter when found
+ * */
+static void	str_remove_quote(char *str)
 {
-	int	limiter_len;
+	char	quote;
+	int		pos;
+	int		dif;
+	size_t	len;
 
-	limiter_len = 0;
-	if (*limiter)
+	pos = 0;
+	dif = 0;
+	len = ft_strlen(str);
+	while (str[pos + dif])
 	{
-		while (limiter[limiter_len] == NEWLINE)
-			limiter_len++;
+		if (str[pos + dif] == SINGLE_QUOTE || str[pos + dif] == DOUBLE_QUOTE)
+		{
+			quote = str[pos + dif];
+			ft_memmove(str + pos + dif, str + pos + dif + 1, len - pos - dif);
+			pos += quoted_strlen(str, pos + dif - 1, quote) - 2;
+			ft_memmove(str + pos + dif, str + pos + dif + 1, len - pos - dif);
+		}
+		else
+		{
+			str[pos] = str[pos + dif];
+			pos++;
+		}
 	}
-	write(1, HERE_DOC_WARNING_MSG_1, 43);
-	ft_putnbr_fd(line, 1);
-	write(1, HERE_DOC_WARNING_MSG_2, 35);
-	write(1, limiter, limiter_len);
-	write(1, HERE_DOC_WARNING_MSG_3, 3);
+	memset(str + pos, 0, len - pos);
 }
 
-static char	*get_here_doc_limiter(const char *cmd, int ref)
+/* Get limiter + remove quote when found
+ * */
+static char	*get_here_doc_limiter(const char *cmd, int ref, int *expand_flag)
 {
 	int		index;
 	int		limiter_len;
@@ -49,142 +65,106 @@ static char	*get_here_doc_limiter(const char *cmd, int ref)
 	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
 		index++;
 	while (cmd[index + limiter_len] && !is_metachar(cmd[index + limiter_len]))
+	{
+		if (cmd[index + limiter_len] == SINGLE_QUOTE
+			|| cmd[index + limiter_len] == DOUBLE_QUOTE)
+			*expand_flag = 0;
 		limiter_len++;
-	limiter = (char *)malloc(limiter_len + 1);
+	}
+	limiter = (char *)malloc(limiter_len + 2);
 	if (!limiter)
 		return (print_error("malloc", strerror(errno)), NULL);
 	limiter[limiter_len] = '\n';
+	limiter[limiter_len + 1] = '\0';
 	while (limiter_len-- > 0)
 		limiter[limiter_len] = cmd[index + limiter_len];
+	if (*expand_flag == 0)
+		str_remove_quote(limiter);
 	return (limiter);
 }
 
-static int	write_here_doc(char *limiter, int limiter_len, int pipe_fd[2]
-	, int stdin_fd)
+/* Perform variable expansion on heredoc input
+ * */
+static char	*expand_heredoc_input(char *input, char **env)
 {
-	int		index;
-	char	*here_doc_input;
+	t_expand	**expand_tab;
+	char		*result;
+	int			index;
 
-	close(stdin_fd);
-	close(pipe_fd[0]);
 	index = 0;
-	write(1, HERE_DOC_PROMPT, 2);
-	here_doc_input = get_next_line(0);
-	while (here_doc_input && ft_strncmp(here_doc_input, limiter,
-			limiter_len + 1) != 0)
-	{
+	while (input[index] && !is_expand(input + index))
 		index++;
-		write(pipe_fd[1], here_doc_input, ft_strlen(here_doc_input));
-		free(here_doc_input);
-		write(1, HERE_DOC_PROMPT, 2);
-		here_doc_input = get_next_line(0);
-	}
-	if (!here_doc_input)
-		print_here_doc_warning(index, limiter);
-	else
-		free(here_doc_input);
-	close(pipe_fd[1]);
-	free(limiter);
-	exit(EXIT_SUCCESS);
+	if (!input[index])
+		return (input);
+	expand_tab = (t_expand **)malloc(sizeof(t_expand *) * 2);
+	if (!expand_tab)
+		return (print_error("malloc", strerror(errno)), free(input), NULL);
+	expand_tab[1] = NULL;
+	expand_tab[0] = make_expand_elem(input);
+	if (!expand_tab[0])
+		return (free(expand_tab), free(input), NULL);
+	memset(expand_tab[0]->quote, 0, sizeof(int) * expand_tab[0]->size);
+	expand_tab[1] = NULL;
+	if (perform_variable_expansion(expand_tab, env) != 0)
+		return (free_expand_tab(&expand_tab), free(input), NULL);
+	result = expand_tab[0]->word;
+	expand_tab[0]->word = NULL;
+	free_expand_tab(&expand_tab);
+	return (result);
 }
 
-static int	get_limiter_len(char *limiter)
+/* Write standard input to fd
+ * */
+static int	write_here_doc(int fd, char *limiter, int expand_flag, char **env)
 {
-	int	limiter_len;
+	int		index;
+	int		limiter_len;
+	char	*input;
 
 	limiter_len = 0;
 	while (limiter[limiter_len] && limiter[limiter_len] != '\n')
 		limiter_len++;
-	return (limiter_len);
+	index = 0;
+	write(1, HERE_DOC_PROMPT, 2);
+	input = get_next_line(0);
+	while (input && ft_strncmp(input, limiter, limiter_len + 1) != 0)
+	{
+		if (expand_flag == 1)
+			input = expand_heredoc_input(input, env);
+		if (!input)
+			return (free(limiter), 1);
+		index++;
+		write(fd, input, ft_strlen(input));
+		free(input);
+		write(1, HERE_DOC_PROMPT, 2);
+		input = get_next_line(0);
+	}
+	if (!input)
+		return (free(limiter), print_here_doc_warning(index, limiter), 0);
+	return (free(input), free(limiter), 0);
 }
 
-// PIPE REDIRECTION USING FORK
-int	here_doc(const char *cmd, int ref, int stdin_fd)
+/* File redirection 
+ * */
+int	here_doc(const char *cmd, int ref, int *here_doc_count, char **env)
 {
 	char	*limiter;
-	int		limiter_len;
-	int		pipe_fd[2];
-	pid_t	pid;
+	char	heredoc_filename[11];
+	int		expand_flag;
+	int		fd;
 
-	if (pipe(pipe_fd) != 0)
-		return (close(stdin_fd), print_error("pipe", strerror(errno)), 1);
-	if (dup2(stdin_fd, STDIN_FILENO) != 0)
-		return (close(stdin_fd), print_error("dup2", strerror(errno)), 1);
-	limiter = get_here_doc_limiter(cmd, ref);
+	fd = open(here_doc_name(heredoc_filename, *here_doc_count),
+			O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
+	if (fd == -1)
+		return (print_error("open", strerror(errno)), 1);
+	expand_flag = 1;
+	limiter = get_here_doc_limiter(cmd, ref, &expand_flag);
 	if (!limiter)
-		return (close(stdin_fd), 1);
-	limiter_len = get_limiter_len(limiter);
-	pid = fork();
-	if (pid == -1)
-		return (print_error("fork", strerror(errno)), close(stdin_fd),
-			free(limiter), 1);
-	if (pid == 0)
-		exit(write_here_doc(limiter, limiter_len, pipe_fd, stdin_fd));
-	close(pipe_fd[1]);
-	waitpid(pid, NULL, 0);
-	if (dup2(pipe_fd[0], STDIN_FILENO) != 0)
-		return (print_error("dup2", strerror(errno)), close(pipe_fd[0]),
-			free(limiter), 1);
-	return (close(pipe_fd[0]), free(limiter), 0);
+		return (1);
+	printf("limiter : %s\n", limiter);
+	if (write_here_doc(fd, limiter, expand_flag, env) != 0)
+		return (1);
+	close(fd);
+	*here_doc_count += 1;
+	return (0);
 }
-// ====
-
-// FILE HERE_DOC
-//
-// static int	write_here_doc(char *limiter, int limiter_len)
-// {
-// 	int		index;
-// 	int		fd;
-// 	char	*here_doc_input;
-// 
-// 	index = 0;
-// 	fd = open(HERE_DOC_FILE, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
-// 	if (fd == -1)
-// 		return (print_error("open", strerror(errno)), 1);
-// 	write(1, HERE_DOC_PROMPT, 2);
-// 	here_doc_input = get_next_line(0);
-// 	while (here_doc_input && ft_strncmp(here_doc_input, limiter,
-// 			limiter_len + 1) != 0)
-// 	{
-// 		index++;
-// 		write(fd, here_doc_input, ft_strlen(here_doc_input));
-// 		free(here_doc_input);
-// 		write(1, HERE_DOC_PROMPT, 2);
-// 		here_doc_input = get_next_line(0);
-// 	}
-// 	if (!here_doc_input)
-// 		print_here_doc_warning(index, limiter);
-// 	else
-// 		free(here_doc_input);
-// 	close(fd);
-// 	return (0);
-// }
-// 
-// // PIPE REDIRECTION
-// int	here_doc(const char *cmd, int ref)
-// {
-// 	char	*limiter;
-// 	int		limiter_len;
-// 	int		fd;
-// 
-// 	limiter = get_here_doc_limiter(cmd, ref);
-// 	if (!limiter)
-// 		return (1);
-// 	limiter_len = 0;
-// 	while (limiter[limiter_len] != '\n')
-// 		limiter_len++;
-// 	write(1, "limiter : \'", 11);
-// 	write(1, limiter, limiter_len);
-// 	write(1, "\"\n", 2);
-// 	if (write_here_doc(limiter, limiter_len) == 1)
-// 		return (free(limiter), 1);
-// 	fd = open(HERE_DOC_FILE, O_RDONLY);
-// 	if (fd == -1)
-// 		return (free(limiter), print_error("open", strerror(errno)), 1);
-// 	if (dup2(fd, 0) != 0)
-// 		return (free(limiter), close(fd), unlink(HERE_DOC_FILE),
-// 			print_error("dup2", strerror(errno)), 1);
-// 	unlink(HERE_DOC_FILE);
-// 	close(fd);
-// 	return (free(limiter), 0);
-// }

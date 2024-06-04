@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unclosed_delimiter_error.c                         :+:      :+:    :+:   */
+/*   ft_token_get_head.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 13:49:39 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 15:49:24 by ple-guya         ###   ########.fr       */
+/*   Created: 2024/05/22 13:31:27 by dbaladro          #+#    #+#             */
+/*   Updated: 2024/05/26 18:43:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parser.h"
 
-void	unclosed_delimiter_error(const char *str, int ref)
+t_token_list	*ft_token_get_head(t_token_list *token_list)
 {
-	write(2, "Minishell", 9);
-	write(2, ": unclosed \'", 12);
-	write(2, str + ref, 1);
-	write(2, "\' at col ", 9);
-	ft_putnbr_fd(ref, 2);
-	write(2, "\n", 1);
+	t_token_list	*new_head;
+
+	if (!token_list)
+		return (NULL);
+	new_head = token_list;
+	while (new_head->prev)
+		new_head = new_head->prev;
+	return (new_head);
 }

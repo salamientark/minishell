@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_simple_command.c                             :+:      :+:    :+:   */
+/*   ft_free_char_tab.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 12:44:41 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 18:28:44 by madlab           ###   ########.fr       */
+/*   Created: 2024/05/22 15:14:20 by madlab            #+#    #+#             */
+/*   Updated: 2024/05/30 14:39:18 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../includes/libft.h"
 
-int	count_simple_command(t_token_list *token_list)
+void	ft_free_char_tab(char ***tab_p)
 {
-	t_token_list	*token_list_cp;
-	int				simple_cmd_count;
+	int	index;
 
-	simple_cmd_count = 1;
-	token_list_cp = token_list;
-	while (token_list_cp)
+	if (!tab_p || !(*tab_p))
+		return ;
+	index = 0;
+	while ((*tab_p)[index])
 	{
-		if (token_list_cp->type == T_PIPE)
-			simple_cmd_count++;
-		token_list_cp = token_list_cp->next;
+		if ((*tab_p)[index])
+		{
+			free((*tab_p)[index]);
+			(*tab_p)[index] = NULL;
+		}
+		index++;
 	}
-	return (simple_cmd_count);
+	free(*tab_p);
+	*tab_p = NULL;
 }

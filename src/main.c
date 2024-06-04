@@ -3,15 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/03 17:37:50 by ple-guya         ###   ########.fr       */
+=======
+/*   Updated: 2024/06/03 20:14:21 by dbaladro         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
- 
+
+void	unlink_all(void)
+{
+	unlink("/tmp/.00000");
+	unlink("/tmp/.00001");
+	unlink("/tmp/.00002");
+	unlink("/tmp/.00003");
+	unlink("/tmp/.00004");
+	unlink("/tmp/.00005");
+	unlink("/tmp/.00006");
+	unlink("/tmp/.00007");
+	unlink("/tmp/.00008");
+	unlink("/tmp/.00009");
+	unlink("/tmp/.00010");
+	unlink("/tmp/.00011");
+	unlink("/tmp/.00012");
+	unlink("/tmp/.00013");
+	unlink("/tmp/.00014");
+	unlink("/tmp/.00015");
+}
+
+
 // ========= TESTING ======== 
 static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 {
@@ -22,12 +47,10 @@ static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	index = 0;
 	while ((*cmd_tab)[index])
 	{
-		free_token_list(&(*cmd_tab)[index]->cmd);
+		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
 		(*cmd_tab)[index]->cmd = NULL;
-		free_token_list(&(*cmd_tab)[index]->redirect_from);
-		(*cmd_tab)[index]->redirect_from = NULL;
-		free_token_list(&(*cmd_tab)[index]->redirect_to);
-		(*cmd_tab)[index]->redirect_to = NULL;
+		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+		(*cmd_tab)[index]->redirection = NULL;
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
@@ -88,6 +111,8 @@ char	*str_token_type(t_token_type type)
 		return ("APPEND");
 	if (type == T_HERE_DOC)
 		return ("HERE_DOC");
+	if (type == T_EXPAND)
+		return ("T_EXPAND");
 	return ("WTF");
 }
 
@@ -108,17 +133,43 @@ void	print_detailled_token_list(t_token_list *token_l)
 				token_l->token, str_token_type(token_l->type));
 }
 
+void	print_char_tab(char **tab)
+{
+	int	index;
+
+	if (!tab)
+	{
+		printf("print_char_tab : No tab\n");
+		return ;
+	}
+	if (!(*tab))
+	{
+		printf("(null)\n");
+		return ;
+	}
+	index = 0;
+	while (tab[index + 1])
+	{
+		printf("%s -> ", tab[index]);
+		index++;
+	}
+	printf("%s\n", tab[index]);
+}
+
 void	print_simple_cmd(t_simple_cmd *cmd)
 {
 	printf("cmd: ");
-	print_token_list(cmd->cmd);
+	if (cmd->cmd)
+		print_char_tab(cmd->cmd);
+	else
+		printf("(null)\n");
 	// print_detailled_token_list(cmd->cmd);
-	printf("infile: ");
-	print_token_list(cmd->redirect_from);
+	printf("redirection: ");
+	if (cmd->redirection)
+		print_char_tab(cmd->redirection);
+	else
+		printf("(null)\n");
 	// print_detailled_token_list(cmd->redirect_from);
-	printf("outfile: ");
-	print_token_list(cmd->redirect_to);
-	// print_detailled_token_list(cmd->redirect_to);
 }
 
 void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
@@ -140,6 +191,68 @@ void	print_simple_cmd_tab(t_simple_cmd **cmd_tab)
 	}
 	print_simple_cmd(cmd_tab[index]);
 }
+
+void	free_char_tab(char ***tab_p)
+{
+	int	index;
+
+	if (!tab_p || !(*tab_p))
+		return ;
+	index = 0;
+	while ((*tab_p)[index])
+	{
+		if ((*tab_p)[index])
+		{
+			free((*tab_p)[index]);
+			(*tab_p)[index] = NULL;
+		}
+		index++;
+	}
+	free(*tab_p);
+	*tab_p = NULL;
+}
+
+
+
+void	print_expand_tab(t_expand **expand_tab)
+{
+	int	tab_index;
+	int	index;
+
+	if (!expand_tab || !*expand_tab)
+	{
+		printf("Expand tab is EMPTY\n");
+		return ;
+	}
+	tab_index = 0;
+	while (expand_tab[tab_index + 1])
+	{
+		printf("%s -> ", expand_tab[tab_index]->word);
+		tab_index++;
+	}
+	printf("%s\n", expand_tab[tab_index]->word);
+	tab_index = 0;
+	while (expand_tab[tab_index + 1])
+	{
+		index = 0;
+		while (expand_tab[tab_index]->word[index])
+		{
+			printf("%d", expand_tab[tab_index]->quote[index]);
+			index++;
+		}
+		printf((" -> "));
+		tab_index++;
+	}
+	index = 0;
+	while (expand_tab[tab_index]->word[index])
+	{
+		printf("%d", expand_tab[tab_index]->quote[index]);
+		index++;
+	}
+	printf("\n");
+}
+
+
 //  ===== END OF TESTING =====
 
 static void print_cmd(char **cmd)
@@ -162,10 +275,11 @@ int	main(int ac, char **av, char **env)
 	init_minishell(&shell, env);
 	while ("this is the best minishell")
 	{
+		unlink_all();
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			input_tab = parse_input(input);
+			input_tab = parse_input(input, shell.env);
 			if (input_tab)
 			{
 				print_simple_cmd_tab(input_tab);
@@ -180,8 +294,9 @@ int	main(int ac, char **av, char **env)
 			//pipe
 			//redirections
 			//execution
-			//expand
 		}
 		free(input);
+		sleep(5);
 	}
+	rl_clear_history();
 }

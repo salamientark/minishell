@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 18:28:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:40:47 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,9 @@
  *	IN THE ORDER THEY APPEAR
  *	*/
 
-#include "minishell.h"
+#include "parser.h"
 
-static int	is_preceeded_by_word(const char *cmd, int ref)
-{
-	int	index;
-
-	index = ref - 1;
-	while (index >= 0 && (cmd[index] == SPACE || cmd[index] == TAB))
-		index--;
-	if (index == -1 || cmd[index] == '\n')
-		return (0);
-	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
-		|| cmd[index] == PIPE)
-		return (0);
-	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
-		return (0);
-	return (1);
-}
-
-static int	is_followed_by_word(const char *cmd, int operator)
+int	is_followed_by_word(const char *cmd, int operator)
 {
 	int	index;
 
@@ -67,6 +50,23 @@ static int	is_followed_by_word(const char *cmd, int operator)
 	return (1);
 }
 
+static int	is_preceeded_by_word(const char *cmd, int ref)
+{
+	int	index;
+
+	index = ref - 1;
+	while (index >= 0 && (cmd[index] == SPACE || cmd[index] == TAB))
+		index--;
+	if (index == -1 || cmd[index] == '\n')
+		return (0);
+	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
+		|| cmd[index] == PIPE)
+		return (0);
+	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
+		return (0);
+	return (1);
+}
+
 static	int	is_followed_by_newline(const char *cmd)
 {
 	int	index;
@@ -81,7 +81,10 @@ static	int	is_followed_by_newline(const char *cmd)
 	return (0);
 }
 
-static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
+/*
+ * */
+static int	analyze_operator_syntax(const char *str, int ref,
+		int *here_doc_count, char **env)
 {
 	char	operator;
 
@@ -100,38 +103,38 @@ static int	analyze_operator_syntax(const char *str, int ref, int stdin_fd)
 		if (!is_followed_by_word(str + ref, operator))
 			return (print_syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			return (here_doc(str, ref, stdin_fd));
+			return (here_doc(str, ref, here_doc_count, env));
 	}
 	return (0);
 }
 
 /* First pass check for syntax error and open every necessary Here_doc
  **/
-int	syntax_error(const char *cmd)
+int	syntax_error(const char *cmd, char **env)
 {
 	int	i;
 	int	analyzed_op;
-	int	original_stdin;
+	int	here_doc_count;
 
 	if (!cmd)
 		return (0);
 	i = 0;
-	original_stdin = dup(STDIN_FILENO);
+	here_doc_count = 0;
 	while (cmd[i])
 	{
 		if (can_be_operator(cmd[i]))
 		{
-			analyzed_op = analyze_operator_syntax(cmd, i, original_stdin);
+			analyzed_op = analyze_operator_syntax(cmd, i, &here_doc_count, env);
 			if (analyzed_op != 0)
-				return (close(original_stdin), analyzed_op);
+				return (analyzed_op);
 			i += 1 + (cmd[i + 1] && cmd[i] == cmd[i + 1]);
 		}
 		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)
 			i += quoted_strlen(cmd, i, cmd[i]);
 		else if (cmd[i] == DOLLAR && cmd[i + 1] && cmd[i + 1] == LEFT_BRACE)
-			i += expand_strlen(cmd, i);
+			i += expand_strlen(cmd, i, 0);
 		else
 			i++;
 	}
-	return (close(original_stdin), 0);
+	return (0);
 }

@@ -5,139 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 08:28:07 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 22:31:36 by dbaladro         ###   ########.fr       */
+/*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
+/*   Updated: 2024/06/03 18:23:07 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expander.h"
 
-int	get_expand_len(const char *str, int ref)
+// Properly free a t_expand**
+void	free_expand_tab(t_expand ***expand_p)
 {
-	int	len;
-
-	len = 1;
-	if (ft_isnbr(str[len]))
-		return (len + 1);
-	if (str[ref + len] && str[ref + index] == LEFT_BRACE)
-	{
-		len++;
-		while (str[ref + len] && str[ref + len] != RIGHT_BRACE)
-		{
-			if (str[ref + len] == SINGLE_QUOTE
-				|| str[ref + len] == DOUBLE_QUOTE)
-				len += quoted_strlen(str, ref + index, str[ref + index]);
-			else
-				len++;
-		}
-		return (len);
-	}
-	while (str[ref + len]
-		&& (ft_isalnum(str[ref + len]) || str[ref + index] == UNDERSCORE))i
-		len++;
-	return (len);
-}
-
-static int	count_expand_word(const char *str)
-{
-	int	word_count;
 	int	index;
-	int	in_double_quote;
 
-	word_count = 1;
+	if (!expand_p || !(*expand_p))
+		return ;
 	index = 0;
-	while (str[index])
+	while ((*expand_p)[index])
 	{
-		if (str[index] == DOUBLE_QUOTE)
-			in_double_quote = 1 ^ in_double_quote;
-		else if (str[index] == SINGLE_QUOTE && !in_double_quote)
-			index += quoted_strlen(str, index, str[index]);
-		else if (str[index] == DOLLAR && str[index + 1]
-			&& !is_whitespace_metachar(str[index + 1]))
+		if ((*expand_p)[index]->word)
 		{
-			word_count++;
-			index += get_expand_len(str, index);
+			free((*expand_p)[index]->word);
+			(*expand_p)[index]->word = NULL;
 		}
-		else
-			index++;
-	}
-	return (word_count);
-}
-
-static char	*extract_word(const char **str)
-{
-	int	word_size;
-
-	if (!*str)
-		return (NULL);
-	if (**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1)))
-		word_size = get_expand_len(*str, ref);
-	else
-	{
-		word_size = 0;
-		while (**str && !(**str == DOLLAR && *(str + 1) && !ft_isnbr(*(str + 1))))
-		{
-			if (**str == SINGLE_QUOTE)
-				*str += quoted_strlen(*str, 0, **str);
-			else
-				*str++;
-		}
-	}
-}
-
-char	*split_expand(const char *str, const char **path)
-{
-	int		word_count;
-	int		index;
-	char	**expand_tab;
-
-	if (!str)
-			return (NULL);
-	word_count = count_expand_word(str);
-	expand_tab = (char **)malloc(sizeof(char *) * (word_count + 1));
-	if (!expand_tab)
-		return (print_error("malloc", strerror(errno)), NULL);
-	index = 0;
-	while (str[index] = 0)
-	{
-		expand_tab[index] = extract_word(&str);
-		if (!expand_tab[index])
-			// ERROR -> FREE_ALL
+		free((*expand_p)[index]->quote);
+		(*expand_p)[index]->quote = NULL;
+		free((*expand_p)[index]);
+		(*expand_p)[index] = NULL;
 		index++;
 	}
-	return (expand_tab);
+	free(*expand_p);
+	*expand_p = NULL;
 }
 
-int	expand_token(t_token_list *token, char **env)
+static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 {
-	int	str_index;
-	int	expand_index;
-	char	*expanded_word;
+	int		index;
+	char	**new_tab;
 
-	expand_index = -1;
-	str_index = 0;
-	if (!token->token[str_i])
-		return (0);
-	while (token->token[str_i])
+	*result = NULL;
+	index = 0;
+	while ((*expand_tab)[index])
+		index++;
+	new_tab = (char **)malloc(sizeof(char *) * (index + 1));
+	if (!new_tab)
+		return (print_error("malloc", strerror(errno)), 1);
+	index = 0;
+	while ((*expand_tab)[index])
 	{
-		if (token->token[str_i] == DOLLAR && token->token[str_i + 1]
-			&& !is_space_metachar(token->token[str_i])
-				&& !ft_isnbr(tokken->token[str_i]))
-		expanded_word = get_value(token->token, str_i);
+		free((*expand_tab)[index]->quote);
+		new_tab[index] = (*expand_tab)[index]->word;
+		free((*expand_tab)[index]);
+		index++;
 	}
+	new_tab[index] = NULL;
+	free(*expand_tab);
+	*expand_tab = NULL;
+	*result = new_tab;
+	return (0);
 }
 
-int	expand(t_simple_cmd *cmd_tab, char **env)
+/* Perform variable_expansion, word_split and quote removal on word_tab
+ * cmd_flag is set to one if the cmd part is expanded
+ * It indicates if the word_split should happened
+ * */
+static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
+		char **env)
 {
-	int				expand_result;
-	t_token_list	*token_list;
+	t_expand	**expand_tab;
 
-	token_list = cmd_tab->cmd;
-	while (token_list)
-	{
-		expand_result = expand_token(token_list);
-		if (expand_result != 0)
-			return (expand_result);
-		token_list = token_list->next;
-	}
+	expand_tab = make_expand_tab(*word_tab_p);
+	if (!expand_tab)
+		return (1);
+	if (perform_variable_expansion(expand_tab, env) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	if (cmd_flag == 1 && perform_word_split(&expand_tab) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	remove_quote(expand_tab);
+	free(*word_tab_p);
+	*word_tab_p = NULL;
+	if (expand_tab_to_char_tab(word_tab_p, &expand_tab) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	free_expand_tab(&expand_tab);
+	return (0);
+}
+
+/* Perform expansion + quote_removal on every part of the t_simple_cmd
+ * In order :
+ *  - Variable expansion
+ *  - word splitting resulting from unquoted variable expansion
+ * - pattern matching (BONUS)
+ * - quote_removal
+ *  On success return 0 else return 1
+ *  */
+int	expand(t_simple_cmd *cmd, char **env)
+{
+	if (perform_every_expansion(&cmd->cmd, 1, env) != 0)
+		return (1);
+	if (perform_every_expansion(&cmd->redirection, 0, env) != 0)
+		return (1);
+	return (0);
 }
