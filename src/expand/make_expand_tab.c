@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_expand_tab.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:14:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 19:26:54 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:29:29 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_expand	*make_expand_elem(char *str)
 	if (!new_elem->quote)
 		return (print_error("malloc", strerror(errno)), free(new_elem), NULL);
 	index = 0;
-	memset(new_elem->quote, 0, ft_strlen(str) * sizeof(int));
+	ft_memset(new_elem->quote, 0, ft_strlen(str) * sizeof(int));
 	while (str[index])
 	{
 		if (str[index] == DOUBLE_QUOTE || str[index] == SINGLE_QUOTE)

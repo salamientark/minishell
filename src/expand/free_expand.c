@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 03:48:12 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 03:50:27 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:12:04 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Properly free a single expand element
  * */
-static void	free_expand_elem(t_expand **expand_p)
+void	free_expand_elem(t_expand **expand_p)
 {
 	if ((*expand_p)->quote)
 	{

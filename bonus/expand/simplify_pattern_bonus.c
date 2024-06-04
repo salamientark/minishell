@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   simplify_pattern_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 01:59:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 01:59:54 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:29:13 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/expand_bonus.h"
+#include "../includes/expander_bonus.h"
 
-static make_simplified_pattern(char *dest, t_expand *pattern, int index,
+static char	*make_simplified_pattern(char *dest, t_expand *pattern, int index,
 	int diff)
 {
 	while (pattern->word[index + diff])
@@ -21,7 +21,7 @@ static make_simplified_pattern(char *dest, t_expand *pattern, int index,
 		{
 			while (pattern->quote[index + diff + 1] != 1)
 			{
-				dest[index] = patern->word[index + diff + 1];
+				dest[index] = pattern->word[index + diff + 1];
 				index++;
 			}
 			diff += 2;
@@ -29,10 +29,10 @@ static make_simplified_pattern(char *dest, t_expand *pattern, int index,
 		else if (pattern->word[index + diff] == '*' && dest[index] == '*')
 			diff++;
 		else
-			dest[index] = patter->word[index + diff];
+			dest[index] = pattern->word[index + diff];
 		index++;
 	}
-	memset(dest + index, 0, diff);
+	ft_memset(dest + index, 0, diff);
 	return (dest);
 }
 
@@ -42,7 +42,7 @@ char	*simplify_pattern(t_expand *pattern)
 
 	result = (char *)malloc(pattern->size + 1);
 	if (!result)
-		return (print_error("malloc", strerro(errno)), NULL);
+		return (print_error("malloc", strerror(errno)), NULL);
 	result = make_simplified_pattern(result, pattern, 0, 0);
 	return (result);
 }

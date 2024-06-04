@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expand_elem.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 20:22:34 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:29:35 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_expand	*alloc_expanded_element(const char *word, char **env)
 		return (print_error("malloc", strerror(errno)), free(final_str),
 			free(final_expand), NULL);
 	final_str[0] = '\0';
-	memset(final_quote, 0, final_strlen);
+	ft_memset(final_quote, 0, final_strlen);
 	final_expand->word = final_str;
 	final_expand->quote = final_quote;
 	return (final_expand);
@@ -116,7 +116,7 @@ static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
 	if (expand_result_len == 0)
 		return (free(expand_result), *final_expand);
 	final_word_len = ft_strlen((*final_expand)->word);
-	memset((*final_expand)->quote + final_word_len, 0,
+	ft_memset((*final_expand)->quote + final_word_len, 0,
 		sizeof(int) * expand_result_len);
 	(*final_expand)->word = ft_strcat((*final_expand)->word, expand_result);
 	free(expand_result);

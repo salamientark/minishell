@@ -6,11 +6,12 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 03:47:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:38:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/expand_bonus.h"
+#include "../includes/expander_bonus.h"
+#include "../includes/minishell_bonus.h"
 
 /* Return 1 if the elem->word contain an unquoted *
  * */
@@ -49,11 +50,11 @@ static t_expand	**add_back(t_expand **tab, char *str)
 	str_clone = ft_strdup(str);
 	if (!str_clone)
 		return (print_error("ft_strdup", strerror(errno)),
-				free_char_tab(&tab), NULL);
+				free_expand_tab(&tab), NULL);
 	new_elem = make_expand_elem(str_clone);
-	if (!new_elem);
+	if (!new_elem)
 		return (free_expand_tab(&tab), free(str_clone), NULL);
-	ft_memeset(new_elem->quote, 0, sizeof(int) * new_elem->size);
+	ft_memset(new_elem->quote, 0, sizeof(int) * new_elem->size);
 	tab_len = 0;
 	while (tab[tab_len])
 		tab_len++;
@@ -79,12 +80,12 @@ static t_expand **get_matching_entry(char *pattern, DIR *dir_p)
 	if (!result)
 		return (print_error("malloc", strerror(errno)), NULL);
 	result[0] = NULL;
-	entry = read_dir(dir_p);
+	entry = readdir(dir_p);
 	while (entry && errno != 0)
 	{
-		if (pattern_match(pattern, entr->d_name))
+		if (pattern_match(pattern, entry->d_name))
 		{
-			result = add_back(result, entr->d_name);
+			result = add_back(result, entry->d_name);
 			if (!result)
 				return (free(pattern), NULL);
 		}
@@ -98,7 +99,8 @@ static t_expand **get_matching_entry(char *pattern, DIR *dir_p)
 
 /* Perform filename expansion on single element
  * */
-static t_expand	**expand_filename(t_expand **tab, char *cwd, int &index)
+static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
+	int cmd_flag)
 {
 	char			*pattern;
 	DIR				*dir_p;
@@ -111,11 +113,15 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int &index)
 	dir_p = opendir(cwd);
 	if (!dir_p)
 		return (print_error("opendir", strerror(errno)), free(pattern), NULL);
-	result = get_matching_entry(pattern, dir_p);
-	if (!result)
+	expand_result = get_matching_entry(pattern, dir_p);
+	if (!expand_result)
 		return (closedir(dir_p), NULL);
-	if (result[0] == NULL)
-		return (closedir(dir_p), free(result), tab);
+	if (expand_result[0] && expand_result[1] && cmd_flag == 0)
+		return (print_error(tab[*index]->word, AMBIGUOUS_REDIRECT),
+			free(pattern), free_expand_tab(&expand_result),
+				free_expand_tab(&tab), closedir(dir_p), NULL);
+	if (expand_result[0] == NULL)
+		return (closedir(dir_p), free(expand_result), tab);
 	final_tab = expand_replace(tab, expand_result, index);
 	if (!final_tab)
 		return (closedir(dir_p), NULL);
@@ -132,19 +138,18 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int &index)
  * */
 int	perform_filename_expansion(t_expand ***expand_tab, int cmd_flag)
 {
-	char		cwd_name[MAX_PATH_LEN];
+	char		cwd[MAX_PATHLEN];
 	int			index;
-	t_expand	**result;
 
-	cwd = getcwd(cwd, MAX_PATH_LEN);
-	if (!getcwd)
+	if (getcwd(cwd, MAX_PATHLEN))
 		return (print_error("getcwd", strerror(errno)), 1);
 	index = 0;
 	while (expand_tab[index])
 	{
-		if (contain_filename_expansion(expand_tab[index]))
+		if (contain_filename_expansion((*expand_tab)[index]))
 		{
-			(*expand_tab) = expand_filename(*expand_tab, result, &index);
+			(*expand_tab) = expand_filename(*expand_tab, cwd, &index,
+				cmd_flag);
 			if (!(*expand_tab))
 				return (1);
 		}

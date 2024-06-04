@@ -6,23 +6,11 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:34 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 19:25:32 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:34:30 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-/* Properly free a single t_expand element
- */
-static void	free_expand_elem(t_expand **elem_p)
-{
-	free((*elem_p)->word);
-	(*elem_p)->word = NULL;
-	free((*elem_p)->quote);
-	(*elem_p)->quote = NULL;
-	free(*elem_p);
-	*elem_p = NULL;
-}
 
 /* If the elem->word result is result from an UNQUOTED variable expansion,
  * and contain space/tab/newline THEN return 1
@@ -77,7 +65,7 @@ static t_expand	**alloc_final_tab(t_expand **expand_tab, t_expand **to_insert)
 /* Properly free the  expand_tab[*index_p] element
  * And insert the to_insert tab instead reallocating the final_tab accordingly 
  * */
-static t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
+t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
 	int *index_p)
 {
 	int			expand_tab_index;

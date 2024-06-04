@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_bonus.h                                     :+:      :+:    :+:   */
+/*   expander_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 01:39:51 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 03:53:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:25:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_BONUS_H
 # define EXPAND_BONUS_H
 
-# include "../../includes/expand.h"
+# include "../../includes/expander.h"
+
+# define AMBIGUOUS_REDIRECT "ambiguous redirect"
 
 // simplify_pattern_bonus.c
 char	*simplify_pattern(t_expand *pattern);
