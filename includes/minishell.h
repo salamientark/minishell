@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 15:22:13 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:55:38 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_chill
 	t_simple_cmd	**cmd_tab;
 	char			**cmd;
 	char			**env;
+	char			**dir;
 	char			*infile;
 	char			*outfile;
 	char			*path;
@@ -40,7 +41,7 @@ typedef struct s_chill
 	int				fd_in;
 	int				fd_out;
 	int				error_code;
-}	t_chill;
+}		t_chill;
 
 //init minishell
 char	**copy_env(char **env);
@@ -63,5 +64,7 @@ char	**update_env(t_chill *shell, char *var);
 
 //exec
 char	**convert_list_to_tab(t_simple_cmd *input);
+char	**split_path(char **env);
+
 
 #endif
