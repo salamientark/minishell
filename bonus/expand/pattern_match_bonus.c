@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:38:28 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 18:05:55 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:28:51 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	pattern_match(const char *pattern, const char *word)
 
 	word_index = 0;
 	pattern_index = 0;
+	if (pattern[0] != '.' && word[0] == '.')
+		return (0);
 	if (pattern[0] != '*' && !begin_the_same(pattern, word))
 		return (0);
 	while (word[word_index])
