@@ -6,12 +6,12 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 01:39:51 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 15:12:13 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:45:27 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_BONUS_H
-# define EXPAND_BONUS_H
+#ifndef EXPANDER_BONUS_H
+# define EXPANDER_BONUS_H
 
 # include "../../includes/expander.h"
 

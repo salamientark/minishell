@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 01:59:23 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 18:40:38 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:45:12 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*make_simplified_pattern(char *dest, t_expand *pattern, int index,
 			continue ;
 		}
 		else if (pattern->word[index + diff] == '*' && dest[index]
-				&& dest[index] == '*')
+			&& dest[index] == '*')
 			diff++;
 		else
 			dest[index] = pattern->word[index + diff];

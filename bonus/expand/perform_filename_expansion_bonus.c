@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 18:33:28 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:45:02 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_expand	**add_back(t_expand **tab, char *str)
 	str_clone = ft_strdup(str);
 	if (!str_clone)
 		return (print_error("ft_strdup", strerror(errno)),
-				free_expand_tab(&tab), NULL);
+			free_expand_tab(&tab), NULL);
 	new_elem = make_expand_elem(str_clone);
 	if (!new_elem)
 		return (free_expand_tab(&tab), free(str_clone), NULL);
@@ -71,7 +71,7 @@ static t_expand	**add_back(t_expand **tab, char *str)
 
 /* return a t_expand_tab of every matching entry
  * */
-static t_expand **get_matching_entry(char *pattern, DIR *dir_p)
+static t_expand	**get_matching_entry(char *pattern, DIR *dir_p)
 {
 	struct dirent	*entry;
 	t_expand		**result;
@@ -93,7 +93,7 @@ static t_expand **get_matching_entry(char *pattern, DIR *dir_p)
 	}
 	if (errno != 0)
 		return (print_error("readir", strerror(errno)),
-				free_expand_tab(&result), NULL);
+			free_expand_tab(&result), NULL);
 	return (result);
 }
 
@@ -110,7 +110,6 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
 	pattern = simplify_pattern(tab[*index]);
 	if (!pattern)
 		return (NULL);
-	printf("simplified pattern :%s\n", pattern);
 	dir_p = opendir(cwd);
 	if (!dir_p)
 		return (print_error("opendir", strerror(errno)), free(pattern), NULL);
@@ -120,9 +119,8 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
 	if (expand_result[0] && expand_result[1] && cmd_flag == 0)
 		return (print_error(tab[*index]->word, AMBIGUOUS_REDIRECT),
 			free(pattern), free_expand_tab(&expand_result),
-				free_expand_tab(&tab), closedir(dir_p), NULL);
-	if (expand_result[0] == NULL)
-		*index += 1;
+			free_expand_tab(&tab), closedir(dir_p), NULL);
+	*index += (expand_result[0] == NULL);
 	if (expand_result[0] == NULL)
 		return (closedir(dir_p), free(expand_result), free(pattern), tab);
 	final_tab = expand_replace(tab, expand_result, index);
@@ -152,7 +150,7 @@ int	perform_filename_expansion(t_expand ***expand_tab, int cmd_flag)
 		if (contain_filename_expansion((*expand_tab)[index]))
 		{
 			(*expand_tab) = expand_filename(*expand_tab, cwd, &index,
-				cmd_flag);
+					cmd_flag);
 			if (!(*expand_tab))
 				return (1);
 		}
