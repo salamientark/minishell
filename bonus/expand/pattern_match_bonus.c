@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:38:28 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 17:07:12 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:05:55 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,15 @@ static int	match_subpattern(const char *pattern, const char *word,
 
 	subpattern_size = subpattern_len(pattern, *pattern_index);
 	if (!pattern[*pattern_index + subpattern_size])
-		return (end_the_same(pattern, word));
+	{
+		if (end_the_same(pattern, word))
+		{
+			*word_index += subpattern_size;
+			*pattern_index += subpattern_size;
+			return (1);
+		}
+		return (0);
+	}
 	while (word[*word_index] && ft_strncmp(pattern + *pattern_index,
 			word + *word_index, subpattern_size) != 0)
 		*word_index += 1;

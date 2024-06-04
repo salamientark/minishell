@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 17:52:34 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:57:16 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
 		return (print_error(tab[*index]->word, AMBIGUOUS_REDIRECT),
 			free(pattern), free_expand_tab(&expand_result),
 				free_expand_tab(&tab), closedir(dir_p), NULL);
+	if (expand_result[0] == NULL)
+		*index += 1;
 	if (expand_result[0] == NULL)
 		return (closedir(dir_p), free(expand_result), free(pattern), tab);
 	final_tab = expand_replace(tab, expand_result, index);
