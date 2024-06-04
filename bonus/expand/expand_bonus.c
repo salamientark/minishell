@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 11:35:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:55 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
 		return (free_expand_tab(&expand_tab), 1);
 	if (cmd_flag == 1 && perform_word_split(&expand_tab) != 0)
 		return (free_expand_tab(&expand_tab), 1);
+	if (perform_filename_expansion(&expand_tab, cmd_flag) != 0)
+		return (free_expand_tab(&expand_tab), 1);
 	remove_quote(expand_tab);
 	free(*word_tab_p);
 	*word_tab_p = NULL;
 	if (expand_tab_to_char_tab(word_tab_p, &expand_tab) != 0)
-		return (free_expand_tab(&expand_tab), 1);
-	if (perform_filename_expansion(&expand_tab, cmd_flag) != 0)
 		return (free_expand_tab(&expand_tab), 1);
 	free_expand_tab(&expand_tab);
 	return (0);

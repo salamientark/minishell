@@ -101,6 +101,7 @@ endef
 define BONUS_EXPAND_FILE :=
 	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR)/, \
 		simplify_pattern_bonus.c \
+		pattern_match_bonus.c \
 		perform_filename_expansion_bonus.c \
 		expand_bonus.c
 	)

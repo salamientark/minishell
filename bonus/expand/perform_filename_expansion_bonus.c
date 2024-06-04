@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:38:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:15:10 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,11 @@ static t_expand	**expand_filename(t_expand **tab, char *cwd, int *index,
 			free(pattern), free_expand_tab(&expand_result),
 				free_expand_tab(&tab), closedir(dir_p), NULL);
 	if (expand_result[0] == NULL)
-		return (closedir(dir_p), free(expand_result), tab);
+		return (closedir(dir_p), free(expand_result), free(pattern), tab);
 	final_tab = expand_replace(tab, expand_result, index);
 	if (!final_tab)
 		return (closedir(dir_p), NULL);
-	return (closedir(dir_p), final_tab);
+	return (closedir(dir_p), free(pattern), final_tab);
 }
 
 /* perform filename expansion (wildcard * matching) on every element
@@ -141,10 +141,10 @@ int	perform_filename_expansion(t_expand ***expand_tab, int cmd_flag)
 	char		cwd[MAX_PATHLEN];
 	int			index;
 
-	if (getcwd(cwd, MAX_PATHLEN))
+	if (getcwd(cwd, MAX_PATHLEN) == NULL)
 		return (print_error("getcwd", strerror(errno)), 1);
 	index = 0;
-	while (expand_tab[index])
+	while ((*expand_tab)[index])
 	{
 		if (contain_filename_expansion((*expand_tab)[index]))
 		{
