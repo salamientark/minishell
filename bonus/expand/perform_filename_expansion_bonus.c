@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 17:15:10 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:52:34 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_expand	**add_back(t_expand **tab, char *str)
 	tab_len = 0;
 	while (tab[tab_len])
 		tab_len++;
-	new_tab = (t_expand **)malloc(sizeof(t_expand *) * tab_len + 2);
+	new_tab = (t_expand **)malloc(sizeof(t_expand *) * (tab_len + 2));
 	if (!new_tab)
 		return (print_error("malloc", strerror(errno)),
 			free_expand_tab(&tab), free_expand_elem(&new_elem), NULL);
@@ -81,7 +81,7 @@ static t_expand **get_matching_entry(char *pattern, DIR *dir_p)
 		return (print_error("malloc", strerror(errno)), NULL);
 	result[0] = NULL;
 	entry = readdir(dir_p);
-	while (entry && errno != 0)
+	while (entry && errno == 0)
 	{
 		if (pattern_match(pattern, entry->d_name))
 		{
@@ -153,7 +153,8 @@ int	perform_filename_expansion(t_expand ***expand_tab, int cmd_flag)
 			if (!(*expand_tab))
 				return (1);
 		}
-		index++;
+		else
+			index++;
 	}
 	return (0);
 }
