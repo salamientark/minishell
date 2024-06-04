@@ -6,36 +6,11 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 18:23:07 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 03:48:46 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-// Properly free a t_expand**
-void	free_expand_tab(t_expand ***expand_p)
-{
-	int	index;
-
-	if (!expand_p || !(*expand_p))
-		return ;
-	index = 0;
-	while ((*expand_p)[index])
-	{
-		if ((*expand_p)[index]->word)
-		{
-			free((*expand_p)[index]->word);
-			(*expand_p)[index]->word = NULL;
-		}
-		free((*expand_p)[index]->quote);
-		(*expand_p)[index]->quote = NULL;
-		free((*expand_p)[index]);
-		(*expand_p)[index] = NULL;
-		index++;
-	}
-	free(*expand_p);
-	*expand_p = NULL;
-}
 
 static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 {

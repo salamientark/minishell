@@ -75,6 +75,7 @@ endef
 
 define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
+		free_expand.c \
 		is_expand.c \
 		make_expand_tab.c \
 		expanded_variable_len.c \
@@ -93,7 +94,8 @@ endef
 # *************************************************************************** #
 define BONUS_EXPAND_FILE :=
 	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR), \
-		
+		simplify_pattern_bonus.c \
+		perform_filename_expansion_bonus.c
 	)
 endef
 

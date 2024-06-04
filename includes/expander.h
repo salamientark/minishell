@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 19:27:08 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 03:51:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ typedef struct s_expand
 	int		size;
 	int		cmd_flag;
 }				t_expand;
+
+// free_expand.v
+void		free_expand_elem(t_expand **expand_p);
+void		free_expand_tab(t_expand ***expand_p);
 
 // is_expand.c
 int			is_expand(const char *str);
@@ -51,7 +55,6 @@ t_expand	**word_split(t_expand *elem);
 int			perform_word_split(t_expand ***expand_tab);
 
 // make_rexpand_tab.c
-void		free_expand_tab(t_expand ***expand_p);
 t_expand	*make_expand_elem(char *str);
 t_expand	**make_expand_tab(char **tab);
 
