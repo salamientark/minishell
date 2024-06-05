@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:40:31 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 12:54:48 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 14:20:39 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	unclosed_delimiter(const char *input)
 			delimited_word_len = expand_strlen(input, index, 0);
 		if (delimited_word_len == -1)
 			return (1);
+		if (delimited_word_len == 2 && input[index] == LEFT_PARENTHESIS)
+			return (print_syntax_error(input, index + 1, input[index + 1]), 1);
 		index += delimited_word_len;
 	}
 	return (0);
