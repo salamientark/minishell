@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 17:13:50 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 19:15:05 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:16:49 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_btree	*make_new_node(const char *input, int *index)
 		content_len++;
 	}
 	content = dup_and_trim(input + *index, content_len, " \t\n");
-	if (!content_len)
+	if (!content)
 		return (print_error("malloc", strerror(errno)), NULL);
 	new_node = ft_btree_init_node(content);
 	if (!new_node)

@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:36:25 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 16:46:46 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:21:36 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
  * */
 void	ft_btree_free_all(t_btree **root_p)
 {
-	if ((*root_p)->l_node)
-		ft_btree_free_all(&(*root_p)->l_node);
-	if ((*root_p)->r_node)
-		ft_btree_free_all(&(*root_p)->r_node);
-	free((*root_p)->content);
+	if (!root_p || !*root_p)
+		return ;
+	if ((*root_p)->l_node != NULL)
+		ft_btree_free_all(&((*root_p)->l_node));
+	if ((*root_p)->r_node != NULL)
+		ft_btree_free_all(&((*root_p)->r_node));
+	if ((*root_p)->content != NULL)
+		free((*root_p)->content);
 	(*root_p)->content = NULL;
 	free(*root_p);
 	*root_p = NULL;
