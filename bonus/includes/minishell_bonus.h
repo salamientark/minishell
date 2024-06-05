@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 18:45:39 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:01:24 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ void	ft_pwd(char **cmd);
 void	ft_export(char **cmd, char **env);
 void	ft_unset(char **cmd, char **env);
 
+int		parenthesis_strlen(const char *str, int ref);
 #endif

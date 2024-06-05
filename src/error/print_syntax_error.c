@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:42:06 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/18 13:23:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 12:56:33 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	print_syntax_error(const char *input, int ref, char operator)
 
 	write(2, "minishell: syntax error near unexpected token \''", 47);
 	operator_len = 1;
-	if (operator == PIPE || operator == AND || operator == OR)
+	if (operator == PIPE || operator == AND || operator == OR
+		|| operator == RIGHT_PARENTHESIS)
 	{
 		operator_len += (operator == AND || operator == OR);
 		write(2, input + ref, operator_len);
