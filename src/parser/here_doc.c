@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 20:06:06 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:29:36 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	str_remove_quote(char *str)
 			pos++;
 		}
 	}
-	memset(str + pos, 0, len - pos);
+	ft_memset(str + pos, 0, len - pos);
 }
 
 /* Get limiter + remove quote when found
@@ -103,7 +103,7 @@ static char	*expand_heredoc_input(char *input, char **env)
 	expand_tab[0] = make_expand_elem(input);
 	if (!expand_tab[0])
 		return (free(expand_tab), free(input), NULL);
-	memset(expand_tab[0]->quote, 0, sizeof(int) * expand_tab[0]->size);
+	ft_memset(expand_tab[0]->quote, 0, sizeof(int) * expand_tab[0]->size);
 	expand_tab[1] = NULL;
 	if (perform_variable_expansion(expand_tab, env) != 0)
 		return (free_expand_tab(&expand_tab), free(input), NULL);
@@ -140,7 +140,7 @@ static int	write_here_doc(int fd, char *limiter, int expand_flag, char **env)
 		input = get_next_line(0);
 	}
 	if (!input)
-		return (free(limiter), print_here_doc_warning(index, limiter), 0);
+		return (print_here_doc_warning(index, limiter), free(limiter), 0);
 	return (free(input), free(limiter), 0);
 }
 

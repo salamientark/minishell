@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 03:48:46 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:55 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../includes/expander_bonus.h"
 
 static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 {
@@ -54,6 +54,8 @@ static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
 	if (perform_variable_expansion(expand_tab, env) != 0)
 		return (free_expand_tab(&expand_tab), 1);
 	if (cmd_flag == 1 && perform_word_split(&expand_tab) != 0)
+		return (free_expand_tab(&expand_tab), 1);
+	if (perform_filename_expansion(&expand_tab, cmd_flag) != 0)
 		return (free_expand_tab(&expand_tab), 1);
 	remove_quote(expand_tab);
 	free(*word_tab_p);

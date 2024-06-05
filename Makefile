@@ -3,10 +3,11 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -g3
 
 
-### INCLUDES ###
+### PROJECT NAME ###
 PROJECT := minishell
 PROJECT_DIR := ./
 
+### SOURCE DIR ###
 SRC_DIR := src
 PROMPT_DIR	:= prompt
 PARSER_DIR	:= parser
@@ -14,7 +15,11 @@ ERROR_DIR	:= error
 BUILTIN_DIR := builtin
 EXEC_DIR	:= exec
 EXPAND_DIR := expand
+BONUS_DIR := bonus
 
+# *************************************************************************** #
+#                             MANDATORY SOURCE FILE                           #
+# *************************************************************************** #
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		expand_strlen.c \
@@ -79,6 +84,7 @@ endef
 
 define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
+		free_expand.c \
 		is_expand.c \
 		make_expand_tab.c \
 		expanded_variable_len.c \
@@ -87,17 +93,28 @@ define EXPAND_FILE :=
 		perform_variable_expansion.c \
 		word_split.c \
 		perform_word_split.c \
-		remove_quote.c \
+		remove_quote.c
+	)
+endef
+
+define MANDATORY_EXPAND_FILE :=
+	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		expand.c
 	)
 endef
-# 		expand_variable.c \
-		expanded_variable_len.c \
-		var_expand_elem.c \
-		word_split.c \
-		perform_variable_expansion.c
-#	)
-#endef
+
+# *************************************************************************** #
+#                               BONUS SOURCE FILE                             #
+# *************************************************************************** #
+define BONUS_EXPAND_FILE :=
+	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR)/, \
+		simplify_pattern_bonus.c \
+		pattern_match_bonus.c \
+		perform_filename_expansion_bonus.c \
+		expand_bonus.c
+	)
+endef
+
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes/  -I./libft/includes/
@@ -122,18 +139,40 @@ OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
 OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
 		$(OBJ_EXPAND)
 
+## MANDATORY OBJ FILE ##
+OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
+						$(notdir $(MANDATORY_EXPAND_FILE:%.c=%.o)))
+OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_EXPAND)
+
+## BONUS OBJ ##
+OBJ_BONUS_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXPAND_FILE:%.c=%.o)))
+OBJ_BONUS := $(OBJ) $(OBJ_BONUS_EXPAND)
+
+# *************************************************************************** #
+#                                 BONUS OBJ FILE                              #
+# *************************************************************************** #
+
+
+
 .PHONY := bonus all clean fclean re
 
 ### RULES ###
 all : $(PROJECT)
 
 # PROJECT Compilation
-$(PROJECT) : $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ) -o $(PROJECT) $(LIB_FLAG)
+$(PROJECT) : $(LIBFT) $(OBJ_MANDATORY)
+	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ_MANDATORY) -o $(PROJECT) $(LIB_FLAG)
+
+# bonus compilation
+bonus : $(LIBFT) $(OBJ_BONUS)
+	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ_BONUS) -o $(PROJECT) $(LIB_FLAG)
 
 $(LIBFT) : 
 	make -C $(FT_DIR)
 
+# *************************************************************************** #
+#                                SRC COMPILE OBJ                              #
+# *************************************************************************** #
 # COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
@@ -166,6 +205,14 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXEC_DIR)/%.c
 
 # COMPILING EXPAND_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# *************************************************************************** #
+#                                BONUS COMPILE OBJ                            #
+# *************************************************************************** #
+# COMPILING BONUS_EXPAND_FILE
+$(OBJ_DIR)/%.o : $(BONUS_DIR)/$(EXPAND_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

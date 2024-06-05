@@ -6,27 +6,11 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/30 21:29:40 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/04 03:50:04 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-static void	free_expand_elem(t_expand **expand_p)
-{
-	if ((*expand_p)->quote)
-	{
-		free((*expand_p)->quote);
-		(*expand_p)->quote = NULL;
-	}
-	if ((*expand_p)->word)
-	{
-		free((*expand_p)->word);
-		(*expand_p)->word = NULL;
-	}
-	free(*expand_p);
-	*expand_p = NULL;
-}
 
 static int	contain_var_expansion(const char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 19:40:47 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:22:42 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	is_followed_by_word(const char *cmd, int operator)
 	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
 		|| cmd[index] == PIPE)
 		return (0);
-	if (cmd[index] == AMPERSAND && cmd[index + 1] && cmd[index] == AMPERSAND)
-		return (0);
 	return (1);
 }
 
@@ -61,8 +59,6 @@ static int	is_preceeded_by_word(const char *cmd, int ref)
 		return (0);
 	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
 		|| cmd[index] == PIPE)
-		return (0);
-	if (index >= 1 && cmd[index] == AMPERSAND && cmd[index - 1] == AMPERSAND)
 		return (0);
 	return (1);
 }
@@ -89,7 +85,7 @@ static int	analyze_operator_syntax(const char *str, int ref,
 	char	operator;
 
 	operator = get_operator(str + ref);
-	if (operator == PIPE || operator == AND || operator == OR)
+	if (operator == PIPE)
 	{
 		if (!is_preceeded_by_word(str, ref))
 			return (print_syntax_error(str, ref, operator), 2);
@@ -127,7 +123,7 @@ int	syntax_error(const char *cmd, char **env)
 			analyzed_op = analyze_operator_syntax(cmd, i, &here_doc_count, env);
 			if (analyzed_op != 0)
 				return (analyzed_op);
-			i += 1 + (cmd[i + 1] && cmd[i] == cmd[i + 1]);
+			i += 1 + (analyzed_op == HERE_DOC || analyzed_op == APPEND);
 		}
 		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)
 			i += quoted_strlen(cmd, i, cmd[i]);

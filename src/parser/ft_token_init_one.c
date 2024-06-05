@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:30:49 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/26 18:42:48 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 11:24:17 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_token_list	*ft_token_init_one(const char *input)
 	if (!new_token)
 		return (print_error("malloc", strerror(errno)), NULL);
 	if (get_operator(input) != 0)
-		token_size = 1 + (input[1] && input[0] == input[1]);
+		token_size = 1 + (input[1] && (input[1] == LESS_THAN
+					|| input[1] == GREATER_THAN) && input[0] == input[1]);
 	else
 		token_size = get_word_size(input, 0);
 	new_token->token = ft_strndup(input, token_size);

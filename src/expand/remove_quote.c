@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:24:08 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/02 22:36:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 12:29:32 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static void	remove_quote_on_element(t_expand *elem)
 			word_pos++;
 		}
 	}
-	memset(elem->word + word_pos, 0, word_len - word_pos);
-	memset(elem->quote, 0, sizeof(int) * word_len);
+	ft_memset(elem->word + word_pos, 0, word_len - word_pos);
+	ft_memset(elem->quote, 0, sizeof(int) * word_len);
 }
 
 void	remove_quote(t_expand **expand_tab)

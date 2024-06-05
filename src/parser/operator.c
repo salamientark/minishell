@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/20 12:22:54 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 11:16:36 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ int	can_be_operator(const char c)
 
 char	get_operator(const char *s)
 {
-	if (*s == PIPE && *(s + 1) && *(s + 1) == PIPE)
-		return (OR);
-	else if (*s == PIPE)
+	if (*s == PIPE)
 		return (PIPE);
-	else if (*s == AMPERSAND && *(s + 1) && *(s + 1) == AMPERSAND)
-		return (AND);
 	else if (*s == LESS_THAN && *(s + 1) && *(s + 1) == LESS_THAN)
 		return (HERE_DOC);
 	else if (*s == GREATER_THAN && *(s + 1) && *(s + 1) == GREATER_THAN)

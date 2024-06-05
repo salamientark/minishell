@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 16:16:47 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:28:55 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell_bonus.h"
 
 void	unlink_all(void)
 {
@@ -249,58 +249,35 @@ void	print_expand_tab(t_expand **expand_tab)
 }
 
 
-// int	*(*init_builtin_tab)()(result)
-// {
-// 	int		(*result[7])(char **, struct s_chill *);
-// 
-// 	result[0] = &ft_unset;
-// // 	result[0] = &ft_cd;
-// // 	result[1] = &ft_echo;
-// // 	result[2] = &ft_env;
-// // 	result[3] = &ft_exit;
-// // 	result[4] = &ft_export;
-// // 	result[5] = &ft_pwd;
-// // 	result[6] = &ft_unset;
-// 	return ((void *)result);
-// }
-
-// static void print_cmd(char **cmd)
-// {
-// 	int i = 0;
-// 	while(cmd[i])
-// 		printf("%s\n", cmd[i++]);
-// }
 //  ===== END OF TESTING =====
-
 int	main(int ac, char **av, char **env)
 {
-	char			*input;
-	t_chill			shell;
-	t_simple_cmd	**input_tab;
+	char	*input;
+	t_simple_cmd	**cmd_tab;
 	(void)ac;
 	(void)av;
-	int				(*result[7])(char **, struct s_chill *);
 
-//	result = init_builtin_tab(result);
- 
-	result[0] = &ft_unset;
-	(void)result;
-	init_minishell(&shell, env);
 	while ("this is the best minishell")
 	{
 		unlink_all();
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			input_tab = parse_input(input, shell.env);
-			if (input_tab)
+			cmd_tab = parse_input(input, env);
+			printf("\n\n\n");
+			if (cmd_tab)
 			{
-				print_simple_cmd_tab(input_tab);
-				free_cmd_tab(&input_tab);
+				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
+				if (expand(cmd_tab[0], env) == 0)
+					print_simple_cmd_tab(cmd_tab);
+				else
+					printf("expand ERROR\n");
+				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE
 			//parser DONE
-			//built-in NEARLY DONE
+			//built-in DONE
+			//expand DONE
 			//pipe
 			//redirections
 			//execution
@@ -308,5 +285,4 @@ int	main(int ac, char **av, char **env)
 		free(input);
 	}
 	rl_clear_history();
-	return (0);
 }
