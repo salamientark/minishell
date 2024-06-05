@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 19:28:55 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:53:31 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,26 @@ void	unlink_all(void)
 
 
 // ========= TESTING ======== 
-static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
-{
-	int	index;
-
-	if (!*cmd_tab)
-		return ;
-	index = 0;
-	while ((*cmd_tab)[index])
-	{
-		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
-		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
-		(*cmd_tab)[index]->redirection = NULL;
-		free((*cmd_tab)[index]);
-		(*cmd_tab)[index] = NULL;
-		index++;
-	}
-	free(*cmd_tab);
-	*cmd_tab = NULL;
-}
+// static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
+// {
+// 	int	index;
+// 
+// 	if (!*cmd_tab)
+// 		return ;
+// 	index = 0;
+// 	while ((*cmd_tab)[index])
+// 	{
+// 		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
+// 		(*cmd_tab)[index]->cmd = NULL;
+// 		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+// 		(*cmd_tab)[index]->redirection = NULL;
+// 		free((*cmd_tab)[index]);
+// 		(*cmd_tab)[index] = NULL;
+// 		index++;
+// 	}
+// 	free(*cmd_tab);
+// 	*cmd_tab = NULL;
+// }
 
 int	get_token_list_len(t_token_list *token_l)
 {
@@ -248,14 +248,49 @@ void	print_expand_tab(t_expand **expand_tab)
 	printf("\n");
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                           BINARY TREE PRINTING UTILS                      */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// static int	ft_max(int a, int b)
+// {
+// 	if (a >= b)
+// 		return (a);
+// 	return (b);
+// }
+
+// static int	get_tree_depth(t_btree *root)
+// {
+// 	if (ft_btree_is_leaf(root))
+// 		return (1);
+// 	else
+// 		return (1 + (ft_max(get_tree_depth(root->l_node),
+// 			get_tree_depth(root->r_node))));
+// }
+
+# define COUNT 30
+void	print_btree(t_btree *root, int space)
+{
+    if (root == NULL)
+        return;
+    space += COUNT;
+    print_btree(root->r_node, space);
+	printf("\n");
+    for (int i = COUNT; i < space; i++)
+		printf(" ");
+	printf("%5s\n", (char *)root->content);
+    print_btree(root->l_node, space);
+}
 
 //  ===== END OF TESTING =====
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
+	char			*input;
 	t_simple_cmd	**cmd_tab;
+	t_btree			*tree;
 	(void)ac;
 	(void)av;
+	(void)env;
+	(void)cmd_tab;
 
 	while ("this is the best minishell")
 	{
@@ -263,24 +298,26 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input, env);
-			printf("\n\n\n");
-			if (cmd_tab)
+			int index = 0;
+			tree = make_tree(input, &index);
+			if (!tree)
+				printf("tree_error\n");
+			else
 			{
-				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				if (expand(cmd_tab[0], env) == 0)
-					print_simple_cmd_tab(cmd_tab);
-				else
-					printf("expand ERROR\n");
-				free_cmd_tab(&cmd_tab);
+				print_btree(tree, 0);
+				ft_btree_free_all(&tree);
 			}
-			//lexer DONE
-			//parser DONE
-			//built-in DONE
-			//expand DONE
-			//pipe
-			//redirections
-			//execution
+// 			cmd_tab = parse_input(input, env);
+// 			printf("\n\n\n");
+// 			if (cmd_tab)
+// 			{
+// 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
+// 				if (expand(cmd_tab[0], env) == 0)
+// 					print_simple_cmd_tab(cmd_tab);
+// 				else
+// 					printf("expand ERROR\n");
+// 				free_cmd_tab(&cmd_tab);
+// 			}
 		}
 		free(input);
 	}

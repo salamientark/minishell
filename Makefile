@@ -22,7 +22,12 @@ BONUS_DIR := bonus
 define SRC_FILE := 
 	$(addprefix $(SRC_DIR)/, \
 		expand_strlen.c \
-		quote_utils.c\
+		quote_utils.c
+	)
+endef
+
+define MANDATORY_SRC_FILE :=
+	$(addprefix $(SRC_DIR)/, \
 		main.c
 	)
 endef
@@ -108,12 +113,17 @@ endef
 # *************************************************************************** #
 define BONUS_SRC_FILE :=
 	$(addprefix $(BONUS_DIR)/, \
-		parenthesis_strlen_bonus.c
+		parenthesis_strlen_bonus.c \
+		main_bonus.c
 	)
 endef
 
 define BONUS_PARSER_FILE :=
 	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
+		ft_btree_free_all_bonus.c \
+		ft_btree_init_node_bonus.c \
+		ft_btree_is_leaf_bonus.c \
+		make_tree_bonus.c \
 		operator_bonus.c \
 		unclosed_delimiter_bonus.c \
 		syntax_error_bonus.c
@@ -152,11 +162,13 @@ OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
 		$(OBJ_EXPAND)
 
 ## MANDATORY_FILE ##
+OBJ_MANDATORY_SRC := $(addprefix $(OBJ_DIR)/, \
+						$(notdir $(MANDATORY_SRC_FILE:%.c=%.o)))
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_EXPAND_FILE:%.c=%.o)))
 OBJ_MANDATORY_PARSER := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_PARSER_FILE:%.c=%.o)))
-OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
+OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_SRC) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
 
 ## BONUS OBJ ##
 OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
