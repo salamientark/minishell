@@ -43,7 +43,6 @@ define PARSER_FILE :=
 		here_doc_count.c \
 		here_doc_name.c \
 		operator.c \
-		syntax_error.c \
 		here_doc.c \
 		tokenize.c \
 		alloc_simple_cmd.c \
@@ -55,7 +54,8 @@ endef
 # MANDATORY PARSER FILE
 define MANDATORY_PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
-		unclosed_delimiter.c
+		unclosed_delimiter.c \
+		syntax_error.c
 	)
 endef
 
@@ -113,7 +113,8 @@ endef
 
 define BONUS_PARSER_FILE :=
 	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
-		unclosed_delimiter_bonus.c
+		unclosed_delimiter_bonus.c \
+		syntax_error_bonus.c
 	)
 endef
 
