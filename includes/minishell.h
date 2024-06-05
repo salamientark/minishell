@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 18:55:38 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/04 21:26:09 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 typedef struct s_chill
 {
+	
+	int				(*builtin[7])(char **, struct s_chill *);
 	t_simple_cmd	**cmd_tab;
 	char			**cmd;
 	char			**env;
