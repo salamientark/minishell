@@ -98,6 +98,12 @@ endef
 # *************************************************************************** #
 #                               BONUS SOURCE FILE                             #
 # *************************************************************************** #
+define BONUS_SRC_FILE :=
+	$(addprefix $(BONUS_DIR)/, \
+		parenthesis_strlen_bonus.c
+	)
+endef
+
 define BONUS_EXPAND_FILE :=
 	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR)/, \
 		simplify_pattern_bonus.c \
@@ -135,14 +141,13 @@ OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
 OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_EXPAND)
 
 ## BONUS OBJ ##
+OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
 OBJ_BONUS_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXPAND_FILE:%.c=%.o)))
-OBJ_BONUS := $(OBJ) $(OBJ_BONUS_EXPAND)
+OBJ_BONUS := $(OBJ) $(OBJ_BONUS_EXPAND) $(OBJ_BONUS_SRC)
 
 # *************************************************************************** #
 #                                 BONUS OBJ FILE                              #
 # *************************************************************************** #
-
-
 
 .PHONY := bonus all clean fclean re
 
@@ -196,6 +201,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 # *************************************************************************** #
 #                                BONUS COMPILE OBJ                            #
 # *************************************************************************** #
+# COMPILING BONUS_SRC_FILE
+$(OBJ_DIR)/%.o : $(BONUS_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
 # COMPILING BONUS_EXPAND_FILE
 $(OBJ_DIR)/%.o : $(BONUS_DIR)/$(EXPAND_DIR)/%.c
 	@mkdir -p $(@D)

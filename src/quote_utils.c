@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:26:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/05/21 19:16:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/04 22:56:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,3 @@ int	quoted_strlen(const char *str, int ref, const char quote)
 		return (unclosed_delimiter_error(str, ref), -1);
 	return (len + 1);
 }
-
-// int	quoted_strlen(const char *str, int ref, const char quote)
-// {
-// 	int	len;
-// 
-// 	len = 1;
-// 	while (str[ref + len] && str[ref + len] != quote)
-// 		len++;
-// 	if (!str[ref + len])
-// 		return (unclosed_delimiter_error(str, ref), -1);
-// 	return (len + 1);
-// }
