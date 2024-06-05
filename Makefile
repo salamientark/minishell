@@ -33,6 +33,7 @@ define PROMPT_FILE :=
 )
 endef
 
+# PARSER FILE FOR BONUS && MADATORY_PART
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
 		ft_token_add_back.c \
@@ -42,13 +43,19 @@ define PARSER_FILE :=
 		here_doc_count.c \
 		here_doc_name.c \
 		operator.c \
-		unclosed_delimiter.c \
 		syntax_error.c \
 		here_doc.c \
 		tokenize.c \
 		alloc_simple_cmd.c \
 		split_to_simple_command.c \
 		parse_input.c
+	)
+endef
+
+# MANDATORY PARSER FILE
+define MANDATORY_PARSER_FILE :=
+	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		unclosed_delimiter.c
 	)
 endef
 
@@ -104,6 +111,12 @@ define BONUS_SRC_FILE :=
 	)
 endef
 
+define BONUS_PARSER_FILE :=
+	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
+		unclosed_delimiter_bonus.c
+	)
+endef
+
 define BONUS_EXPAND_FILE :=
 	$(addprefix $(BONUS_DIR)/$(EXPAND_DIR)/, \
 		simplify_pattern_bonus.c \
@@ -135,15 +148,18 @@ OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
 OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
 		$(OBJ_EXPAND)
 
-## MANDATORY OBJ FILE ##
+## MANDATORY_FILE ##
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_EXPAND_FILE:%.c=%.o)))
-OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_EXPAND)
+OBJ_MANDATORY_PARSER := $(addprefix $(OBJ_DIR)/, \
+						$(notdir $(MANDATORY_PARSER_FILE:%.c=%.o)))
+OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
 
 ## BONUS OBJ ##
 OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
+OBJ_BONUS_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_PARSER_FILE:%.c=%.o)))
 OBJ_BONUS_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXPAND_FILE:%.c=%.o)))
-OBJ_BONUS := $(OBJ) $(OBJ_BONUS_EXPAND) $(OBJ_BONUS_SRC)
+OBJ_BONUS := $(OBJ) $(OBJ_BONUS_SRC) $(OBJ_BONUS_PARSER) $(OBJ_BONUS_EXPAND)
 
 # *************************************************************************** #
 #                                 BONUS OBJ FILE                              #
@@ -203,6 +219,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
 # *************************************************************************** #
 # COMPILING BONUS_SRC_FILE
 $(OBJ_DIR)/%.o : $(BONUS_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING BONUS_PARSER_FILE
+$(OBJ_DIR)/%.o : $(BONUS_DIR)/$(PARSER_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
