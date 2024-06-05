@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 17:13:50 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 19:00:59 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:15:05 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_btree	*add_node(t_btree *root, t_btree *new_node)
 	if (!root)
 		return (new_node);
 	if (ft_btree_is_leaf(new_node) && (ft_strcmp("&&", new_node->content) == 0
-		|| ft_strcmp("||", new_node->content) == 0))
+			|| ft_strcmp("||", new_node->content) == 0))
 	{
 		new_node->l_node = root;
 		return (new_node);
@@ -105,7 +105,7 @@ t_btree	*make_tree(const char *input, int *index)
 		if (!new_node)
 			return (ft_btree_free_all(&root), NULL);
 		root = add_node(root, new_node);
-	skip_space(input, index);
+		skip_space(input, index);
 	}
 	if (input[*index])
 		*index += 1;
