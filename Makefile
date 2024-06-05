@@ -42,7 +42,7 @@ define PARSER_FILE :=
 		ft_token_init_one.c \
 		here_doc_count.c \
 		here_doc_name.c \
-		operator.c \
+		is_followed_by_word.c \
 		here_doc.c \
 		tokenize.c \
 		alloc_simple_cmd.c \
@@ -54,6 +54,7 @@ endef
 # MANDATORY PARSER FILE
 define MANDATORY_PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		operator.c \
 		unclosed_delimiter.c \
 		syntax_error.c
 	)
@@ -113,6 +114,7 @@ endef
 
 define BONUS_PARSER_FILE :=
 	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
+		operator_bonus.c \
 		unclosed_delimiter_bonus.c \
 		syntax_error_bonus.c
 	)

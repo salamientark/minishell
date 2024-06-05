@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 02:32:42 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 12:26:32 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 16:20:23 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int	can_be_operator(const char c)
 	if (c == AMPERSAND)
 		return (1);
 	if (c == PIPE)
+		return (1);
+	if (c == LEFT_PARENTHESIS)
+		return (1);
+	if (c == RIGHT_PARENTHESIS)
 		return (1);
 	return (0);
 }

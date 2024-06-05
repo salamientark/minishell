@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 12:29:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/05 16:33:32 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,6 @@
  *	*/
 
 #include "../includes/parser_bonus.h"
-
-int	is_followed_by_word(const char *cmd, int operator)
-{
-	int	index;
-
-	index = 1;
-	if (operator == HERE_DOC)
-		operator = LESS_THAN;
-	if (operator == APPEND)
-		operator = GREATER_THAN;
-	if (!cmd[index])
-		return (0);
-	if (cmd[index] && cmd[index] == operator)
-		index++;
-	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
-		index++;
-	if (!cmd[index] || cmd[index] == '\n')
-		return (0);
-	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
-		|| cmd[index] == PIPE)
-		return (0);
-	if (cmd[index] == AMPERSAND && cmd[index + 1] && cmd[index] == AMPERSAND)
-		return (0);
-	return (1);
-}
 
 static int	is_preceeded_by_word(const char *cmd, int ref)
 {
@@ -105,6 +80,10 @@ static int	analyze_operator_syntax(const char *str, int ref,
 		if (operator == HERE_DOC)
 			return (here_doc(str, ref, here_doc_count, env));
 	}
+	if (operator == LEFT_PARENTHESIS && is_preceeded_by_word(str, ref))
+		return (print_syntax_error(str, ref, operator), 2);
+	if (operator == RIGHT_PARENTHESIS && is_followed_by_word(str + ref, ')'))
+		return (print_syntax_error(str, ref, operator), 2);
 	return (0);
 }
 
