@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 23:26:45 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:51:07 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 
 //		SIGNALS
+	set_signals();
 	while ("this is the best minishell")
 	{
 		unlink_all();

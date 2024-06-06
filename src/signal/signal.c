@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 23:03:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/06 23:47:46 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:52:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	signal_handler(int signum)
 void	set_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, signal_handler);
 }
