@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 03:48:12 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:12:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:22:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ void	free_expand_tab(t_expand ***expand_p)
 	free(*expand_p);
 	*expand_p = NULL;
 }
-

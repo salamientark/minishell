@@ -14,19 +14,13 @@ PARSER_DIR := parser
 ERROR_DIR := error
 BUILTIN_DIR := builtin
 EXPAND_DIR := expand
+SIGNAL_DIR := signal
 BONUS_DIR := bonus
 
 # *************************************************************************** #
 #                             MANDATORY SOURCE FILE                           #
 # *************************************************************************** #
-define SRC_FILE := 
-	$(addprefix $(SRC_DIR)/, \
-		expand_strlen.c \
-		quote_utils.c
-	)
-endef
-
-define MANDATORY_SRC_FILE :=
+define SRC_FILE :=
 	$(addprefix $(SRC_DIR)/, \
 		main.c
 	)
@@ -41,6 +35,8 @@ endef
 # PARSER FILE FOR BONUS && MADATORY_PART
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		expand_strlen.c \
+		quoted_strlen.c \
 		ft_token_add_back.c \
 		ft_token_free_list.c \
 		ft_token_get_head.c \
@@ -102,9 +98,16 @@ define EXPAND_FILE :=
 	)
 endef
 
+# EXPANDER_FILE MADATORY SPECIFIC
 define MANDATORY_EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		expand.c
+	)
+endef
+
+define SIGNAL_FILE :=
+	$(addprefix $(SRC_DIR)/$(SIGNAL_DIR)/, \
+		signal.c
 	)
 endef
 
@@ -113,13 +116,13 @@ endef
 # *************************************************************************** #
 define BONUS_SRC_FILE :=
 	$(addprefix $(BONUS_DIR)/, \
-		parenthesis_strlen_bonus.c \
 		main_bonus.c
 	)
 endef
 
 define BONUS_PARSER_FILE :=
 	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
+		parenthesis_strlen_bonus.c \
 		ft_btree_free_all_bonus.c \
 		ft_btree_init_node_bonus.c \
 		ft_btree_is_leaf_bonus.c \
@@ -141,7 +144,7 @@ endef
 
 
 ### HEADER FILE ###
-HEADER_DIR := -I./includes/  -I./libft/includes/
+HEADER_DIR := -I./includes
 
 # LIBFT
 FT_DIR := ./libft
@@ -158,17 +161,16 @@ OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
 OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
-OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
-		$(OBJ_EXPAND)
+OBJ_SIGNAL := $(addprefix $(OBJ_DIR)/, $(notdir $(SIGNAL_FILE:%.c=%.o)))
+OBJ := $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
+		$(OBJ_EXPAND) $(OBJ_SIGNAL)
 
 ## MANDATORY_FILE ##
-OBJ_MANDATORY_SRC := $(addprefix $(OBJ_DIR)/, \
-						$(notdir $(MANDATORY_SRC_FILE:%.c=%.o)))
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_EXPAND_FILE:%.c=%.o)))
 OBJ_MANDATORY_PARSER := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_PARSER_FILE:%.c=%.o)))
-OBJ_MANDATORY :=  $(OBJ) $(OBJ_MANDATORY_SRC) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
+OBJ_MANDATORY :=  $(OBJ) $(OBJ_SRC) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
 
 ## BONUS OBJ ##
 OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
@@ -226,6 +228,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
 
 # COMPILING EXPAND_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXPAND_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING  SIGNAL_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(SIGNAL_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

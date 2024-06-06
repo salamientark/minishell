@@ -59,7 +59,6 @@ fclean : clean
 
 #Suppresion des fichiers objet
 clean :
-	rm -f $(OBJ_FILE)
-	@rm -df $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 re : fclean all

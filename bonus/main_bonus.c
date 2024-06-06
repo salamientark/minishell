@@ -6,11 +6,13 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 18:53:31 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/06 23:27:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell_bonus.h"
+
+int	g_exit_status = 0;
 
 void	unlink_all(void)
 {

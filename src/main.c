@@ -6,11 +6,13 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 12:16:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:26:45 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_exit_status = 0;
 
 void	unlink_all(void)
 {
@@ -250,6 +252,7 @@ void	print_expand_tab(t_expand **expand_tab)
 
 
 //  ===== END OF TESTING =====
+
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -257,6 +260,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
+//		SIGNALS
 	while ("this is the best minishell")
 	{
 		unlink_all();

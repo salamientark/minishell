@@ -6,14 +6,14 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 18:16:22 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:34:17 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_BONUS_H
 # define MINISHELL_BONUS_H
 
-# include "libft.h"
+# include "../../libft/includes/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
