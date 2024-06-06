@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 23:03:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/06 23:24:21 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:47:46 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		exit_status = 130;
+		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
