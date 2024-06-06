@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 17:39:10 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/05 19:43:27 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:09:33 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ static unsigned int	count_path(const char *path)
 			new_word = 0;
 		}
 		else
-			new_word = 1;char	*check_absolute_path(char *cmd)
-{
-
-}
+			new_word = 1;
 		path_p++;
 	}
 	return (word_count);

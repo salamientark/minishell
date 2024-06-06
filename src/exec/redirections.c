@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:19:00 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/05 20:10:23 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:09:44 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 	
 // }
 
-void	redirect(t_chill *shell)
-{
-	init_redirections()
-}
+// void	redirect(t_chill *shell)
+// {
+// 	init_redirections()
+// }
