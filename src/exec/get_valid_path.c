@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   get_valid_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 17:19:00 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/05 20:10:23 by ple-guya         ###   ########.fr       */
+/*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
+/*   Updated: 2024/06/05 19:43:21 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	get_outfile(t_chill *shell, char **outfile)
-// {
-	
-// }
-
-// static void	get_infile(t_chill *shell, char **infile)
-// {
-	
-// }
-
-// void	init_redirections(t_chill *shell, char **redirections)
-// {
-	
-// }
-
-void	redirect(t_chill *shell)
+char	*get_valid_path(char *cmd, char **env)
 {
-	init_redirections()
+	char	**dir;
+	char	*path;
+	int		i;
+	
+	if (ft_strchr(cmd, "/") && !access(cmd, F_OK | X_OK))
+		return(cmd);
+	dir = split_path(env);
+	if (!dir)
+		return;
+	while (dir[i])
+	{
+		path = ft_strjoin(dir[i], cmd);
+		if (!path)
+			return(NULL);
+		if (access(path, F_OK | X_OK) == 0)
+			return (free_str_tab(&dir), path);
+		else
+			free(path);
+		i++;
+	}
+	free_str_tab(&dir);
+	return (path);
 }

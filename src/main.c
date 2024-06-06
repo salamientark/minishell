@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 16:16:47 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:26:18 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,26 @@ void	unlink_all(void)
 
 
 // ========= TESTING ======== 
-static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
-{
-	int	index;
+// static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
+// {
+// 	int	index;
 
-	if (!*cmd_tab)
-		return ;
-	index = 0;
-	while ((*cmd_tab)[index])
-	{
-		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
-		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
-		(*cmd_tab)[index]->redirection = NULL;
-		free((*cmd_tab)[index]);
-		(*cmd_tab)[index] = NULL;
-		index++;
-	}
-	free(*cmd_tab);
-	*cmd_tab = NULL;
-}
+// 	if (!*cmd_tab)
+// 		return ;
+// 	index = 0;
+// 	while ((*cmd_tab)[index])
+// 	{
+// 		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
+// 		(*cmd_tab)[index]->cmd = NULL;
+// 		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+// 		(*cmd_tab)[index]->redirection = NULL;
+// 		free((*cmd_tab)[index]);
+// 		(*cmd_tab)[index] = NULL;
+// 		index++;
+// 	}
+// 	free(*cmd_tab);
+// 	*cmd_tab = NULL;
+// }
 
 int	get_token_list_len(t_token_list *token_l)
 {
@@ -276,7 +276,6 @@ int	main(int ac, char **av, char **env)
 {
 	char			*input;
 	t_chill			shell;
-	t_simple_cmd	**input_tab;
 	(void)ac;
 	(void)av;
 	int				(*result[7])(char **, struct s_chill *);
@@ -292,11 +291,12 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			input_tab = parse_input(input, shell.env);
-			if (input_tab)
+			shell.cmd_tab = parse_input(input, shell.env);
+			if (shell.cmd_tab)
 			{
-				print_simple_cmd_tab(input_tab);
-				free_cmd_tab(&input_tab);
+				execution_cmd(&shell);
+//				print_simple_cmd_tab(shell.cmd_tab);
+//				free_cmd_tab(&shell.cmd_tab);
 			}
 			//lexer DONE
 			//parser DONE

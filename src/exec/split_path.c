@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 17:39:10 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/04 18:55:27 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:43:27 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ static unsigned int	count_path(const char *path)
 			new_word = 0;
 		}
 		else
-			new_word = 1;
+			new_word = 1;char	*check_absolute_path(char *cmd)
+{
+
+}
 		path_p++;
 	}
 	return (word_count);
@@ -95,7 +98,7 @@ static char	*find_path_in_env(char **env)
 		index++;
 	if (!env[index])
 	{
-		print_error("pipex: ", "No PATH");
+		print_error("minishell: ", "No PATH");
 		return ((char *) NULL);
 	}
 	return (env[index] + 5);

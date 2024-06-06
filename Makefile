@@ -37,7 +37,11 @@ endef
 
 define EXEC_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
-		convert_list.c \
+		get_valid_path.c \
+		split_path.c	\
+		redirections.c	\
+		exec_command.c	\
+		free_all.c
 )
 endef
 
@@ -134,10 +138,9 @@ OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
 OBJ_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(EXEC_FILE:%.c=%.o)))
-OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) $(OBJ_EXEC)
 OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
 OBJ := $(OBJ_SRC) $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
-		$(OBJ_EXPAND)
+		$(OBJ_EXPAND) $(OBJ_EXEC)
 
 ## MANDATORY OBJ FILE ##
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
