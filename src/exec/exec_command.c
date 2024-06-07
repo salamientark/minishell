@@ -6,11 +6,22 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/06 14:14:19 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:15:01 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+static int cmd_count(t_simple_cmd **cmd)
+{
+	int i;
+	i = 0;
+	
+	while (cmd[i])
+		i++;
+	return (i); 
+}
 
 // static void print_cmd(char **cmd)
 // {
@@ -23,34 +34,50 @@
 static void exec(t_chill *shell, char **cmd)
 {
 	char *path;
-	
+
 	path = get_valid_path(*cmd, shell->env);
-	//print_cmd(cmd);
+//	print_cmd(cmd);
+	if (shell->fd_in == -1)
+		close (shell->pipefd[1]);
 	execve(path, cmd, shell->env);
+	free(path);
 }
 
 void	execution_cmd(t_chill *shell)
 {
 	int		pid;
-	int		i;
 
-	i = 0;
-	while (shell->cmd_tab[i])
+	shell->index_cmd = 0;
+	shell->nb_cmd = cmd_count(shell->cmd_tab);
+	printf("%d\n", shell->nb_cmd);
+	while (shell->cmd_tab[shell->index_cmd])
 	{
-		if (pipe(shell->pipefd))
-			return(perror("pipe"));
+		printf("%d\n", shell->index_cmd);
+		if (shell->nb_cmd != 1 || shell->index_cmd +1 == shell->nb_cmd)
+		{
+			if (pipe(shell->pipefd))
+				return(perror("pipe"));
+		}
 		pid = fork();
 		if (pid == -1)
 			return(perror("fork failed"));
 		if (!pid)
 		{
-			//redirect(shell, shell->cmd_tab[i]->redirection);
-			exec(shell, shell->cmd_tab[i]->cmd);
+			redirect(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+			exec(shell, shell->cmd_tab[shell->index_cmd]->cmd);
 		}
-		// close(shell->pipefd[1]);
-		// if (dup2(shell->pipefd[0], STDIN_FILENO) < 0)
-		// 	return(perror("dup2"));
-		// close(shell->pipefd[0]);
-		i++;
+		else
+		{
+			if(shell->nb_cmd != shell->index_cmd + 1)
+			{
+				close(shell->pipefd[1]);
+				if (dup2(shell->pipefd[READ_END], STDIN_FILENO) < 0)
+					return(perror("dup2"));
+				close(shell->pipefd[0]);
+			}
+		}
+		shell->index_cmd++;
 	}
+	while (shell->index_cmd-- > 0)
+		wait(NULL);
 }

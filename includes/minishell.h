@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/05 18:53:06 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:43:20 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,18 @@
 # include <readline/history.h>
 # include "parser.h"
 # include "expander.h"
+# include <sys/fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <errno.h>
+
+# define READ_END 0
+# define WRITE_END 1
 
 # define MAX_PATHLEN 2048
 
 typedef struct s_chill
 {
-	
 	int				(*builtin[7])(char **, struct s_chill *);
 	t_simple_cmd	**cmd_tab;
 	char			**env;
@@ -39,6 +45,9 @@ typedef struct s_chill
 	int				pipefd[2];
 	int				fd_in;
 	int				fd_out;
+	int				hd_count;
+	int				nb_cmd;
+	int				index_cmd;
 	int				error_code;
 }		t_chill;
 
@@ -67,6 +76,8 @@ char	**split_path(char **env);
 char	*get_valid_path(char *cmd, char **env);
 
 //exec utils
+void	get_file(t_chill *shell, char **redirections);
+void	redirect(t_chill *shell, char **redirection);
 void	free_str_tab(char ***str_tab_ptr);
 
 #endif

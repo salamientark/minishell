@@ -38,6 +38,7 @@ endef
 define EXEC_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
 		get_valid_path.c \
+		get_file.c		\
 		split_path.c	\
 		redirections.c	\
 		exec_command.c	\
