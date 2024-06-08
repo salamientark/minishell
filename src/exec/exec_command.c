@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/07 17:15:01 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:23:36 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void exec(t_chill *shell, char **cmd)
 
 	path = get_valid_path(*cmd, shell->env);
 //	print_cmd(cmd);
-	if (shell->fd_in == -1)
-		close (shell->pipefd[1]);
+	// if (shell->fd_in == -1)
+	// 	close (shell->pipefd[1]);
 	execve(path, cmd, shell->env);
 	free(path);
 }
@@ -49,7 +49,6 @@ void	execution_cmd(t_chill *shell)
 
 	shell->index_cmd = 0;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
-	printf("%d\n", shell->nb_cmd);
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		printf("%d\n", shell->index_cmd);
@@ -66,18 +65,7 @@ void	execution_cmd(t_chill *shell)
 			redirect(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 			exec(shell, shell->cmd_tab[shell->index_cmd]->cmd);
 		}
-		else
-		{
-			if(shell->nb_cmd != shell->index_cmd + 1)
-			{
-				close(shell->pipefd[1]);
-				if (dup2(shell->pipefd[READ_END], STDIN_FILENO) < 0)
-					return(perror("dup2"));
-				close(shell->pipefd[0]);
-			}
-		}
 		shell->index_cmd++;
 	}
-	while (shell->index_cmd-- > 0)
-		wait(NULL);
+	wait(NULL);
 }

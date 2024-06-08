@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/01 18:02:12 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:09:45 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ static void	init_env(t_chill *shell)
 void	init_minishell(t_chill *shell, char **env)
 {
 	shell->env = copy_env(env);
-	if (!shell->env || !(*shell->env))
+	if (!shell->env && !(*shell->env))
 		init_env(shell);
 }

@@ -44,20 +44,11 @@ void	get_file(t_chill *shell, char **redirections)
 		{
 			shell->hd_count++;
 			here_doc_name(buffer , shell->hd_count);
-			i++;
 		}
 		if (!ft_strcmp(redirections[i], "<"))
-			get_infile(shell, redirections[++i]);
+			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))
-			get_outfile(shell, redirections[++i]);
-		i++;
+			get_outfile(shell, redirections[i + 1]);
+		i = i + 2;
 	}
-	if (!shell->infile && shell->nb_cmd == 1)	
-		shell->fd_in = 0;
-    if (!shell->infile && shell->nb_cmd != 1)
-		shell->fd_in = shell->pipefd[READ_END];
-	if (!shell->outfile && (shell->nb_cmd == 1 || (shell->index_cmd + 1) == shell->nb_cmd))
-		shell->fd_out = 1;
-	if (!shell->outfile && shell->nb_cmd != 1)
-		shell->fd_out = shell->pipefd[WRITE_END];
 }
