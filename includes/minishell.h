@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/08 17:24:43 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:46:15 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "expander.h"
 # include <sys/fcntl.h>
 # include <sys/types.h>
-# include <sys/wait.h>
+#include <signal.h>
 # include <errno.h>
 
 # define READ_END 0
@@ -47,6 +47,7 @@ typedef struct s_chill
 	int				fd_out;
 	int				hd_count;
 	int				nb_cmd;
+	int				prev;
 	int				index_cmd;
 	int				error_code;
 }		t_chill;
@@ -74,6 +75,8 @@ void	execution_cmd(t_chill *shell);
 char	**convert_list_to_tab(t_simple_cmd *input);
 char	**split_path(char **env);
 char	*get_valid_path(char *cmd, char **env);
+int		is_last_cmd(t_chill *shell);
+void	redirect_for_next_cmd(t_chill *shell);
 
 //exec utils
 void	get_file(t_chill *shell, char **redirections);

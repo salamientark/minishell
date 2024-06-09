@@ -42,9 +42,11 @@ void	get_file(t_chill *shell, char **redirections)
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
 		{
-			shell->hd_count++;
-			here_doc_name(buffer , shell->hd_count);
+			here_doc_name(buffer , shell->hd_count++);
+			open(buffer, O_RDWR);
 		}
+		if (!ft_strcmp(redirections[i], ">>"))
+			open(redirections[i + 1], O_RDWR | O_APPEND);
 		if (!ft_strcmp(redirections[i], "<"))
 			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))
