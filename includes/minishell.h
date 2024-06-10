@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/10 21:41:49 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/10 23:38:54 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*display_prompt(void);
 int		isbuiltin(char **cmd, t_chill *shell);
 void	ft_cd(char **cmd, t_chill *env);
 void	ft_env(char **cmd, char **env);
-void	ft_echo(char **cmd);
+void	ft_echo(char **cmd, t_chill *shell);
 void	ft_exit(char **cmd);
 void	ft_pwd(char **cmd);
 void	ft_export(char **cmd, t_chill *shell);

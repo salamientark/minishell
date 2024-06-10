@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/10 21:46:53 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:54:59 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	redirect(t_chill *shell)
 		case_no_pipe(shell);
 	else if (shell->index_cmd == 0)
 		first_child(shell);
-	else if (is_last_cmd(shell))
-		last_child(shell);
 	else if (!is_last_cmd(shell))
 		intermediate_child(shell);
+	else if (is_last_cmd(shell))
+		last_child(shell);
 }

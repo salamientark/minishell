@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/10 21:53:43 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/11 00:13:26 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static	void	init_pipe(t_chill *shell)
 			exit(1);
 		}
 	}
-	else if (shell->index_cmd != shell->nb_cmd - 1)
+	else if (!is_last_cmd(shell))
 	{
 		shell->old_fd = dup(shell->pipefd[READ_END]);
 		if (pipe(shell->pipefd) < 0)
@@ -66,12 +66,17 @@ static void exec(t_chill *shell, char **cmd)
 {
 	char *path;
 
-	path = get_valid_path(*cmd, shell->env);
-	if (!path || access(path , X_OK | F_OK))
-		exit(1);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
-	execve(path, cmd, shell->env);
+	if (isbuiltin(cmd, shell))
+		exit(0);
+	else 
+	{
+		path = get_valid_path(*cmd, shell->env);
+		if (!path || access(path , X_OK | F_OK))
+			exit(1);
+		execve(path, cmd, shell->env);
+	}
 }
 
 static void	close_fd(t_chill *shell)
@@ -81,7 +86,7 @@ static void	close_fd(t_chill *shell)
 		close (shell->fd_in);
 		close(shell->fd_out);
 	}
-	else if (shell->index_cmd == 0 )
+	else if (shell->index_cmd == 0)
 	{
 		close(shell->pipefd[WRITE_END]);
 		close(shell->fd_in);
@@ -96,6 +101,7 @@ static void	close_fd(t_chill *shell)
 	else if (!is_last_cmd(shell))
 	{
 		close(shell->old_fd);
+		close (shell->pipefd[READ_END]);
 		close(shell->pipefd[WRITE_END]);
 		close(shell->fd_out);
 		close(shell->fd_in);
@@ -114,6 +120,9 @@ void	execution_cmd(t_chill *shell)
 		init_pipe(shell);
 		expand(shell->cmd_tab[shell->index_cmd], shell->env);
 		get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+		printf("Executing command: %s\n", shell->cmd_tab[shell->index_cmd]->cmd[0]);
+		printf("Index: %d, nb_cmd: %d\n", shell->index_cmd, shell->nb_cmd);
+		printf("infile: %s, outfile: %s\n", shell->infile, shell->outfile);
 		pid = fork();
 		if (pid == -1)
 			return(perror("fork failed"));
@@ -127,5 +136,5 @@ void	execution_cmd(t_chill *shell)
 		shell->index_cmd++;
 	}
 	wait_command(shell);
-	printf("%d\n", shell->error_code);
+	printf("exit code: %d\n", shell->error_code);
 }

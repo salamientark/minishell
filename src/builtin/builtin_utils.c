@@ -23,7 +23,7 @@ int	isbuiltin(char **cmd, t_chill *shell)
 	if (!ft_strcmp(cmd[0], "exit"))
 		return (ft_exit(cmd), 1);
 	if (!ft_strcmp(cmd[0], "echo"))
-		return (ft_echo(cmd), 1);
+		return (ft_echo(cmd, shell), 1);
 	if (!ft_strcmp(cmd[0], "pwd"))
 		return (ft_pwd(cmd), 1);
 	if (!ft_strcmp(cmd[0], "export"))
