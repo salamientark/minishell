@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/08 21:46:15 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/09 23:07:24 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_chill
 	int				fd_out;
 	int				hd_count;
 	int				nb_cmd;
-	int				prev;
+	int				old_fd;
 	int				index_cmd;
 	int				error_code;
 }		t_chill;
@@ -79,8 +79,8 @@ int		is_last_cmd(t_chill *shell);
 void	redirect_for_next_cmd(t_chill *shell);
 
 //exec utils
-void	get_file(t_chill *shell, char **redirections);
-void	redirect(t_chill *shell, char **redirection);
+void	get_file(t_chill *shell, char **redirection);
+void	redirect(t_chill *shell);
 void	free_str_tab(char ***str_tab_ptr);
 
 #endif
