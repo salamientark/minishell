@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/10 21:42:48 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:53:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,11 @@ static void exec(t_chill *shell, char **cmd)
 	char *path;
 
 	path = get_valid_path(*cmd, shell->env);
-	if (!path)
+	if (!path || access(path , X_OK | F_OK))
 		exit(1);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
 	execve(path, cmd, shell->env);
-	free(path);
 }
 
 static void	close_fd(t_chill *shell)
@@ -128,4 +127,5 @@ void	execution_cmd(t_chill *shell)
 		shell->index_cmd++;
 	}
 	wait_command(shell);
+	printf("%d\n", shell->error_code);
 }
