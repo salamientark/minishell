@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/10 15:16:30 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:54:52 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,22 @@ static	void	init_pipe(t_chill *shell)
 {
 	if (shell->nb_cmd == 1)
 		return ;
-	if (shell->index_cmd == 0)
+	else if (shell->index_cmd == 0)
 	{
-		if (pipe(shell->pipefd))
-			return(perror("pipe"));
+		if (pipe(shell->pipefd) < 0)
+		{
+			perror("pipe");
+			exit(1);
+		}
 	}
-	else if (!is_last_cmd(shell))
+	else if (shell->index_cmd != shell->nb_cmd - 1)
 	{
-		shell->old_fd = shell->pipefd[READ_END];
-		if (pipe(shell->pipefd))
-			return(perror("pipe"));
+		shell->old_fd = dup(shell->pipefd[READ_END]);
+		if (pipe(shell->pipefd) < 0)
+		{
+			perror("pipe");
+			exit(1);
+		}
 	}
 }
 
@@ -69,30 +75,25 @@ static void exec(t_chill *shell, char **cmd)
 
 static void	close_fd(t_chill *shell)
 {
-	if (shell->index_cmd == 0 && shell->nb_cmd != 1)
+	if (shell->nb_cmd == 1)
+	{
+		close (shell->fd_in);
+		close(shell->fd_out);
+	}
+	else if (shell->index_cmd == 0 )
 	{
 		close(shell->pipefd[WRITE_END]);
-		if (shell->infile)
-			close(shell->fd_in);
-		if (shell->outfile)
-			close(shell->fd_out);
+		close(shell->fd_in);
+	}
+	else if (is_last_cmd(shell))
+	{
+		close (shell->pipefd[READ_END]);
+		close(shell->fd_out);
 	}
 	else if (!is_last_cmd(shell))
 	{
 		close(shell->old_fd);
-		close(shell->pipefd[READ_END]);
-		if (shell->infile)
-			close(shell->fd_in);
-		if (shell->outfile)
-			close(shell->fd_out);
-	}
-	else if (is_last_cmd(shell) && shell->nb_cmd != 1)
-	{
-		close (shell->pipefd[WRITE_END]);
-		if (shell->infile)
-			close(shell->fd_in);
-		if (shell->outfile)
-			close(shell->fd_out);
+		close(shell->pipefd[WRITE_END]);
 	}
 }
 
@@ -101,6 +102,7 @@ void	execution_cmd(t_chill *shell)
 	int		pid;
 
 	shell->index_cmd = 0;
+	shell->hd_count = 0;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
 	while (shell->cmd_tab[shell->index_cmd])
 	{
@@ -111,7 +113,6 @@ void	execution_cmd(t_chill *shell)
 			return(perror("fork failed"));
 		if (!pid)
 		{
-			expand(shell->cmd_tab[shell->index_cmd], shell->env);
 			redirect(shell);
 			exec(shell, shell->cmd_tab[shell->index_cmd]->cmd);
 		}

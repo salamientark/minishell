@@ -35,7 +35,6 @@ void	get_file(t_chill *shell, char **redirections)
 	int		i;
 
 	i = 0;
-	shell->hd_count = 0;
 	shell->outfile = NULL;
 	shell->infile = NULL;
 	while (redirections[i])
@@ -53,4 +52,8 @@ void	get_file(t_chill *shell, char **redirections)
 			get_outfile(shell, redirections[i + 1]);
 		i = i + 2;
 	}
+	if (!shell->infile)
+		shell->fd_in = dup(STDIN_FILENO);
+	if (!shell->outfile)
+		shell->fd_out = dup(STDOUT_FILENO);
 }
