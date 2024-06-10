@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/10 17:54:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:42:48 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ int	is_last_cmd(t_chill *shell)
 		return(1);
 	return(0);
 }
-// static void print_cmd(char **cmd)
-// {
-// 	int i = 0;
-// 	while(cmd[i])
-// 		printf("%s\n", cmd[i++]);
-// 	printf("====================\n");
-// }
+
+static void wait_command(t_chill *shell)
+{
+	while(shell->index_cmd--)
+	{
+		wait(&shell->exit_status);
+		shell->error_code = WEXITSTATUS(shell->exit_status);
+	}
+}
 
 static void exec(t_chill *shell, char **cmd)
 {
@@ -84,16 +86,20 @@ static void	close_fd(t_chill *shell)
 	{
 		close(shell->pipefd[WRITE_END]);
 		close(shell->fd_in);
+		close(shell->fd_out);
 	}
 	else if (is_last_cmd(shell))
 	{
 		close (shell->pipefd[READ_END]);
 		close(shell->fd_out);
+		close(shell->fd_in);
 	}
 	else if (!is_last_cmd(shell))
 	{
 		close(shell->old_fd);
 		close(shell->pipefd[WRITE_END]);
+		close(shell->fd_out);
+		close(shell->fd_in);
 	}
 }
 
@@ -107,6 +113,7 @@ void	execution_cmd(t_chill *shell)
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
+		expand(shell->cmd_tab[shell->index_cmd], shell->env);
 		get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 		pid = fork();
 		if (pid == -1)
@@ -120,6 +127,5 @@ void	execution_cmd(t_chill *shell)
 			close_fd(shell);
 		shell->index_cmd++;
 	}
-	while (shell->index_cmd--)
-		wait(0);
+	wait_command(shell);
 }
