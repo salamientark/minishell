@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/11 22:07:11 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/11 22:41:49 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static void	init_pipe(t_chill *shell)
 		perror("pipe");
 		exit(1);
 	}
-	if (shell->index_cmd != 0 && !is_last_cmd(shell))
-		shell->old_fd = shell->pipefd[READ_END];
 }
 
 static void	wait_command(t_chill *shell)
@@ -32,6 +30,7 @@ static void	wait_command(t_chill *shell)
 	while (shell->index_cmd--)
 	{
 		wait(&shell->exit_status);
+
 		shell->error_code = WEXITSTATUS(shell->exit_status);
 	}
 }
@@ -58,10 +57,10 @@ static void	update_fd(t_chill *shell)
 	if (shell->nb_cmd != 1)
 	{
 		close(shell->pipefd[WRITE_END]);
+		if (shell->old_fd != 1)
+			close(shell->old_fd);
 		if (!is_last_cmd(shell))
-		{
-			close (shell->old_fd);
-		}
+			shell->old_fd = shell->pipefd[READ_END];
 	}
 }
 
@@ -91,6 +90,6 @@ void	execution_cmd(t_chill *shell)
 		shell->index_cmd++;
 	}
 	if (shell->nb_cmd != 1)
-		close (shell->pipefd[READ_END]);
+		close(shell->pipefd[READ_END]);
 	wait_command(shell);
 }
