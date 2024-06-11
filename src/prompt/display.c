@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/08 18:38:56 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:48:39 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static char	*interactiveprompt(void)
 	getcwd(pwd, MAX_PATHLEN);
 	tmp = ft_strjoin("\001\033[0;35m\002>", pwd);
 	if (!tmp)
-		return(NULL);
+		return (NULL);
 	prompt = ft_strjoin(tmp, "\001\033[0;37m$\002 ");
 	if (!prompt)
-		return(NULL);
+		return (NULL);
 	free(tmp);
 	input = readline(prompt);
 	free(prompt);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/10 23:38:54 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:51:51 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	**convert_list_to_tab(t_simple_cmd *input);
 char	**split_path(char **env);
 char	*get_valid_path(char *cmd, char **env);
 int		is_last_cmd(t_chill *shell);
+int		cmd_count(t_simple_cmd **cmd);
 void	redirect_for_next_cmd(t_chill *shell);
 
 //exec utils

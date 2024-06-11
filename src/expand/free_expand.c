@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_expand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 03:48:12 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:12:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/11 20:48:30 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ void	free_expand_tab(t_expand ***expand_p)
 	free(*expand_p);
 	*expand_p = NULL;
 }
-

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/07 22:09:45 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:51:16 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	tabsize(char **tab)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (tab[len])
 		len++;
-	return(len);
+	return (len);
 }
 
 char	**copy_env(char **env)
@@ -30,8 +30,9 @@ char	**copy_env(char **env)
 
 	i = 0;
 	len = tabsize(env);
-	if(!(new_env = (char **)malloc(sizeof(char *) * (len + 1))))
-		return(NULL);
+	new_env = (char **)malloc(sizeof(char *) * (len + 1));
+	if(!new_env)
+		return (NULL);
 	while(env[i] && i < len)
 	{
 		new_env[i] = ft_strdup(env[i]);

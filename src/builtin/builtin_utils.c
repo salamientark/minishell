@@ -67,12 +67,12 @@ int	isbuiltin(char **cmd, t_chill *shell)
 
 static int	tabsize(char **tab)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (tab[len])
 		len++;
-	return(len);
+	return (len);
 }
 
 char	**update_env(t_chill *shell, char *var)
@@ -95,5 +95,5 @@ char	**update_env(t_chill *shell, char *var)
 	shell->env = new_env;
 	shell->env[i] = var;
 	shell->env[i + 1] = NULL;
-	return(new_env);
+	return (new_env);
 }

@@ -59,12 +59,7 @@ void	ft_echo(char **cmd, t_chill *shell)
 	{
 		j = 0;
 		while (cmd[i][j])
-		{
-			// if (cmd[i][j] == SINGLE_QUOTE || cmd[i][j] == DOUBLE_QUOTE)
-			// 	j += write_quote(cmd[i], j, cmd[i][j]);
-			// else
 			ft_putchar_fd(cmd[i][j++], 1);
-		}
 		if (cmd[++i])
 			write(1, " ", 1);
 	}

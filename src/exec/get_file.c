@@ -41,7 +41,7 @@ void	get_file(t_chill *shell, char **redirections)
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
 		{
-			here_doc_name(buffer , shell->hd_count++);
+			here_doc_name(buffer, shell->hd_count++);
 			open(buffer, O_RDWR);
 		}
 		if (!ft_strcmp(redirections[i], ">>"))

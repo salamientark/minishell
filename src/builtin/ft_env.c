@@ -31,7 +31,7 @@ void	ft_env(char **cmd, char **env)
 	}
 	while (env[i])
 	{
-		printf("%s\n", env[i]);
+		ft_putendl_fd(env[i], 1);
 		i++;
 	}
 }
