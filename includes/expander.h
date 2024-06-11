@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 12:35:22 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/07 14:54:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void		free_expand_tab(t_expand ***expand_p);
 
 // is_expand.c
 int			is_expand(const char *str);
+
+// expand_heredoc.c
+char		*expand_heredoc(char *input, char **env);
 
 // expanded_variable_len.c
 size_t		expanded_variable_len(const char *word, char **env);

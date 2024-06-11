@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:29:36 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/11 06:44:29 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 #include "parser.h"
 #include "expander.h"
+#include "minishell.h"
+
+extern int	g_exit_status;
 
 /* Remove quote on here_doc limiter when found
  * */
@@ -71,11 +74,10 @@ static char	*get_here_doc_limiter(const char *cmd, int ref, int *expand_flag)
 			*expand_flag = 0;
 		limiter_len++;
 	}
-	limiter = (char *)malloc(limiter_len + 2);
+	limiter = (char *)malloc(limiter_len + 1);
 	if (!limiter)
 		return (print_error("malloc", strerror(errno)), NULL);
-	limiter[limiter_len] = '\n';
-	limiter[limiter_len + 1] = '\0';
+	limiter[limiter_len] = '\0';
 	while (limiter_len-- > 0)
 		limiter[limiter_len] = cmd[index + limiter_len];
 	if (*expand_flag == 0)
@@ -83,88 +85,78 @@ static char	*get_here_doc_limiter(const char *cmd, int ref, int *expand_flag)
 	return (limiter);
 }
 
-/* Perform variable expansion on heredoc input
- * */
-static char	*expand_heredoc_input(char *input, char **env)
-{
-	t_expand	**expand_tab;
-	char		*result;
-	int			index;
-
-	index = 0;
-	while (input[index] && !is_expand(input + index))
-		index++;
-	if (!input[index])
-		return (input);
-	expand_tab = (t_expand **)malloc(sizeof(t_expand *) * 2);
-	if (!expand_tab)
-		return (print_error("malloc", strerror(errno)), free(input), NULL);
-	expand_tab[1] = NULL;
-	expand_tab[0] = make_expand_elem(input);
-	if (!expand_tab[0])
-		return (free(expand_tab), free(input), NULL);
-	ft_memset(expand_tab[0]->quote, 0, sizeof(int) * expand_tab[0]->size);
-	expand_tab[1] = NULL;
-	if (perform_variable_expansion(expand_tab, env) != 0)
-		return (free_expand_tab(&expand_tab), free(input), NULL);
-	result = expand_tab[0]->word;
-	expand_tab[0]->word = NULL;
-	free_expand_tab(&expand_tab);
-	return (result);
-}
-
 /* Write standard input to fd
  * */
 static int	write_here_doc(int fd, char *limiter, int expand_flag, char **env)
 {
 	int		index;
-	int		limiter_len;
 	char	*input;
 
-	limiter_len = 0;
-	while (limiter[limiter_len] && limiter[limiter_len] != '\n')
-		limiter_len++;
 	index = 0;
-	write(1, HERE_DOC_PROMPT, 2);
-	input = get_next_line(0);
-	while (input && ft_strncmp(input, limiter, limiter_len + 1) != 0)
+	while (g_exit_status != 130)
 	{
-		if (expand_flag == 1)
-			input = expand_heredoc_input(input, env);
+		input = readline("> ");
+		if (!input && g_exit_status != 130)
+			return (print_here_doc_warning(index, limiter), 0);
 		if (!input)
-			return (free(limiter), 1);
+			break ;
+		if (ft_strcmp(limiter, input) == 0)
+			break ;
+		if (expand_flag == 1)
+			input = expand_heredoc(input, env);
+		if (!input)
+			break ;
 		index++;
 		write(fd, input, ft_strlen(input));
+		write(fd, "\n", 1);
 		free(input);
-		write(1, HERE_DOC_PROMPT, 2);
-		input = get_next_line(0);
 	}
-	if (!input)
-		return (print_here_doc_warning(index, limiter), free(limiter), 0);
-	return (free(input), free(limiter), 0);
+	return (g_exit_status);
 }
 
-/* File redirection 
+/* set the g_sig_status to 0 and open heredoc_file
  * */
-int	here_doc(const char *cmd, int ref, int *here_doc_count, char **env)
+int	init_here_doc(int here_doc_count)
 {
-	char	*limiter;
-	char	heredoc_filename[11];
-	int		expand_flag;
+	char	heredoc_name[11];
 	int		fd;
 
-	fd = open(here_doc_name(heredoc_filename, *here_doc_count),
+	g_exit_status = 0;
+	here_doc_name(heredoc_name, here_doc_count);
+	fd = open(here_doc_name(heredoc_name, here_doc_count),
 			O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd == -1)
 		return (print_error("open", strerror(errno)), 1);
+	signal(SIGINT, heredoc_sig_handler);
+	return (fd);
+}
+
+/* Save original STDIN_FILENO befor redirecting it the the heredoc_file stream
+ * */
+int	here_doc(const char *cmd, int ref, int *here_doc_count, char **env)
+{
+	int		fd;
+	int		stdin_cp;
+	int		expand_flag;
+	int		here_doc_return;
+	char	*limiter;
+
+	fd = init_here_doc(*here_doc_count);
+	if (fd <= -1)
+		return (1);
+	stdin_cp = dup(STDIN_FILENO);
+	if (!stdin_cp)
+		return (print_error("dup", strerror(errno)), close(fd), 1);
 	expand_flag = 1;
 	limiter = get_here_doc_limiter(cmd, ref, &expand_flag);
 	if (!limiter)
-		return (1);
-	printf("limiter : %s\n", limiter);
-	if (write_here_doc(fd, limiter, expand_flag, env) != 0)
-		return (1);
+		return (close(fd), 1);
+	here_doc_return = write_here_doc(fd, limiter, expand_flag, env);
+	free(limiter);
 	close(fd);
-	*here_doc_count += 1;
-	return (0);
+	close(STDIN_FILENO);
+	dup2(stdin_cp, STDIN_FILENO);
+	close(stdin_cp);
+	signal(SIGINT, signal_handler);
+	return (here_doc_return);
 }

@@ -88,6 +88,7 @@ define EXPAND_FILE :=
 		free_expand.c \
 		is_expand.c \
 		make_expand_tab.c \
+		expand_heredoc.c \
 		expanded_variable_len.c \
 		expand_variable.c \
 		var_expand_elem.c \

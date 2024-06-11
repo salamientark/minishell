@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 23:47:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/07 15:31:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_export(char **cmd, char **env);
 void	ft_unset(char **cmd, char **env);
 
 // signals
+void	heredoc_sig_handler(int signum);
 void	signal_handler(int signum);
 void	set_signals(void);
 

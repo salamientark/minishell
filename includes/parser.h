@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 20:25:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/07 15:07:02 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include <fcntl.h>
+# include <sys/wait.h>
 # include "error.h"
 # include "../libft/includes/libft.h"
 
