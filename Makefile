@@ -88,6 +88,7 @@ define EXPAND_FILE :=
 	$(addprefix $(SRC_DIR)/$(EXPAND_DIR)/, \
 		free_expand.c \
 		is_expand.c \
+		is_valid_expand.c \
 		make_expand_tab.c \
 		expand_heredoc.c \
 		expanded_variable_len.c \

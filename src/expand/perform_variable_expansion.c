@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 14:18:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:35:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	perform_variable_expansion(t_expand **expand_tab, t_chill *shell)
 	{
 		if (contain_var_expansion(expand_tab[index]->word))
 		{
+			if (!is_valid_expand(expand_tab[index]->word))
+				return (1);
 			expand_result = var_expand_elem(expand_tab[index], shell);
 			if (!expand_result)
 				return (1);

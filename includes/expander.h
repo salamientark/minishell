@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 14:51:27 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:58:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ char		*expand_variable(const char *to_expand, t_chill *shell);
 
 // var_expand_elem.c
 t_expand	*var_expand_elem(t_expand *elem, t_chill *shell);
+
+// is_valid_expansion.c
+int			is_valid_expand(const char *str);
 
 // perform_variable_expansion.c
 int			perform_variable_expansion(t_expand **expand_tab, t_chill *shell);
