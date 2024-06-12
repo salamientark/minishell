@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:24:43 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 14:43:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:15:04 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	get_expand_len(const char *str, int ref)
 	len = 1;
 	if (!str || !*str)
 		return (len);
+	if (str[len] == '?')
+		return (len + 1);
 	if (ft_isdigit(str[len]))
 		return (len + 1);
 	if (str[ref + len] && str[ref + len] == LEFT_BRACE)
@@ -48,13 +50,15 @@ static size_t	get_env_var_len(const char *str, int ref, t_chill *shell)
 	ref++;
 	if (ft_isdigit(str[ref]))
 		return (0);
-	if (str[ref] == LEFT_BRACE)
-		ref++;
 	if (str[ref] == '?')
 		return (ft_nbrlen(shell->exit_status));
+	if (str[ref] == LEFT_BRACE)
+		ref++;
 	while (str[ref + key_len] && (ft_isalnum(str[ref + key_len])
 			|| str[ref + key_len] == UNDERSCORE))
 		key_len++;
+	if (key_len == 0 && str[ref] == '?' && str[ref + 1] == RIGHT_BRACE)
+		return (ft_nbrlen(shell->exit_status));
 	index = 0;
 	while (shell->env[index])
 	{

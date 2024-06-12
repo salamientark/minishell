@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:22:17 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 22:55:47 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:09:45 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	expand_strlen(const char *input, int ref, int in_double_quote)
 		if (len == -1)
 			return (len);
 	}
+	else if (input[ref + len] == '?')
+		return (2);
 	else
 	{
 		while (ft_isalnum(input[ref + len]))
