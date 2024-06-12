@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:03:22 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 21:35:38 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 22:17:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int	contain_var_expansion(const char *str)
 	return (0);
 }
 
+/* Remove element at pos index frm tab (element expanded to nothing)
+ * */
 static t_expand	**remove_from_tab(t_expand **dest, int remove_index)
 {
 	int	index;
@@ -58,32 +60,41 @@ static t_expand	**remove_from_tab(t_expand **dest, int remove_index)
 	return (dest);
 }
 
-int	perform_variable_expansion(t_expand **expand_tab, t_chill *shell)
+static int	variable_expansion(t_expand **expand_tab, int *index,
+	t_chill *shell)
 {
-	int			index;
 	t_expand	*expand_result;
 
-	index = 0;
-	while (expand_tab[index])
+	while (expand_tab[*index])
 	{
-		if (contain_var_expansion(expand_tab[index]->word))
+		if (contain_var_expansion(expand_tab[*index]->word))
 		{
-			if (!is_valid_expand(expand_tab[index]->word))
+			if (!is_valid_expand(expand_tab[*index]->word))
 				return (1);
-			expand_result = var_expand_elem(expand_tab[index], shell);
+			expand_result = var_expand_elem(expand_tab[*index], shell);
 			if (!expand_result)
 				return (1);
 			if (expand_result->size != 0)
 			{
-				free_expand_elem(&expand_tab[index]);
-				expand_tab[index] = expand_result;
-				index++;
+				free_expand_elem(&expand_tab[*index]);
+				expand_tab[*index] = expand_result;
+				*index += 1;
 				continue ;
 			}
 			free(expand_result);
-			expand_tab = remove_from_tab(expand_tab, index);
+			expand_tab = remove_from_tab(expand_tab, *index);
 		}
-		index++;
+		*index += 1;
 	}
 	return (0);
+}
+
+/* Perform variable expansion for every element in the expand_tab
+ * */
+int	perform_variable_expansion(t_expand **expand_tab, t_chill *shell)
+{
+	int			index;
+
+	index = 0;
+	return (variable_expansion(expand_tab, &index, shell));
 }
