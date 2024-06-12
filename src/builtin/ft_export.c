@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+static void	case_noargs(char **env)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (env[i])
+	{
+		j = 1;
+		while (env[j])
+		{
+			if (ft_strcmp(env[j], env[j - 1]) < 0)
+			{
+				tmp = env[j - 1];
+				env[j - 1] = env[j];
+				env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (env[i])
+		printf("export %s\n", env[i++]);
+}
+
 //check input error and return the len to malloc for the export variable
 static int	check_valid_var(char *cmd)
 {
@@ -22,7 +49,7 @@ static int	check_valid_var(char *cmd)
 	i = 0;
 	len = 0;
 	is_equal_sign = 0;
-	if (cmd[0] == '=')
+	if (cmd[0] == '=' || ft_isdigit(cmd[0]))
 		return (ft_putendl_fd("invalid name for export", 2), 0);
 	while (cmd[i])
 	{
@@ -31,7 +58,7 @@ static int	check_valid_var(char *cmd)
 		if ((cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE) && cmd[i])
 			i++;
 		if ((cmd[i] == '{' || cmd[i] == '}' || cmd[i] == '[' || cmd[i] == ']')
-			&& !is_equal_sign)
+			  && !is_equal_sign)
 			return (ft_putendl_fd("invalid name for export", 2), 0);
 		len++;
 		i++;
@@ -74,11 +101,11 @@ static char	*get_var_name(char *var)
 
 	len = 0;
 	i = 0;
-	while (var[len] != '=' && var[len])
+	while (var[len] != '=')
 		len++;
 	if (var[len] != '=')
 		return (NULL);
-	name = (char *)malloc(len + 1);
+	name = (char *)malloc(len + 2);
 	if (!name)
 		return (NULL);
 	while (i < len)
@@ -91,7 +118,7 @@ static char	*get_var_name(char *var)
 	return (name);
 }
 
-static void	add_to_env(char *cmd, char **env)
+static void	add_to_env(char *cmd, t_chill *shell)
 {
 	int		len;
 	char	*var;
@@ -104,38 +131,31 @@ static void	add_to_env(char *cmd, char **env)
 		return ;
 	var = get_var(cmd, len);
 	if (!var)
-		return(free(var));
+		return ;
 	var_name = get_var_name(var);
 	if (!var_name)
-		return(free(var_name));
-	if (!var_name)
-		return(free(var_name));
-	while (env[i])
+		return ;
+	while (shell->env[i])
 	{
-		if (!ft_strncmp(env[i], var_name, ft_strlen(var_name)))
+		if (!ft_strncmp(shell->env[i], var_name, ft_strlen(var_name)))
 		{
-			env[i] = var;
-			return ;
+			shell->env[i] = var;
+			return(free(var_name));
 		}
 		i++;
 	}
-	env[i] = var;
-	env[i + 1] = NULL;
+	update_env(shell, var);
+	free(var_name);
 }
 
-void	ft_export(char **cmd, char **env)
+void	ft_export(char **cmd, t_chill *shell)
 {
-	int	i;
-	
+	int		i;
 
+	i = 0;
+	if (!cmd[1])
+		return(case_noargs(shell->env));
 	i = 1;
-	if (!cmd[i])
-	{
-		i = 0;
-		while (env[i])
-		printf("export %s\n", env[i++]);
-		return ;
-	}
 	while (cmd[i])
-		add_to_env(cmd[i++], env);
+		add_to_env(cmd[i++], shell);
 }

@@ -12,23 +12,79 @@
 
 #include "minishell.h"
 
-void    ft_unset(char **cmd, char **env)
+static int	ft_tabsize(char **tab)
 {
-	char *cmd_tmp;
-	int i;
+	int len;
 
-	while(*cmd)
+	len = 0;
+	while (tab[len])
+		len++;
+	return(len);
+}
+
+static char **realloc_env(char **env, int remove_pos, int size)
+{
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	new_env = (char**)malloc(sizeof(char *) * size);
+	if (!new_env)
+		return(NULL);
+	while (i < remove_pos)
 	{
-		i = 0;
-		cmd_tmp = ft_strjoin(*cmd, "=");
-		if (!cmd_tmp)
-			return(free(cmd_tmp));
-		while(env[i])
+		new_env[i] = env[i];
+		i++;
+	}
+	free(env[i]);
+	while(env[i + 1])
+	{
+		new_env[i] = env[i + 1];
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
+static int	remove_env(t_chill *shell, char *cmd)
+{
+	int		i;
+	int		size;
+	char	**new_env;
+
+	i = 0;
+	size = ft_tabsize(shell->env);
+	while(shell->env[i])
+	{
+		if (!ft_strncmp(cmd, shell->env[i], ft_strlen(cmd)))
 		{
-			if (!ft_strncmp(cmd_tmp, env[i], ft_strlen(cmd_tmp)))
-				return(free(env[i]));
-			i++;
+			new_env = realloc_env(shell->env, i, size);
+			if (!new_env)
+				return (1);
+			free(shell->env);
+			shell->env = new_env;
+			return (0);
 		}
-		cmd++;
-    }
+		i++;
+	}
+	return(0);
+}
+
+int	ft_unset(char **cmd, t_chill *shell)
+{
+	char	*cmd_tmp;
+	int		i;
+
+	i = 1;
+	while(cmd[i])
+	{
+		cmd_tmp = ft_strjoin(cmd[i], "=");
+		if (!cmd_tmp)
+			return(1);
+		if (remove_env(shell, cmd_tmp))
+			return(1);
+		free(cmd_tmp);
+		i++;
+	}
+	return (0);
 }

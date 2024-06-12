@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/12 19:05:28 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 23:16:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*display_prompt(void)
 	char	*input;
 
 	input = interactiveprompt();
+	rl_on_new_line();
 	if (!input)
 		return (NULL);
 	if (input && *input)

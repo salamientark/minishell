@@ -35,35 +35,31 @@ static int	check_flag(char **cmd)
 	return (flag);
 }
 
-static int	write_quote(char *str, int ref, char quote)
-{
-	int	quote_len;
+// static int	write_quote(char *str, int ref, char quote)
+// {
+// 	int	quote_len;
 
-	quote_len = quoted_strlen(str, ref, quote);
-	ref++;
-	if (quote_len > 2)
-		write(1, str + ref, quote_len - 2);
-	return (quote_len);
-}
+// 	quote_len = quoted_strlen(str, ref, quote);
+// 	ref++;
+// 	if (quote_len > 2)
+// 		write(1, str + ref, quote_len - 2);
+// 	return (quote_len);
+// }
 
-void	ft_echo(char **cmd)
+void	ft_echo(char **cmd, t_chill *shell)
 {
 	int	i;
 	int	j;
 	int	flag;
 
+	(void)shell;
 	flag = check_flag(cmd);
 	i = flag + 1;
 	while (cmd[i])
 	{
 		j = 0;
 		while (cmd[i][j])
-		{
-			if (cmd[i][j] == SINGLE_QUOTE || cmd[i][j] == DOUBLE_QUOTE)
-				j += write_quote(cmd[i], j, cmd[i][j]);
-			else
-				ft_putchar_fd(cmd[i][j++], 1);
-		}
+			ft_putchar_fd(cmd[i][j++], 1);
 		if (cmd[++i])
 			write(1, " ", 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 19:27:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 23:16:27 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,12 +230,34 @@ void	print_expand_tab(t_expand **expand_tab)
 }
 
 
+// int	*(*init_builtin_tab)()(result)
+// {
+// 	int		(*result[7])(char **, struct s_chill *);
+// 
+// 	result[0] = &ft_unset;
+// // 	result[0] = &ft_cd;
+// // 	result[1] = &ft_echo;
+// // 	result[2] = &ft_env;
+// // 	result[3] = &ft_exit;
+// // 	result[4] = &ft_export;
+// // 	result[5] = &ft_pwd;
+// // 	result[6] = &ft_unset;
+// 	return ((void *)result);
+// }
+
+// static void print_cmd(char **cmd)
+// {
+// 	int i = 0;
+// 	while(cmd[i])
+// 		printf("%s\n", cmd[i++]);
+// }
 //  ===== END OF TESTING =====
 
 /* Free shell variable
  * */
 static int	exit_shell(t_chill *shell, int exit_status)
 {
+	rl_clear_history();
 	if (shell->cmd_tab)
 		free_cmd_tab(&(shell->cmd_tab));
 	if (shell->env)
@@ -273,14 +295,17 @@ static void	unlink_all_heredoc(void)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
+	char			*input;
 	t_chill			*shell;
 	(void)ac;
 	(void)av;
+	int				(*result[7])(char **, struct s_chill *);
 
 	shell = init_minishell(env);
 	if (!shell)
 		return (1);
+	result[0] = &ft_unset;
+	(void)result;
 	while ("this is the best minishell")
 	{
 		unlink_all_heredoc();

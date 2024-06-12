@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:40:48 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/03 18:08:40 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:29:06 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	print_here_doc_warning(int line, char *limiter);
 void	print_syntax_error(const char *input, int ref, char operator);
 void	print_error(char *function, char *error);
 void	unclosed_delimiter_error(const char *str, int ref);
+void	print_error_cmd(char *msg, char *arg, char *error);
 
 #endif

@@ -6,13 +6,16 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 15:50:45 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 23:07:25 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
+# include "error.h"
+# include <errno.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include "error.h"
@@ -112,6 +115,9 @@ typedef struct s_chill
 	int				exit_status;
 	int				error_code;
 }				t_chill;
+
+// 
+void	**builtin_tab(void);
 
 // expand_strlen.c
 int				expand_strlen(const char *input, int ref, int in_double_quote);

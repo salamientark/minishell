@@ -9,10 +9,11 @@ PROJECT_DIR := ./
 
 ### SOURCE DIR ###
 SRC_DIR := src
-PROMPT_DIR := prompt
-PARSER_DIR := parser
-ERROR_DIR := error
+PROMPT_DIR	:= prompt
+PARSER_DIR	:= parser
+ERROR_DIR	:= error
 BUILTIN_DIR := builtin
+EXEC_DIR	:= exec
 EXPAND_DIR := expand
 SIGNAL_DIR := signal
 BONUS_DIR := bonus
@@ -30,6 +31,17 @@ endef
 define PROMPT_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
 		display.c \
+)
+endef
+
+define EXEC_FILE := 
+	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
+		split_path.c	\
+		exec_utils.c \
+		get_file.c		\
+		redirections.c	\
+		exec_command.c	\
+		free_all.c
 )
 endef
 
@@ -163,10 +175,11 @@ OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
 OBJ_BUILTIN := $(addprefix $(OBJ_DIR)/, $(notdir $(BUILTIN_FILE:%.c=%.o)))
+OBJ_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(EXEC_FILE:%.c=%.o)))
 OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
 OBJ_SIGNAL := $(addprefix $(OBJ_DIR)/, $(notdir $(SIGNAL_FILE:%.c=%.o)))
 OBJ := $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
-		$(OBJ_EXPAND) $(OBJ_SIGNAL)
+		$(OBJ_EXPAND) $(OBJ_SIGNAL) $(OBJ_EXEC)
 
 ## MANDATORY_FILE ##
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
@@ -226,6 +239,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(ERROR_DIR)/%.c
 
 # COMPILING BUILTIN_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/$(BUILTIN_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING EXEC_FILE
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(EXEC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
