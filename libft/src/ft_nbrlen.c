@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_expand.c                                        :+:      :+:    :+:   */
+/*   ft_nbrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:31:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 14:17:56 by madlab           ###   ########.fr       */
+/*   Created: 2024/06/12 14:23:29 by madlab            #+#    #+#             */
+/*   Updated: 2024/06/12 14:25:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../includes/libft.h"
 
-int	is_expand(const char *str)
+size_t	ft_nbrlen(const int nbr)
 {
-	int	index;
+	size_t	len;
+	int		nb_cp;
 
-	if (!str)
-		return (0);
-	index = 0;
-	if (str[index] == DOLLAR && str[index + 1]
-		&& (ft_isalnum(str[index + 1]) || str[index + 1] == UNDERSCORE
-			|| str[index + 1] == '?' || str[index + 1] == LEFT_BRACE))
-		return (1);
-	return (0);
+	len = 1;
+	nb_cp = nbr;
+	while (nb_cp != 0)
+	{
+		nb_cp /= 10;
+		len++;
+	}
+	return (len);
 }

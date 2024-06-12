@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 03:48:46 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:45:32 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
  * It indicates if the word_split should happened
  * */
 static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
-		char **env)
+		t_chill *shell)
 {
 	t_expand	**expand_tab;
 
 	expand_tab = make_expand_tab(*word_tab_p);
 	if (!expand_tab)
 		return (1);
-	if (perform_variable_expansion(expand_tab, env) != 0)
+	if (perform_variable_expansion(expand_tab, shell) != 0)
 		return (free_expand_tab(&expand_tab), 1);
 	if (cmd_flag == 1 && perform_word_split(&expand_tab) != 0)
 		return (free_expand_tab(&expand_tab), 1);
@@ -72,11 +72,11 @@ static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
  * - quote_removal
  *  On success return 0 else return 1
  *  */
-int	expand(t_simple_cmd *cmd, char **env)
+int	expand(t_simple_cmd *cmd, t_chill *shell)
 {
-	if (perform_every_expansion(&cmd->cmd, 1, env) != 0)
+	if (perform_every_expansion(&cmd->cmd, 1, shell) != 0)
 		return (1);
-	if (perform_every_expansion(&cmd->redirection, 0, env) != 0)
+	if (perform_every_expansion(&cmd->redirection, 0, shell) != 0)
 		return (1);
 	return (0);
 }

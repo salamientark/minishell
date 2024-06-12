@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 02:33:33 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/03 18:09:16 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:02:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	get_key_len(const char *to_expand)
 	int	len;
 
 	len = 0;
+	if (to_expand[len] == '?')
+		return (1);
 	while (to_expand[len] && (ft_isalnum(to_expand[len])
 			|| to_expand[len] == UNDERSCORE))
 		len++;
@@ -81,7 +83,7 @@ static char	*get_env_val(const char *key, int key_len, char **env)
 	return (expand_result);
 }
 
-char	*expand_variable(const char *to_expand, char **env)
+char	*expand_variable(const char *to_expand, t_chill *shell)
 {
 	int		ref;
 	int		key_len;
@@ -97,7 +99,10 @@ char	*expand_variable(const char *to_expand, char **env)
 	}
 	else
 		key_len = get_key_len(to_expand + ref);
-	expand_result = get_env_val(to_expand + ref, key_len, env);
+	if (key_len == 1 && to_expand[ref] == '?')
+		expand_result = ft_itoa(shell->exit_status);
+	else
+		expand_result = get_env_val(to_expand + ref, key_len, shell->env);
 	if (!expand_result)
 		return (NULL);
 	return (expand_result);

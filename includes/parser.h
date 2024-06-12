@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/07 15:07:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:01:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,24 @@ typedef struct s_simple_cmd
 	char	**redirection;
 }				t_simple_cmd;
 
+typedef struct s_chill
+{
+	int				(*builtin[7])(char **, struct s_chill *);
+	t_simple_cmd	**cmd_tab;
+	char			**env;
+	char			*infile;
+	char			*outfile;
+	int				pipefd[2];
+	int				fd_in;
+	int				fd_out;
+	int				hd_count;
+	int				nb_cmd;
+	int				old_fd;
+	int				index_cmd;
+	int				exit_status;
+	int				error_code;
+}				t_chill;
+
 // expand_strlen.c
 int				expand_strlen(const char *input, int ref, int in_double_quote);
 
@@ -124,11 +142,11 @@ char			*here_doc_name(char buff_name[11], int here_doc_count);
 
 // here_doc.c
 int				here_doc(const char *cmd, int ref, int *here_doc_count,
-					char **env);
+					t_chill *shell);
 
 // syntax_error.c
 int				is_followed_by_word(const char *cmd, int operator);
-int				syntax_error(const char *cmd, char **env);
+int				syntax_error(const char *cmd, t_chill *shell);
 
 // tokenize.c
 t_token_list	*tokenize(const char *input);
@@ -140,6 +158,6 @@ t_simple_cmd	*alloc_simple_cmd(t_token_list *token_list);
 t_simple_cmd	**split_to_simple_command(t_token_list **token_list_p);
 
 // parse_input.c
-t_simple_cmd	**parse_input(const char *input, char **env);
+t_simple_cmd	**parse_input(const char *input, t_chill *shell);
 
 #endif

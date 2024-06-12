@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/07 14:54:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:48:00 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Perform variable expansion on heredoc input
  * */
-char	*expand_heredoc(char *input, char **env)
+char	*expand_heredoc(char *input, t_chill *shell)
 {
 	t_expand	**expand_tab;
 	char		*result;
@@ -34,7 +34,7 @@ char	*expand_heredoc(char *input, char **env)
 		return (free(expand_tab), free(input), NULL);
 	ft_memset(expand_tab[0]->quote, 0, sizeof(int) * expand_tab[0]->size);
 	expand_tab[1] = NULL;
-	if (perform_variable_expansion(expand_tab, env) != 0)
+	if (perform_variable_expansion(expand_tab, shell) != 0)
 		return (free_expand_tab(&expand_tab), free(input), NULL);
 	result = expand_tab[0]->word;
 	expand_tab[0]->word = NULL;

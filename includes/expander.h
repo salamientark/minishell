@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/07 14:54:41 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:51:27 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ void		free_expand_tab(t_expand ***expand_p);
 int			is_expand(const char *str);
 
 // expand_heredoc.c
-char		*expand_heredoc(char *input, char **env);
+char		*expand_heredoc(char *input, t_chill *shell);
 
 // expanded_variable_len.c
-size_t		expanded_variable_len(const char *word, char **env);
+size_t		expanded_variable_len(const char *word, t_chill *shell);
 
 // expand_variable.c
-char		*expand_variable(const char *to_expand, char **env);
+char		*expand_variable(const char *to_expand, t_chill *shell);
 
 // var_expand_elem.c
-t_expand	*var_expand_elem(t_expand *elem, char **env);
+t_expand	*var_expand_elem(t_expand *elem, t_chill *shell);
 
 // perform_variable_expansion.c
-int			perform_variable_expansion(t_expand **expand_tab, char **env);
+int			perform_variable_expansion(t_expand **expand_tab, t_chill *shell);
 
 // word_split.c
 t_expand	**word_split(t_expand *elem);
@@ -64,7 +64,7 @@ t_expand	*make_expand_elem(char *str);
 t_expand	**make_expand_tab(char **tab);
 
 // expand.c
-int			expand(t_simple_cmd *cmd, char **env);
+int			expand(t_simple_cmd *cmd, t_chill *shell);
 
 //remove_quote.c
 void		remove_quote(t_expand **expand_tab);

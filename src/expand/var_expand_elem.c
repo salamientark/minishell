@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:29:35 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:30:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static void	free_all(t_expand **expand_p)
 /* allocate a new t_expand element and every field of it, letting enough space
  * for the result of an expanded word given as an argument
  * */
-static t_expand	*alloc_expanded_element(const char *word, char **env)
+static t_expand	*alloc_expanded_element(const char *word, t_chill *shell)
 {
 	t_expand	*final_expand;
 	char		*final_str;
 	int			*final_quote;
 	size_t		final_strlen;
 
-	final_strlen = expanded_variable_len(word, env);
+	final_strlen = expanded_variable_len(word, shell);
 	final_expand = (t_expand *)malloc(sizeof(struct s_expand));
 	if (!final_expand)
 		return (print_error("malloc", strerror(errno)), NULL);
@@ -101,13 +101,13 @@ static t_expand	*cat_until_expand(t_expand *final_expand, t_expand *elem,
  * It will update the 'quote' field and the index of elem->word
  * */
 static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
-		char **env)
+		t_chill *shell)
 {
 	char	*expand_result;
 	size_t	expand_result_len;
 	size_t	final_word_len;
 
-	expand_result = expand_variable(elem->word + *index, env);
+	expand_result = expand_variable(elem->word + *index, shell);
 	if (!expand_result)
 		return (free_all(final_expand), NULL);
 	expand_result_len = ft_strlen(expand_result);
@@ -126,14 +126,14 @@ static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
 /* str_var_expand return a new t_expand * resulting from variable expansion
  * of the elem->word. Putting the correct value in the 'quote' field.
  * */
-t_expand	*var_expand_elem(t_expand *elem, char **env)
+t_expand	*var_expand_elem(t_expand *elem, t_chill *shell)
 {
 	t_expand	*result;
 	int			index;
 	int			in_double_quote;
 	char		*word_cp;
 
-	result = alloc_expanded_element(elem->word, env);
+	result = alloc_expanded_element(elem->word, shell);
 	if (!result)
 		return (NULL);
 	if (result->size == 0)
@@ -147,7 +147,7 @@ t_expand	*var_expand_elem(t_expand *elem, char **env)
 			result = cat_until_expand(result, elem, &index, &in_double_quote);
 		else
 		{
-			result = cat_expand(&result, elem, &index, env);
+			result = cat_expand(&result, elem, &index, shell);
 			if (!result)
 				return (NULL);
 		}

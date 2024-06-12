@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/07 15:31:56 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:58:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # include "expander.h"
 
 # define MAX_PATHLEN 2048
+
+// INIT
+void	init_minishell(t_chill *shell, char **env);
 
 // prompt
 char	*display_prompt(void);

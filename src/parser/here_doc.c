@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/11 06:44:29 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:03:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ static char	*get_here_doc_limiter(const char *cmd, int ref, int *expand_flag)
 
 /* Write standard input to fd
  * */
-static int	write_here_doc(int fd, char *limiter, int expand_flag, char **env)
+static int	write_here_doc(int fd, char *limiter, int expand_flag,
+	t_chill *shell)
 {
 	int		index;
 	char	*input;
@@ -103,7 +104,7 @@ static int	write_here_doc(int fd, char *limiter, int expand_flag, char **env)
 		if (ft_strcmp(limiter, input) == 0)
 			break ;
 		if (expand_flag == 1)
-			input = expand_heredoc(input, env);
+			input = expand_heredoc(input, shell);
 		if (!input)
 			break ;
 		index++;
@@ -133,7 +134,7 @@ int	init_here_doc(int here_doc_count)
 
 /* Save original STDIN_FILENO befor redirecting it the the heredoc_file stream
  * */
-int	here_doc(const char *cmd, int ref, int *here_doc_count, char **env)
+int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 {
 	int		fd;
 	int		stdin_cp;
@@ -151,7 +152,7 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count, char **env)
 	limiter = get_here_doc_limiter(cmd, ref, &expand_flag);
 	if (!limiter)
 		return (close(fd), 1);
-	here_doc_return = write_here_doc(fd, limiter, expand_flag, env);
+	here_doc_return = write_here_doc(fd, limiter, expand_flag, shell);
 	free(limiter);
 	close(fd);
 	close(STDIN_FILENO);

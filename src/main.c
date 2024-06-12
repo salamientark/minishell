@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 23:51:07 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:00:30 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,9 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
+	t_chill	shell;
 //		SIGNALS
+	init_minishell(&shell, env);
 	set_signals();
 	while ("this is the best minishell")
 	{
@@ -268,15 +270,10 @@ int	main(int ac, char **av, char **env)
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input, env);
+			cmd_tab = parse_input(input, &shell);
 			printf("\n\n\n");
 			if (cmd_tab)
 			{
-				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-				if (expand(cmd_tab[0], env) == 0)
-					print_simple_cmd_tab(cmd_tab);
-				else
-					printf("expand ERROR\n");
 				free_cmd_tab(&cmd_tab);
 			}
 			//lexer DONE

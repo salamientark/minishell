@@ -22,6 +22,7 @@ BONUS_DIR := bonus
 # *************************************************************************** #
 define SRC_FILE :=
 	$(addprefix $(SRC_DIR)/, \
+		init_minishell.c \
 		main.c
 	)
 endef

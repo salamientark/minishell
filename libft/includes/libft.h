@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:52:32 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/05/23 01:21:48 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:25:35 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char				*ft_strndup(const char *s, size_t size);
 char				**ft_split_str(const char *s, char *sep);
 void				ft_free_char_tab(char ***tab_p);
 size_t				ft_tab_size(char **tab);
+size_t				ft_nbrlen(const int nbr);
 
 // ft_printf
 int					ft_printf(const char *s, ...);
