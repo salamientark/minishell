@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 19:05:51 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:23:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ void	print_expand_tab(t_expand **expand_tab)
 
 /* Free shell variable
  * */
-static void	free_shell(t_chill *shell)
+static int	exit_shell(t_chill *shell)
 {
 	if (shell->cmd_tab)
 		free_cmd_tab(&(shell->cmd_tab));
@@ -245,6 +245,8 @@ static void	free_shell(t_chill *shell)
 	if (shell->outfile)
 		free(shell->outfile);
 	free(shell);
+	write(1, "exit\n", 5);
+	return (0);
 }
 
 /* Delete all here_doc file
@@ -296,6 +298,5 @@ int	main(int ac, char **av, char **env)
 		}
 		free(input);
 	}
-	free_shell(shell);
-	return (0);
+	return (exit_shell(shell));
 }
