@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:30 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 19:49:19 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:17:07 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static t_expand	*cat_expand(t_expand **final_expand, t_expand *elem, int *index,
 		return (free_all(final_expand), NULL);
 	expand_result_len = ft_strlen(expand_result);
 	*index += ((elem->word[*index + 1] == LEFT_BRACE)
-		+ expand_strlen(elem->word, *index, 0));
+			+ expand_strlen(elem->word, *index, 0));
 	if (expand_result_len == 0)
 		return (free(expand_result), *final_expand);
 	final_word_len = ft_strlen((*final_expand)->word);
