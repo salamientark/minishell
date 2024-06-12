@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 15:01:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:50:45 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define HERE_DOC_WARNING_MSG_2 " delimited by end-of-file (wanted \'"
 # define HERE_DOC_WARNING_MSG_3 "\')\n"
 
+# define SHLVL_TOO_HIGH "warning: shell level (1000) too high, resetting to 1"
 # define HERE_DOC_1 "/tmp/.here_doc_1"
 # define HERE_DOC_2 "/tmp/.here_doc_2"
 # define HERE_DOC_3 "/tmp/.here_doc_3"

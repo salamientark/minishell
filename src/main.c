@@ -6,33 +6,13 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 15:00:30 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:10:50 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit_status = 0;
-
-void	unlink_all(void)
-{
-	unlink("/tmp/.00000");
-	unlink("/tmp/.00001");
-	unlink("/tmp/.00002");
-	unlink("/tmp/.00003");
-	unlink("/tmp/.00004");
-	unlink("/tmp/.00005");
-	unlink("/tmp/.00006");
-	unlink("/tmp/.00007");
-	unlink("/tmp/.00008");
-	unlink("/tmp/.00009");
-	unlink("/tmp/.00010");
-	unlink("/tmp/.00011");
-	unlink("/tmp/.00012");
-	unlink("/tmp/.00013");
-	unlink("/tmp/.00014");
-	unlink("/tmp/.00015");
-}
 
 
 // ========= TESTING ======== 
@@ -253,38 +233,68 @@ void	print_expand_tab(t_expand **expand_tab)
 
 //  ===== END OF TESTING =====
 
+/* Free shell variable
+ * */
+static void	free_shell(t_chill *shell)
+{
+	if (shell->cmd_tab)
+		free_cmd_tab(&(shell->cmd_tab));
+	if (shell->env)
+		ft_free_char_tab(&(shell->env));
+	if (shell->infile)
+		free(shell->infile);
+	if (shell->outfile)
+		free(shell->outfile);
+	free(shell);
+}
+
+/* Delete all here_doc file
+ * */
+static void	unlink_all_heredoc(void)
+{
+	unlink("/tmp/.00000");
+	unlink("/tmp/.00001");
+	unlink("/tmp/.00002");
+	unlink("/tmp/.00003");
+	unlink("/tmp/.00004");
+	unlink("/tmp/.00005");
+	unlink("/tmp/.00006");
+	unlink("/tmp/.00007");
+	unlink("/tmp/.00008");
+	unlink("/tmp/.00009");
+	unlink("/tmp/.00010");
+	unlink("/tmp/.00011");
+	unlink("/tmp/.00012");
+	unlink("/tmp/.00013");
+	unlink("/tmp/.00014");
+	unlink("/tmp/.00015");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_simple_cmd	**cmd_tab;
+	t_chill			*shell;
 	(void)ac;
 	(void)av;
 
-	t_chill	shell;
-//		SIGNALS
-	init_minishell(&shell, env);
-	set_signals();
+	shell = init_minishell(env);
+	if (!shell)
+		return (1);
 	while ("this is the best minishell")
 	{
-		unlink_all();
+		unlink_all_heredoc();
 		input = display_prompt();
 		if (ft_strlen(input)> 0)
 		{
-			cmd_tab = parse_input(input, &shell);
-			printf("\n\n\n");
-			if (cmd_tab)
+			shell->cmd_tab = parse_input(input, shell);
+			if (shell->cmd_tab)
 			{
-				free_cmd_tab(&cmd_tab);
+				free_cmd_tab(&shell->cmd_tab);
 			}
-			//lexer DONE
-			//parser DONE
-			//built-in DONE
-			//expand DONE
-			//pipe
-			//redirections
-			//execution
 		}
 		free(input);
 	}
-	rl_clear_history();
+	free_shell(shell);
+	return (0);
 }
