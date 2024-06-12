@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 16:14:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:05:51 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,6 @@ static void	unlink_all_heredoc(void)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	t_simple_cmd	**cmd_tab;
 	t_chill			*shell;
 	(void)ac;
 	(void)av;
@@ -284,11 +283,14 @@ int	main(int ac, char **av, char **env)
 	{
 		unlink_all_heredoc();
 		input = display_prompt();
+		if (!input)
+			break ;
 		if (ft_strlen(input)> 0)
 		{
 			shell->cmd_tab = parse_input(input, shell);
 			if (shell->cmd_tab)
 			{
+				print_simple_cmd_tab(shell->cmd_tab);
 				free_cmd_tab(&shell->cmd_tab);
 			}
 		}

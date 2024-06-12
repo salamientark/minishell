@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 23:03:14 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 16:14:13 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:54:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	heredoc_sig_handler(int signum)
 	{
 		g_signal = 130;
 		close(STDIN_FILENO);
+		write(1, "\n", 1);
 	}
 }
 

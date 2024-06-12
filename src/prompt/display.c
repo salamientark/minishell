@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/06 23:23:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:05:28 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ char	*display_prompt(void)
 
 	input = interactiveprompt();
 	if (!input)
-	{
-		free(input);
-		write(1, "exit\n", 5);
-		exit(0);
-	}
+		return (NULL);
 	if (input && *input)
 		add_history(input);
 	return (input);
