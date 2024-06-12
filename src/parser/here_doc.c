@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 15:03:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:14:13 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "expander.h"
 #include "minishell.h"
 
-extern int	g_exit_status;
+extern int	g_signal;
 
 /* Remove quote on here_doc limiter when found
  * */
@@ -94,10 +94,10 @@ static int	write_here_doc(int fd, char *limiter, int expand_flag,
 	char	*input;
 
 	index = 0;
-	while (g_exit_status != 130)
+	while (g_signal != 130)
 	{
 		input = readline("> ");
-		if (!input && g_exit_status != 130)
+		if (!input && g_signal != 130)
 			return (print_here_doc_warning(index, limiter), 0);
 		if (!input)
 			break ;
@@ -112,7 +112,7 @@ static int	write_here_doc(int fd, char *limiter, int expand_flag,
 		write(fd, "\n", 1);
 		free(input);
 	}
-	return (g_exit_status);
+	return (g_signal);
 }
 
 /* set the g_sig_status to 0 and open heredoc_file
@@ -122,7 +122,7 @@ int	init_here_doc(int here_doc_count)
 	char	heredoc_name[11];
 	int		fd;
 
-	g_exit_status = 0;
+	g_signal = 0;
 	here_doc_name(heredoc_name, here_doc_count);
 	fd = open(here_doc_name(heredoc_name, here_doc_count),
 			O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);

@@ -6,14 +6,13 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 16:10:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:14:43 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status = 0;
-
+int	g_signal = 0;
 
 // ========= TESTING ======== 
 static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
