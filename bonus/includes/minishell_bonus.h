@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 11:49:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 12:03:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 int		parenthesis_strlen(const char *str, int ref);
 
 // exec_tree_bonus.c
-void	exec_tree_void(t_btree *tree, t_chill *shell);
+int		exec_tree(t_btree *tree, t_chill *shell);
+// void	exec_tree_void(t_btree *tree, t_chill *shell);
 
 #endif

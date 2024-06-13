@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 11:50:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 12:14:48 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,9 +258,9 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (1);
-	index = 0;
 	while ("this is the best minishell")
 	{
+		index = 0;
 		unlink_here_doc();
 		shell->input = display_prompt();
 		if (!shell->input)
@@ -272,7 +272,8 @@ int	main(int ac, char **av, char **env)
 				return (exit_shell(shell, 1));
 			print_btree(tree, 0);
 			printf("\n\n\n\\t\t\t\t == GO EXEC TREE == \n\n");
-			exec_tree_void(tree, shell);
+			if (exec_tree(tree, shell) != 0)
+				return (ft_btree_free_all(&tree), exit_shell(shell, 1));
 			ft_btree_free_all(&tree);
 		}
 		free(shell->input);
