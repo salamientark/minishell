@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:46:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/13 10:47:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 12:55:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exit_shell(t_chill *shell, int exit_status)
 		free(shell->infile);
 	if (shell->outfile)
 		free(shell->outfile);
-	if(shell->input)
+	if (shell->input)
 		free(shell->input);
 	free(shell);
 	write(1, "exit\n", 5);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 10:55:41 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 12:55:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_chill
 }				t_chill;
 
 // 
-void	**builtin_tab(void);
+void			**builtin_tab(void);
 
 // expand_strlen.c
 int				expand_strlen(const char *input, int ref, int in_double_quote);
@@ -163,7 +163,7 @@ int				syntax_error(const char *cmd, t_chill *shell);
 t_token_list	*tokenize(const char *input);
 
 // free_cmd_tab.c
-void	free_cmd_tab(t_simple_cmd ***cmd_tab);
+void			free_cmd_tab(t_simple_cmd ***cmd_tab);
 
 // alloc_simple_cmd.c
 t_simple_cmd	*alloc_simple_cmd(t_token_list *token_list);
