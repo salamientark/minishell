@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 17:28:26 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/12 23:22:58 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	int	is_followed_by_newline(const char *cmd)
 /*
  * */
 static int	analyze_operator_syntax(const char *str, int ref,
-		int *here_doc_count, char **env)
+		int *here_doc_count, t_chill *shell)
 {
 	char	operator;
 
@@ -78,7 +78,7 @@ static int	analyze_operator_syntax(const char *str, int ref,
 		if (!is_followed_by_word(str + ref, operator))
 			return (print_syntax_error(str, ref, operator), 2);
 		if (operator == HERE_DOC)
-			return (here_doc(str, ref, here_doc_count, env));
+			return (here_doc(str, ref, here_doc_count, shell));
 	}
 	if (operator == LEFT_PARENTHESIS && is_preceeded_by_word(str, ref))
 		return (print_syntax_error(str, ref, operator), 2);
@@ -89,21 +89,21 @@ static int	analyze_operator_syntax(const char *str, int ref,
 
 /* First pass check for syntax error and open every necessary Here_doc
  **/
-int	syntax_error(const char *cmd, char **env)
+int	syntax_error(const char *cmd, t_chill *shell)
 {
 	int	i;
 	int	analyzed_op;
-	int	here_doc_count;
+	int	here_doc_nb;
 
 	if (!cmd)
 		return (0);
 	i = 0;
-	here_doc_count = 0;
+	here_doc_nb = 0;
 	while (cmd[i])
 	{
 		if (can_be_operator(cmd[i]))
 		{
-			analyzed_op = analyze_operator_syntax(cmd, i, &here_doc_count, env);
+			analyzed_op = analyze_operator_syntax(cmd, i, &here_doc_nb, shell);
 			if (analyzed_op != 0)
 				return (analyzed_op);
 			i += 1 + (cmd[i + 1] && cmd[i] == cmd[i + 1]);

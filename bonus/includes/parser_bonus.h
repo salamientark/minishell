@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 11:38:58 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 19:15:17 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/12 23:21:27 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		parenthesis_strlen(const char *str, int ref);
 int		unclosed_delimiter(const char *input);
 
 // syntax_error_bonus.c
-int		syntax_error(const char *cmd, char **env);
+int		syntax_error(const char *cmd, t_chill *shell);
 
 // operator_bonus.c
 int		can_be_operator(const char c);

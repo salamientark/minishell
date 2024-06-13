@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 16:14:13 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/13 02:09:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,12 +287,9 @@ void	print_btree(t_btree *root, int space)
 int	main(int ac, char **av, char **env)
 {
 	char			*input;
-	t_simple_cmd	**cmd_tab;
 	t_btree			*tree;
 	(void)ac;
 	(void)av;
-	(void)env;
-	(void)cmd_tab;
 
 	while ("this is the best minishell")
 	{
@@ -309,17 +306,6 @@ int	main(int ac, char **av, char **env)
 				print_btree(tree, 0);
 				ft_btree_free_all(&tree);
 			}
-// 			cmd_tab = parse_input(input, env);
-// 			printf("\n\n\n");
-// 			if (cmd_tab)
-// 			{
-// 				printf("\001\033\[0;32m\002=== ORIGNAL CMD_TAB ===\001\033\[0m\n");
-// 				if (expand(cmd_tab[0], env) == 0)
-// 					print_simple_cmd_tab(cmd_tab);
-// 				else
-// 					printf("expand ERROR\n");
-// 				free_cmd_tab(&cmd_tab);
-// 			}
 		}
 		free(input);
 	}

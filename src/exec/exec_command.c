@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/11 22:41:49 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/12 23:27:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	execution_cmd(t_chill *shell)
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
-		expand(shell->cmd_tab[shell->index_cmd], shell->env);
+		expand(shell->cmd_tab[shell->index_cmd], shell);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork failed"));
