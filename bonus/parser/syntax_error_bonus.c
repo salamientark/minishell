@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 23:22:58 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:41:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ static int	analyze_operator_syntax(const char *str, int ref,
 		if (!is_preceeded_by_word(str, ref))
 			return (print_syntax_error(str, ref, operator), 2);
 		if (is_followed_by_newline(str + ref + (operator != PIPE)))
-			return (write(2, "syntax error near unexpected token \'newline\'",
-					44), 1);
+			return (write(2,
+				"syntax error near unexpected token \'newline\'\n", 45), 1);
 	}
 	if (operator == LESS_THAN || operator == GREATER_THAN
 		|| operator == APPEND || operator == HERE_DOC)

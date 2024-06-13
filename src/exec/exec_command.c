@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/12 23:27:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 16:15:22 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ static void	init_pipe(t_chill *shell)
 
 static void	wait_command(t_chill *shell)
 {
+	int	status;
+
 	while (shell->index_cmd--)
 	{
-		wait(&shell->exit_status);
+		wait(&status);
 
-		shell->error_code = WEXITSTATUS(shell->exit_status);
+		shell->exit_status = WEXITSTATUS(status);
 	}
 }
 
