@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:31:00 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/13 12:25:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 12:36:14 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exec_tree(t_btree *tree, t_chill *shell)
 	if (error_status == 1)
 		return (1);
 	if ((ft_strcmp("||", tree->content) == 0 && shell->exit_status != 0)
-			|| (ft_strcmp("&&", tree->content) == 0 && shell->exit_status == 0))
+		|| (ft_strcmp("&&", tree->content) == 0 && shell->exit_status == 0))
 		error_status = exec_tree(tree->r_node, shell);
 	if (error_status == 1)
 		return (1);
