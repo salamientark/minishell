@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/04 15:23:14 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:00:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	check_for_update(t_chill *shell)
 {
 	char	*tmp;
 	int		i;
-	
+
 	i = 0;
 	tmp = "OLDPWD";
-	while(shell->env[i])
+	while (shell->env[i])
 	{
 		if (!ft_strncmp(shell->env[i], tmp, 7))
 			return ;
@@ -64,7 +64,7 @@ void	ft_cd(char **cmd, t_chill *shell)
 
 	home = getenv("HOME");
 	if (!home)
-		return(ft_putendl_fd("home not found", 2));
+		return (ft_putendl_fd("home not found", 2));
 	getcwd(oldpwd, MAX_PATHLEN);
 	if (cmd[2])
 		return ;

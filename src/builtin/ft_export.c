@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:42:38 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 23:42:38 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:00:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	check_valid_var(char *cmd)
 		if ((cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE) && cmd[i])
 			i++;
 		if ((cmd[i] == '{' || cmd[i] == '}' || cmd[i] == '[' || cmd[i] == ']')
-			  && !is_equal_sign)
+			&& !is_equal_sign)
 			return (ft_putendl_fd("invalid name for export", 2), 0);
 		len++;
 		i++;
@@ -140,7 +140,7 @@ static void	add_to_env(char *cmd, t_chill *shell)
 		if (!ft_strncmp(shell->env[i], var_name, ft_strlen(var_name)))
 		{
 			shell->env[i] = var;
-			return(free(var_name));
+			return (free(var_name));
 		}
 		i++;
 	}
@@ -150,11 +150,11 @@ static void	add_to_env(char *cmd, t_chill *shell)
 
 void	ft_export(char **cmd, t_chill *shell)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (!cmd[1])
-		return(case_noargs(shell->env));
+		return (case_noargs(shell->env));
 	i = 1;
 	while (cmd[i])
 		add_to_env(cmd[i++], shell);
