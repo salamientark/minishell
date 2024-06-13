@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 23:07:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 02:12:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_chill
 	char			**env;
 	char			*infile;
 	char			*outfile;
+	char			*input;
 	int				pipefd[2];
 	int				fd_in;
 	int				fd_out;
