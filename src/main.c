@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 19:27:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 02:11:21 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,8 @@ static int	exit_shell(t_chill *shell, int exit_status)
 		free(shell->infile);
 	if (shell->outfile)
 		free(shell->outfile);
+	if(shell->input)
+		free(shell->input);
 	free(shell);
 	write(1, "exit\n", 5);
 	return (exit_status);
@@ -273,7 +275,6 @@ static void	unlink_all_heredoc(void)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
 	t_chill			*shell;
 	(void)ac;
 	(void)av;
@@ -284,12 +285,12 @@ int	main(int ac, char **av, char **env)
 	while ("this is the best minishell")
 	{
 		unlink_all_heredoc();
-		input = display_prompt();
-		if (!input)
+		shell->input = display_prompt();
+		if (!shell->input)
 			break ;
-		if (ft_strlen(input)> 0)
+		if (ft_strlen(shell->input)> 0)
 		{
-			shell->cmd_tab = parse_input(input, shell);
+			shell->cmd_tab = parse_input(shell->input, shell);
 			if (shell->cmd_tab)
 			{
 				if (expand(shell->cmd_tab[0], shell) != 0)
@@ -298,7 +299,7 @@ int	main(int ac, char **av, char **env)
 				free_cmd_tab(&shell->cmd_tab);
 			}
 		}
-		free(input);
+		free(shell->input);
 	}
 	return (exit_shell(shell, 0));
 }
