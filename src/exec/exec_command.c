@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/11 22:41:49 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:25:32 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,36 @@ static void	wait_command(t_chill *shell)
 	while (shell->index_cmd--)
 	{
 		wait(&shell->exit_status);
-
 		shell->error_code = WEXITSTATUS(shell->exit_status);
 	}
+	printf("%d\n", shell->error_code);
+}
+
+void	free_all(t_simple_cmd ***cmd_tab, int last_cmd)
+{
+	int	index;
+
+	if (!*cmd_tab)
+		return ;
+	index = 0;
+	while (index < last_cmd)
+	{
+		ft_free_char_tab(&((*cmd_tab)[index]->cmd));
+		(*cmd_tab)[index]->cmd = NULL;
+		ft_free_char_tab(&((*cmd_tab)[index]->redirection));
+		(*cmd_tab)[index]->redirection = NULL;
+		free((*cmd_tab)[index]);
+		(*cmd_tab)[index] = NULL;
+		index++;
+	}
+	while ((*cmd_tab)[index])
+	{
+		free((*cmd_tab)[index]);
+		(*cmd_tab)[index] = NULL;
+		index++;
+	}
+	free(*cmd_tab);
+	*cmd_tab = NULL;
 }
 
 static void	exec(t_chill *shell, char **cmd)
@@ -46,10 +73,16 @@ static void	exec(t_chill *shell, char **cmd)
 	else
 	{
 		path = get_valid_path(*cmd, shell->env);
-		if (!path || access(path, X_OK | F_OK))
-			exit(1);
+		if (!path)
+			exit(127);
 		execve(path, cmd, shell->env);
 	}
+	//free_str_tab(&cmd);
+	// free_str_tab(&shell->cmd_tab[shell->index_cmd]->redirection);
+	// free_str_tab(&shell->cmd_tab[shell->index_cmd]->cmd);
+	free_all(&shell->cmd_tab, shell->nb_cmd);
+	free_str_tab(&shell->env);
+	free(shell);
 }
 
 static void	update_fd(t_chill *shell)
@@ -57,10 +90,12 @@ static void	update_fd(t_chill *shell)
 	if (shell->nb_cmd != 1)
 	{
 		close(shell->pipefd[WRITE_END]);
-		if (shell->old_fd != 1)
+		if (shell->old_fd != -1)
 			close(shell->old_fd);
 		if (!is_last_cmd(shell))
 			shell->old_fd = shell->pipefd[READ_END];
+		if (is_last_cmd(shell))
+			close(shell->pipefd[READ_END]);
 	}
 }
 
@@ -75,12 +110,12 @@ void	execution_cmd(t_chill *shell)
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
-		expand(shell->cmd_tab[shell->index_cmd], shell->env);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork failed"));
 		if (!pid)
 		{
+			expand(shell->cmd_tab[shell->index_cmd], shell->env);
 			get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 			redirect(shell);
 			exec(shell, shell->cmd_tab[shell->index_cmd]->cmd);
@@ -89,7 +124,5 @@ void	execution_cmd(t_chill *shell)
 			update_fd(shell);
 		shell->index_cmd++;
 	}
-	if (shell->nb_cmd != 1)
-		close(shell->pipefd[READ_END]);
 	wait_command(shell);
 }

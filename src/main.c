@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 15:59:36 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:29:52 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,6 @@ void	free_char_tab(char ***tab_p)
 	free(*tab_p);
 	*tab_p = NULL;
 }
-
-
 
 void	print_expand_tab(t_expand **expand_tab)
 {
