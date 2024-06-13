@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/12 23:19:28 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 10:49:42 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@
 
 # define MAX_PATHLEN 2048
 
-// INIT
-t_chill	*init_minishell(char **env);
+// exit_shell.c
+int		exit_shell(t_chill *shell, int exit_status);
+
+// init_minishell.c
+t_chill	*init_shell(char **env);
 
 // prompt
 char	*display_prompt(void);

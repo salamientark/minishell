@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 02:12:32 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 10:56:51 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,7 @@
 
 int	g_signal = 0;
 
-// ========= TESTING ======== 
-static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
-{
-	int	index;
-
-	if (!*cmd_tab)
-		return ;
-	index = 0;
-	while ((*cmd_tab)[index])
-	{
-		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
-		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
-		(*cmd_tab)[index]->redirection = NULL;
-		free((*cmd_tab)[index]);
-		(*cmd_tab)[index] = NULL;
-		index++;
-	}
-	free(*cmd_tab);
-	*cmd_tab = NULL;
-}
-
+// ============= TESTING ====================
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -253,48 +232,6 @@ void	print_expand_tab(t_expand **expand_tab)
 // }
 //  ===== END OF TESTING =====
 
-/* Free shell variable
- * */
-static int	exit_shell(t_chill *shell, int exit_status)
-{
-	rl_clear_history();
-	if (shell->cmd_tab)
-		free_cmd_tab(&(shell->cmd_tab));
-	if (shell->env)
-		ft_free_char_tab(&(shell->env));
-	if (shell->infile)
-		free(shell->infile);
-	if (shell->outfile)
-		free(shell->outfile);
-	if(shell->input)
-		free(shell->input);
-	free(shell);
-	write(1, "exit\n", 5);
-	return (exit_status);
-}
-
-/* Delete all here_doc file
- * */
-static void	unlink_all_heredoc(void)
-{
-	unlink("/tmp/.00000");
-	unlink("/tmp/.00001");
-	unlink("/tmp/.00002");
-	unlink("/tmp/.00003");
-	unlink("/tmp/.00004");
-	unlink("/tmp/.00005");
-	unlink("/tmp/.00006");
-	unlink("/tmp/.00007");
-	unlink("/tmp/.00008");
-	unlink("/tmp/.00009");
-	unlink("/tmp/.00010");
-	unlink("/tmp/.00011");
-	unlink("/tmp/.00012");
-	unlink("/tmp/.00013");
-	unlink("/tmp/.00014");
-	unlink("/tmp/.00015");
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_chill			*shell;
@@ -302,14 +239,14 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	int				(*result[7])(char **, struct s_chill *);
 
-	shell = init_minishell(env);
+	shell = init_shell(env);
 	if (!shell)
 		return (1);
 	result[0] = &ft_unset;
 	(void)result;
 	while ("this is the best minishell")
 	{
-		unlink_all_heredoc();
+		unlink_here_doc();
 		shell->input = display_prompt();
 		if (!shell->input)
 			break ;

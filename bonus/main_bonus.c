@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 02:09:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:50:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,7 @@
 
 int	g_signal = 0;
 
-void	unlink_all(void)
-{
-	unlink("/tmp/.00000");
-	unlink("/tmp/.00001");
-	unlink("/tmp/.00002");
-	unlink("/tmp/.00003");
-	unlink("/tmp/.00004");
-	unlink("/tmp/.00005");
-	unlink("/tmp/.00006");
-	unlink("/tmp/.00007");
-	unlink("/tmp/.00008");
-	unlink("/tmp/.00009");
-	unlink("/tmp/.00010");
-	unlink("/tmp/.00011");
-	unlink("/tmp/.00012");
-	unlink("/tmp/.00013");
-	unlink("/tmp/.00014");
-	unlink("/tmp/.00015");
-}
-
-
 // ========= TESTING ======== 
-// static void	free_cmd_tab(t_simple_cmd ***cmd_tab)
-// {
-// 	int	index;
-// 
-// 	if (!*cmd_tab)
-// 		return ;
-// 	index = 0;
-// 	while ((*cmd_tab)[index])
-// 	{
-// 		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
-// 		(*cmd_tab)[index]->cmd = NULL;
-// 		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
-// 		(*cmd_tab)[index]->redirection = NULL;
-// 		free((*cmd_tab)[index]);
-// 		(*cmd_tab)[index] = NULL;
-// 		index++;
-// 	}
-// 	free(*cmd_tab);
-// 	*cmd_tab = NULL;
-// }
-
 int	get_token_list_len(t_token_list *token_l)
 {
 	int	size;
@@ -284,30 +242,41 @@ void	print_btree(t_btree *root, int space)
 }
 
 //  ===== END OF TESTING =====
+/*
+ *
+ *			PLEASE TO SYNTAX ERROR CHECKING BEFORE MAKE TREE
+ *
+ * */
 int	main(int ac, char **av, char **env)
 {
-	char			*input;
-	t_btree			*tree;
+	t_chill	*shell;
+	int		index;
+	t_btree	*tree;
 	(void)ac;
 	(void)av;
 
+	shell = init_shell(env);
+	if (!shell)
+		return (1);
+	index = 0;
 	while ("this is the best minishell")
 	{
-		unlink_all();
-		input = display_prompt();
-		if (ft_strlen(input)> 0)
+		unlink_here_doc();
+		shell->input = display_prompt();
+		if (!shell->input)
+			break ;
+		if (ft_strlen(shell->input) > 0)
 		{
-			int index = 0;
-			tree = make_tree(input, &index);
+			tree = make_tree(shell->input, &index);
 			if (!tree)
-				printf("tree_error\n");
-			else
-			{
-				print_btree(tree, 0);
-				ft_btree_free_all(&tree);
-			}
+				return (exit_shell(shell, 1));
+			print_btree(tree, 0);
+			printf("\n\n\n\\t\t\t\t == GO EXEC TREE == \n\n");
+			exec_tree_void(tree, shell);
+			ft_btree_free_all(&tree);
 		}
-		free(input);
+		free(shell->input);
 	}
-	rl_clear_history();
+	ft_btree_free_all(&tree);
+	return (exit_shell(shell, 0));
 }

@@ -9,6 +9,7 @@ PROJECT_DIR := ./
 
 ### SOURCE DIR ###
 SRC_DIR := src
+INIT_DIR := init
 PROMPT_DIR	:= prompt
 PARSER_DIR	:= parser
 ERROR_DIR	:= error
@@ -23,8 +24,14 @@ BONUS_DIR := bonus
 # *************************************************************************** #
 define SRC_FILE :=
 	$(addprefix $(SRC_DIR)/, \
-		init_minishell.c \
 		main.c
+	)
+endef
+
+define INIT_FILE :=
+	$(addprefix $(SRC_DIR)/$(INIT_DIR)/, \
+		init_shell.c \
+		exit_shell.c
 	)
 endef
 
@@ -54,11 +61,13 @@ define PARSER_FILE :=
 		ft_token_free_list.c \
 		ft_token_get_head.c \
 		ft_token_init_one.c \
+		unlink_here_doc.c \
 		here_doc_count.c \
 		here_doc_name.c \
 		is_followed_by_word.c \
 		here_doc.c \
 		tokenize.c \
+		free_cmd_tab.c \
 		alloc_simple_cmd.c \
 		split_to_simple_command.c \
 		parse_input.c
@@ -157,6 +166,11 @@ define BONUS_EXPAND_FILE :=
 	)
 endef
 
+define BONUS_EXEC_FILE :=
+	$(addprefix $(BONUS_DIR)/$(EXEC_DIR)/, \
+		exec_tree_bonus.c
+	)
+endef
 
 ### HEADER FILE ###
 HEADER_DIR := -I./includes
@@ -171,6 +185,7 @@ LIB_FLAG := $(FT_FLAG) -lreadline
 ## OBJECT FILE ###
 OBJ_DIR := .obj
 OBJ_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILE:%.c=%.o)))
+OBJ_INIT := $(addprefix $(OBJ_DIR)/, $(notdir $(INIT_FILE:%.c=%.o)))
 OBJ_PROMPT := $(addprefix $(OBJ_DIR)/, $(notdir $(PROMPT_FILE:%.c=%.o)))
 OBJ_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(PARSER_FILE:%.c=%.o)))
 OBJ_ERROR := $(addprefix $(OBJ_DIR)/, $(notdir $(ERROR_FILE:%.c=%.o)))
@@ -179,7 +194,7 @@ OBJ_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(EXEC_FILE:%.c=%.o)))
 OBJ_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(EXPAND_FILE:%.c=%.o)))
 OBJ_SIGNAL := $(addprefix $(OBJ_DIR)/, $(notdir $(SIGNAL_FILE:%.c=%.o)))
 OBJ := $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
-		$(OBJ_EXPAND) $(OBJ_SIGNAL) $(OBJ_EXEC)
+		$(OBJ_EXPAND) $(OBJ_SIGNAL) $(OBJ_EXEC) $(OBJ_INIT)
 
 ## MANDATORY_FILE ##
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
@@ -192,7 +207,9 @@ OBJ_MANDATORY :=  $(OBJ) $(OBJ_SRC) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARS
 OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
 OBJ_BONUS_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_PARSER_FILE:%.c=%.o)))
 OBJ_BONUS_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXPAND_FILE:%.c=%.o)))
-OBJ_BONUS := $(OBJ) $(OBJ_BONUS_SRC) $(OBJ_BONUS_PARSER) $(OBJ_BONUS_EXPAND)
+OBJ_BONUS_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXEC_FILE:%.c=%.o)))
+OBJ_BONUS := $(OBJ) $(OBJ_BONUS_SRC) $(OBJ_BONUS_PARSER) $(OBJ_BONUS_EXPAND) \
+			 $(OBJ_BONUS_EXEC)
 
 # *************************************************************************** #
 #                                 BONUS OBJ FILE                              #
@@ -219,6 +236,11 @@ $(LIBFT) :
 # *************************************************************************** #
 # COMPILING SRC_FILE
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING INIT_FILE 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/$(INIT_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
@@ -272,6 +294,11 @@ $(OBJ_DIR)/%.o : $(BONUS_DIR)/$(PARSER_DIR)/%.c
 
 # COMPILING BONUS_EXPAND_FILE
 $(OBJ_DIR)/%.o : $(BONUS_DIR)/$(EXPAND_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING BONUS_EXEC_FILE
+$(OBJ_DIR)/%.o : $(BONUS_DIR)/$(EXEC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

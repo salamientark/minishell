@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/06 20:34:17 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:49:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,14 @@
 # include <readline/history.h>
 # include "parser_bonus.h"
 # include "expander_bonus.h"
+# include "../../includes/minishell.h"
 
 # define MAX_PATHLEN 2048
 
-// prompt
-char	*display_prompt(void);
-
-//built-in
-int		isbuiltin(char **cmd, char **env);
-void	ft_cd(char **cmd, char **env);
-void	ft_env(char **cmd, char **env);
-void	ft_echo(char **cmd);
-void	ft_exit(char **cmd);
-void	ft_pwd(char **cmd);
-void	ft_export(char **cmd, char **env);
-void	ft_unset(char **cmd, char **env);
-
+// parenthesis_strlen_bonus.c
 int		parenthesis_strlen(const char *str, int ref);
+
+// exec_tree_bonus.c
+void	exec_tree_void(t_btree *tree, t_chill *shell);
+
 #endif

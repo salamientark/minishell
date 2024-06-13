@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 02:12:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/13 10:55:41 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,9 @@ t_token_list	*ft_token_init_one(const char *input);
 // unclose_delimiter.c
 int				unclosed_delimiter(const char *input);
 
+// unlink_here_doc.c
+void			unlink_here_doc(void);
+
 // here_doc_name.c
 char			*here_doc_name(char buff_name[11], int here_doc_count);
 
@@ -158,6 +161,9 @@ int				syntax_error(const char *cmd, t_chill *shell);
 
 // tokenize.c
 t_token_list	*tokenize(const char *input);
+
+// free_cmd_tab.c
+void	free_cmd_tab(t_simple_cmd ***cmd_tab);
 
 // alloc_simple_cmd.c
 t_simple_cmd	*alloc_simple_cmd(t_token_list *token_list);
