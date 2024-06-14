@@ -6,11 +6,37 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/12 22:17:44 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:31:53 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exec_builtin(t_chill *shell)
+{
+	char	**cmd;
+
+	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+		return (shell->exit_status);
+	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+	redirect(shell);
+	cmd = shell->cmd_tab[0]->cmd;
+	if (!ft_strcmp(cmd[0], "env"))
+		return (ft_env(cmd, shell->env));
+	if (!ft_strcmp(cmd[0], "cd"))
+		return (ft_cd(cmd, shell));
+	if (!ft_strcmp(cmd[0], "exit"))
+		return (ft_exit(cmd, shell));
+	if (!ft_strcmp(cmd[0], "echo"))
+		return (ft_echo(cmd, shell));
+	if (!ft_strcmp(cmd[0], "pwd"))
+		return (ft_pwd(cmd));
+	if (!ft_strcmp(cmd[0], "export"))
+		return (ft_export(cmd, shell));
+	if (!ft_strcmp(cmd[0], "unset"))
+		return (ft_unset(cmd, shell));
+	return (1);
+}
 
 int	is_last_cmd(t_chill *shell)
 {
@@ -54,5 +80,5 @@ char	*get_valid_path(char *cmd, char **env)
 	}
 	print_error_cmd("minishell : ", cmd, "command not found");
 	free_str_tab(&dir);
-	exit(127);
+	return (NULL);
 }

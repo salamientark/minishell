@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 16:08:38 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:34:20 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,16 @@ static int	is_input_valid(t_chill *shell)
 static int	run_shell(t_chill *shell)
 {
 	int		index;
-	t_btree	*tree;
 
 	if (is_input_valid(shell))
 	{
 		index = 0;
-		tree = make_tree(shell->input, &index);
-		if (!tree)
+		shell->tree = make_tree(shell->input, &index);
+		if (!shell->tree)
 			return (1);
-		if (exec_tree(tree, shell) != 0)
-			return (ft_btree_free_all(&tree), 1);
-		ft_btree_free_all(&tree);
+		if (exec_tree(shell->tree, shell) != 0)
+			return (ft_btree_free_all(&shell->tree), 1);
+		ft_btree_free_all(&shell->tree);
 	}
 	return (0);
 }
@@ -80,7 +79,10 @@ int	main(int ac, char **av, char **env)
 				return (exit_shell(shell, 1));
 		}
 		else
+		{
+			printf("signal = %d\n", g_signal);
 			shell->exit_status = g_signal;
+		}
 		free(shell->input);
 	}
 	return (exit_shell(shell, 0));

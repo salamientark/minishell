@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/07 16:24:37 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:16:02 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ static void	get_outfile(t_chill *shell, char *redirect_to)
 
 static void	get_infile(t_chill *shell, char *redirect_from)
 {
+	int	errno_cp;
+
 	shell->fd_in = open(redirect_from, O_RDWR);
 	if (shell->fd_in == -1)
-	{	
-		perror(redirect_from);
-		exit(1);
+	{
+		errno_cp = errno;
+		print_error(redirect_from, strerror(errno_cp));
+		exit(exit_shell(shell, errno_cp));
 	}
 	shell->infile = redirect_from;
 }

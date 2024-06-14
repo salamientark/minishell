@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:42:38 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/13 13:00:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 07:57:59 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,15 @@ static void	add_to_env(char *cmd, t_chill *shell)
 	free(var_name);
 }
 
-void	ft_export(char **cmd, t_chill *shell)
+int	ft_export(char **cmd, t_chill *shell)
 {
 	int	i;
 
 	i = 0;
 	if (!cmd[1])
-		return (case_noargs(shell->env));
+		return (case_noargs(shell->env), 0);
 	i = 1;
 	while (cmd[i])
 		add_to_env(cmd[i++], shell);
+	return (0);
 }

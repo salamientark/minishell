@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:43:25 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/05/16 23:43:25 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/14 07:54:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	env_error(char *cmd)
 	ft_putendl_fd("': No such file or directory", 2);
 }
 
-void	ft_env(char **cmd, char **env)
+int	ft_env(char **cmd, char **env)
 {
 	int	i;
 
@@ -27,11 +27,12 @@ void	ft_env(char **cmd, char **env)
 	if (cmd[1])
 	{
 		env_error(cmd[1]);
-		return ;
+		return (1);
 	}
 	while (env[i])
 	{
 		ft_putendl_fd(env[i], 1);
 		i++;
 	}
+	return (0);
 }

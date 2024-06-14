@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/13 19:44:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:30:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_pipe(t_chill *shell)
 	if (shell->nb_cmd == 1)
 		return ;
 	if (is_last_cmd(shell))
-		return;
+		return ;
 	if (pipe(shell->pipefd) < 0)
 	{
 		perror("pipe");
@@ -37,56 +37,6 @@ static void	wait_command(t_chill *shell)
 	printf("%d\n", shell->exit_status);
 }
 
-void	free_all(t_simple_cmd ***cmd_tab, int last_cmd)
-{
-	int	index;
-
-	if (!*cmd_tab)
-		return ;
-	index = 0;
-	while (index < last_cmd)
-	{
-		ft_free_char_tab(&((*cmd_tab)[index]->cmd));
-		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&((*cmd_tab)[index]->redirection));
-		(*cmd_tab)[index]->redirection = NULL;
-		free((*cmd_tab)[index]);
-		(*cmd_tab)[index] = NULL;
-		index++;
-	}
-	while ((*cmd_tab)[index])
-	{
-		free((*cmd_tab)[index]);
-		(*cmd_tab)[index] = NULL;
-		index++;
-	}
-	free(*cmd_tab);
-	*cmd_tab = NULL;
-}
-
-static void	exec(t_chill *shell, char **cmd)
-{
-	char	*path;
-
-	if (shell->fd_in == -1)
-		close (shell->pipefd[1]);
-	if (isbuiltin(cmd, shell))
-		exit(0);
-	else
-	{
-		path = get_valid_path(*cmd, shell->env);
-		if (!path)
-			exit(127);
-		execve(path, cmd, shell->env);
-	}
-	//free_str_tab(&cmd);
-	// free_str_tab(&shell->cmd_tab[shell->index_cmd]->redirection);
-	// free_str_tab(&shell->cmd_tab[shell->index_cmd]->cmd);
-	free_all(&shell->cmd_tab, shell->nb_cmd);
-	free_str_tab(&shell->env);
-	free(shell);
-}
-
 static void	update_fd(t_chill *shell)
 {
 	if (shell->nb_cmd != 1)
@@ -101,6 +51,36 @@ static void	update_fd(t_chill *shell)
 	}
 }
 
+static void	exec_child(t_chill *shell)
+{
+	char	*path;
+	char	**cmd;
+
+	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+		exit(exit_shell(shell, 1));
+	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+	redirect(shell);
+	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+	if (isbuiltin(cmd, shell))
+		exit(exit_shell(shell, 0));
+	if (shell->fd_in == -1)
+		close (shell->pipefd[1]);
+	else
+	{
+		path = get_valid_path(cmd[0], shell->env);
+		if (!path)
+			exit(exit_shell(shell, 127));
+		execve(path, cmd, shell->env);
+		exit(exit_shell(shell, 126));
+	}
+	exit(exit_shell(shell, 0));
+}
+
+/* EXECUTION PART
+ * create a child for each sub command when needed.
+ * Mean create a fork for each cmd in between pipe
+ * Except for builtin when alone
+ * */
 void	execution_cmd(t_chill *shell)
 {
 	int		pid;
@@ -109,21 +89,23 @@ void	execution_cmd(t_chill *shell)
 	shell->hd_count = 0;
 	shell->old_fd = -1;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
+	if (shell->cmd_tab[1] == NULL && isbuiltin(shell->cmd_tab[0]->cmd, shell))
+	{
+		shell->exit_status = exec_builtin(shell);
+		return ;
+	}
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork failed"));
-		if (!pid)
+		if (pid == 0)
 		{
-			expand(shell->cmd_tab[shell->index_cmd], shell);
-			get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
-			redirect(shell);
-			exec(shell, shell->cmd_tab[shell->index_cmd]->cmd);
+			exec_child(shell);
+			exit(1);
 		}
-		else
-			update_fd(shell);
+		update_fd(shell);
 		shell->index_cmd++;
 	}
 	wait_command(shell);

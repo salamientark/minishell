@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 11:38:58 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 23:21:27 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 08:42:20 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 # define PARSER_BONUS_H
 
 # include "../../includes/parser.h"
-
-typedef struct s_btree
-{
-	void			*content;
-	struct s_btree	*l_node;
-	struct s_btree	*r_node;
-
-}				t_btree;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                             BINARY TREE UTILS                             */

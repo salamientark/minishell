@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler.c                                    :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:06:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/05/15 17:06:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:31:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,21 @@
 //if none has been found, return 0
 int	isbuiltin(char **cmd, t_chill *shell)
 {
+	(void) shell;
 	if (!ft_strcmp(cmd[0], "env"))
-		return (ft_env(cmd, shell->env), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "cd"))
-		return (ft_cd(cmd, shell), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "exit"))
-		return (ft_exit(cmd), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "echo"))
-		return (ft_echo(cmd, shell), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "pwd"))
-		return (ft_pwd(cmd), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "export"))
-		return (ft_export(cmd, shell), 1);
+		return (1);
 	if (!ft_strcmp(cmd[0], "unset"))
-		return (ft_unset(cmd, shell), 1);
+		return (1);
 	return (0);
 }
 

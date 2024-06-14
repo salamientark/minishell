@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 10:49:42 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:32:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ char	*display_prompt(void);
 
 //built-in
 int		isbuiltin(char **cmd, t_chill *shell);
-void	ft_cd(char **cmd, t_chill *env);
-void	ft_env(char **cmd, char **env);
-void	ft_echo(char **cmd, t_chill *shell);
-void	ft_exit(char **cmd);
-void	ft_pwd(char **cmd);
-void	ft_export(char **cmd, t_chill *shell);
+int		ft_cd(char **cmd, t_chill *env);
+int		ft_env(char **cmd, char **env);
+int		ft_echo(char **cmd, t_chill *shell);
+int		ft_exit(char **cmd, t_chill *shell);
+int		ft_pwd(char **cmd);
+int		ft_export(char **cmd, t_chill *shell);
 int		ft_unset(char **cmd, t_chill *env);
 char	**update_env(t_chill *shell, char *var);
 
@@ -63,6 +63,7 @@ void	signal_handler(int signum);
 void	set_signals(void);
 
 //exec
+int		exec_builtin(t_chill *shell);
 void	execution_cmd(t_chill *shell);
 char	**convert_list_to_tab(t_simple_cmd *input);
 char	**split_path(char **env);

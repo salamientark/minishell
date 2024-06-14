@@ -28,9 +28,16 @@ define SRC_FILE :=
 	)
 endef
 
+# INIT FILE FOR BONUS && MADATORY_PART
 define INIT_FILE :=
 	$(addprefix $(SRC_DIR)/$(INIT_DIR)/, \
-		init_shell.c \
+		init_shell.c
+	)
+endef
+
+# MANDATORY INIT FILE
+define MANDATORY_INIT_FILE :=
+	$(addprefix $(SRC_DIR)/$(INIT_DIR)/, \
 		exit_shell.c
 	)
 endef
@@ -144,6 +151,12 @@ define BONUS_SRC_FILE :=
 	)
 endef
 
+define BONUS_INIT_FILE :=
+	$(addprefix $(BONUS_DIR)/, \
+		exit_shell_bonus.c
+	)
+endef
+
 define BONUS_PARSER_FILE :=
 	$(addprefix $(BONUS_DIR)/$(PARSER_DIR)/, \
 		parenthesis_strlen_bonus.c \
@@ -197,19 +210,23 @@ OBJ := $(OBJ_PROMPT) $(OBJ_PARSER) $(OBJ_ERROR) $(OBJ_BUILTIN) \
 		$(OBJ_EXPAND) $(OBJ_SIGNAL) $(OBJ_EXEC) $(OBJ_INIT)
 
 ## MANDATORY_FILE ##
+OBJ_MANDATORY_INIT := $(addprefix $(OBJ_DIR)/, \
+						$(notdir $(MANDATORY_INIT_FILE:%.c=%.o)))
 OBJ_MANDATORY_EXPAND := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_EXPAND_FILE:%.c=%.o)))
 OBJ_MANDATORY_PARSER := $(addprefix $(OBJ_DIR)/, \
 						$(notdir $(MANDATORY_PARSER_FILE:%.c=%.o)))
-OBJ_MANDATORY :=  $(OBJ) $(OBJ_SRC) $(OBJ_MANDATORY_EXPAND) $(OBJ_MANDATORY_PARSER)
+OBJ_MANDATORY :=  $(OBJ) $(OBJ_SRC) $(OBJ_MANDATORY_INIT) $(OBJ_MANDATORY_EXPAND) \
+				  $(OBJ_MANDATORY_PARSER)
 
 ## BONUS OBJ ##
 OBJ_BONUS_SRC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_SRC_FILE:%.c=%.o)))
+OBJ_BONUS_INIT := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_INIT_FILE:%.c=%.o)))
 OBJ_BONUS_PARSER := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_PARSER_FILE:%.c=%.o)))
 OBJ_BONUS_EXPAND := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXPAND_FILE:%.c=%.o)))
 OBJ_BONUS_EXEC := $(addprefix $(OBJ_DIR)/, $(notdir $(BONUS_EXEC_FILE:%.c=%.o)))
-OBJ_BONUS := $(OBJ) $(OBJ_BONUS_SRC) $(OBJ_BONUS_PARSER) $(OBJ_BONUS_EXPAND) \
-			 $(OBJ_BONUS_EXEC)
+OBJ_BONUS := $(OBJ) $(OBJ_BONUS_SRC) $(OBJ_BONUS_INIT) $(OBJ_BONUS_PARSER) \
+			 $(OBJ_BONUS_EXPAND) $(OBJ_BONUS_EXEC)
 
 # *************************************************************************** #
 #                                 BONUS OBJ FILE                              #
@@ -284,6 +301,11 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/$(SIGNAL_DIR)/%.c
 # *************************************************************************** #
 # COMPILING BONUS_SRC_FILE
 $(OBJ_DIR)/%.o : $(BONUS_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
+
+# COMPILING BONUS_INIT_FILE
+$(OBJ_DIR)/%.o : $(BONUS_DIR)/$(INIT_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:24:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/05/15 20:24:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/14 07:54:02 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	check_flag(char **cmd)
 // 	return (quote_len);
 // }
 
-void	ft_echo(char **cmd, t_chill *shell)
+int	ft_echo(char **cmd, t_chill *shell)
 {
 	int	i;
 	int	j;
@@ -65,4 +65,5 @@ void	ft_echo(char **cmd, t_chill *shell)
 	}
 	if (!flag)
 		write(1, "\n", 1);
+	return (0);
 }

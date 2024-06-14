@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 12:55:06 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 08:42:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@
 # define HERE_DOC_15 "/tmp/.here_doc_15"
 # define HERE_DOC_16 "/tmp/.here_doc_16"
 
+typedef struct s_btree
+{
+	void			*content;
+	struct s_btree	*l_node;
+	struct s_btree	*r_node;
+
+}				t_btree;
+
 typedef enum e_token_type
 {
 	WORD = 0,
@@ -101,6 +109,7 @@ typedef struct s_simple_cmd
 typedef struct s_chill
 {
 	int				(*builtin[7])(char **, struct s_chill *);
+	t_btree			*tree;
 	t_simple_cmd	**cmd_tab;
 	char			**env;
 	char			*infile;

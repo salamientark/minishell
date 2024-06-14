@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 12:03:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 08:51:35 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # include "../../includes/minishell.h"
 
 # define MAX_PATHLEN 2048
+
+// INIT
+int		exit_shell(t_chill *shell, int exit_status);
 
 // parenthesis_strlen_bonus.c
 int		parenthesis_strlen(const char *str, int ref);
