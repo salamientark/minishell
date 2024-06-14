@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:46:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/14 08:46:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 11:01:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Free shell variable and exit shell with the status code exit_status
  * */
-int	exit_shell(t_chill *shell, int exit_status)
+void	exit_shell(t_chill *shell, int exit_status)
 {
 	rl_clear_history();
 	if (shell->tree)
@@ -30,6 +30,5 @@ int	exit_shell(t_chill *shell, int exit_status)
 	if (shell->input)
 		free(shell->input);
 	free(shell);
-	write(1, "exit\n", 5);
-	return (exit_status);
+	exit(exit_status);
 }

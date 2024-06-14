@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_shell.c                                       :+:      :+:    :+:   */
+/*   export_no_arg.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:46:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/14 10:55:41 by madlab           ###   ########.fr       */
+/*   Created: 2024/06/14 15:46:14 by madlab            #+#    #+#             */
+/*   Updated: 2024/06/14 15:50:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Free shell variable and exit shell with the status code exit_status
- * */
-void	exit_shell(t_chill *shell, int exit_status)
+void	case_noargs(char **env)
 {
-	rl_clear_history();
-	if (shell->cmd_tab)
-		free_cmd_tab(&(shell->cmd_tab));
-	if (shell->env)
-		ft_free_char_tab(&(shell->env));
-	if (shell->infile)
-		free(shell->infile);
-	if (shell->outfile)
-		free(shell->outfile);
-	if (shell->input)
-		free(shell->input);
-	free(shell);
-	exit(exit_status);
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (env[i])
+	{
+		j = 1;
+		while (env[j])
+		{
+			if (ft_strcmp(env[j], env[j - 1]) < 0)
+			{
+				tmp = env[j - 1];
+				env[j - 1] = env[j];
+				env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (env[i])
+		printf("export %s\n", env[i++]);
 }

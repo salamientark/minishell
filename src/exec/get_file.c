@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:16:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 11:30:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 	{
 		errno_cp = errno;
 		print_error(redirect_from, strerror(errno_cp));
-		exit(exit_shell(shell, errno_cp));
+		exit_shell(shell, errno_cp);
 	}
 	shell->infile = redirect_from;
 }

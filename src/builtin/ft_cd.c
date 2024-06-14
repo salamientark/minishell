@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:11:16 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 16:56:05 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,30 @@ void	check_for_update(t_chill *shell)
 	update_env(shell, tmp);
 }
 
+static int	change_old_pwd(char *oldpwd, t_chill *shell, int index)
+{
+	char	*oldpwd_env;
+
+	oldpwd_env = ft_strjoin("OLDPWD=", oldpwd);
+	if (!oldpwd_env)
+		return (print_error("ft_strjoin", "malloc error"), 1);
+	free(shell->env[index]);
+	shell->env[index] = oldpwd_env;
+	return (0);
+}
+
 static int	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
 {
 	int		i;
-	char	*oldpwd_env;
 	char	*newpwd_env;
 
 	i = 0;
 	check_for_update(shell);
 	while (shell->env[i])
 	{
-		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
-		{
-			oldpwd_env = ft_strjoin("OLDPWD=", oldpwd);
-			if (!oldpwd_env)
-				return (print_error("ft_strjoin", "malloc error"), 1);
-			free(shell->env[i]);
-			shell->env[i] = oldpwd_env;
-		}
+		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7)
+			&& change_old_pwd(oldpwd, shell, i) != 0)
+			return (1);
 		if (!ft_strncmp(shell->env[i], "PWD=", 4))
 		{
 			newpwd_env = ft_strjoin("PWD=", newpwd);

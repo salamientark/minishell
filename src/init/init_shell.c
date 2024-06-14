@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 08:42:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:58:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,12 @@ static char	**copy_env(char **env)
 
 /* Init shell copying the environment if set
  * */
-t_chill	*init_shell(char **env)
+t_chill	*init_shell(int ac, char **av, char **env)
 {
 	t_chill	*shell;
 
+	(void) ac;
+	(void) av;
 	shell = (t_chill *)malloc(sizeof(struct s_chill));
 	if (!shell)
 		return (print_error("malloc", strerror(errno)), NULL);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:43:01 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 07:57:02 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 11:30:34 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	ft_exit(char **cmd, t_chill *shell)
 		return (1);
 	}
 	write(1, "exit\n", 5);
-	exit(exit_shell(shell, 0));
+	exit_shell(shell, 0);
 	return (1);
 }

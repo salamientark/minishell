@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:06:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/14 10:31:38 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 11:47:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 int	isbuiltin(char **cmd, t_chill *shell)
 {
 	(void) shell;
+	if (!cmd || !*cmd)
+		return (0);
 	if (!ft_strcmp(cmd[0], "env"))
 		return (1);
 	if (!ft_strcmp(cmd[0], "cd"))

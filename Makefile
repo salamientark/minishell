@@ -106,6 +106,7 @@ define BUILTIN_FILE :=
 		ft_echo.c \
 		ft_exit.c\
 		ft_pwd.c\
+		export_no_arg.c \
 		ft_export.c\
 		ft_unset.c \
 		builtin_utils.c 

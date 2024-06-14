@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 10:32:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:54:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 # define MAX_PATHLEN 2048
 
 // exit_shell.c
-int		exit_shell(t_chill *shell, int exit_status);
+void	exit_shell(t_chill *shell, int exit_status);
 
 // init_minishell.c
-t_chill	*init_shell(char **env);
+t_chill	*init_shell(int ac, char **av, char **env);
 
 // prompt
 char	*display_prompt(void);
@@ -53,6 +53,7 @@ int		ft_env(char **cmd, char **env);
 int		ft_echo(char **cmd, t_chill *shell);
 int		ft_exit(char **cmd, t_chill *shell);
 int		ft_pwd(char **cmd);
+void	case_noargs(char **env);
 int		ft_export(char **cmd, t_chill *shell);
 int		ft_unset(char **cmd, t_chill *env);
 char	**update_env(t_chill *shell, char *var);

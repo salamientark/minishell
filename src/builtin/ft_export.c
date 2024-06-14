@@ -6,38 +6,11 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:42:38 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 07:57:59 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 15:54:40 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	case_noargs(char **env)
-{
-	char	*tmp;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (env[i])
-	{
-		j = 1;
-		while (env[j])
-		{
-			if (ft_strcmp(env[j], env[j - 1]) < 0)
-			{
-				tmp = env[j - 1];
-				env[j - 1] = env[j];
-				env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (env[i])
-		printf("export %s\n", env[i++]);
-}
 
 //check input error and return the len to malloc for the export variable
 static int	check_valid_var(char *cmd)
@@ -55,8 +28,6 @@ static int	check_valid_var(char *cmd)
 	{
 		if (cmd[i] == '=')
 			is_equal_sign = 1;
-		if ((cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE) && cmd[i])
-			i++;
 		if ((cmd[i] == '{' || cmd[i] == '}' || cmd[i] == '[' || cmd[i] == ']')
 			&& !is_equal_sign)
 			return (ft_putendl_fd("invalid name for export", 2), 0);
@@ -74,18 +45,18 @@ static char	*get_var(char *cmd, int len)
 	int		i;
 	int		j;
 
+	if (len == 0)
+		return (NULL);
 	i = 0;
 	j = 0;
 	var_env = (char *)malloc(sizeof(char) * len + 1);
 	if (!var_env)
 	{
 		perror("malloc failed");
-		return (free(var_env), NULL);
+		return (NULL);
 	}
 	while (j < len)
 	{
-		if (cmd[i] == '"' || cmd[i] == '\'')
-			i++;
 		var_env[j++] = cmd[i];
 		i++;
 	}
@@ -127,25 +98,23 @@ static void	add_to_env(char *cmd, t_chill *shell)
 
 	i = 0;
 	len = check_valid_var(cmd);
-	if (!len)
-		return ;
 	var = get_var(cmd, len);
 	if (!var)
 		return ;
 	var_name = get_var_name(var);
 	if (!var_name)
-		return ;
+		return (free(var));
 	while (shell->env[i])
 	{
 		if (!ft_strncmp(shell->env[i], var_name, ft_strlen(var_name)))
 		{
+			free(shell->env[i]);
 			shell->env[i] = var;
 			return (free(var_name));
 		}
 		i++;
 	}
-	update_env(shell, var);
-	free(var_name);
+	return (update_env(shell, var), free(var_name));
 }
 
 int	ft_export(char **cmd, t_chill *shell)

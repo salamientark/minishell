@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:30:56 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 11:48:40 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	init_pipe(t_chill *shell)
 		return ;
 	if (pipe(shell->pipefd) < 0)
 	{
-		perror("pipe");
-		exit(1);
+		print_error("pipe", strerror(errno));
+		exit_shell(shell, 1);
 	}
 }
 
@@ -34,7 +34,7 @@ static void	wait_command(t_chill *shell)
 		wait(&status);
 		shell->exit_status = WEXITSTATUS(status);
 	}
-	printf("%d\n", shell->exit_status);
+	// printf("%d\n", shell->exit_status);
 }
 
 static void	update_fd(t_chill *shell)
@@ -57,23 +57,25 @@ static void	exec_child(t_chill *shell)
 	char	**cmd;
 
 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-		exit(exit_shell(shell, 1));
+		exit_shell(shell, 1);
 	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 	redirect(shell);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+	if (!cmd | !cmd[0])
+		exit_shell(shell, shell->exit_status);
 	if (isbuiltin(cmd, shell))
-		exit(exit_shell(shell, 0));
+		exit_shell(shell, 0);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
 	else
 	{
 		path = get_valid_path(cmd[0], shell->env);
 		if (!path)
-			exit(exit_shell(shell, 127));
+			exit_shell(shell, 127);
 		execve(path, cmd, shell->env);
-		exit(exit_shell(shell, 126));
+		exit_shell(shell, 126);
 	}
-	exit(exit_shell(shell, 0));
+	exit_shell(shell, 0);
 }
 
 /* EXECUTION PART
@@ -99,12 +101,12 @@ void	execution_cmd(t_chill *shell)
 		init_pipe(shell);
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork failed"));
-		if (pid == 0)
 		{
-			exec_child(shell);
-			exit(1);
+			print_error("fork", strerror(errno));
+			break ;
 		}
+		if (pid == 0)
+			exec_child(shell);
 		update_fd(shell);
 		shell->index_cmd++;
 	}

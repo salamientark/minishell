@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:31:53 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 10:45:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_valid_path(char *cmd, char **env)
 			free(path);
 		i++;
 	}
-	print_error_cmd("minishell : ", cmd, "command not found");
+	print_error(cmd, "command not found");
 	free_str_tab(&dir);
 	return (NULL);
 }
