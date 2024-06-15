@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:45:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:26:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	exec_builtin(t_chill *shell)
 	redirect(shell);
 	cmd = shell->cmd_tab[0]->cmd;
 	if (!ft_strcmp(cmd[0], "env"))
-		return (ft_env(cmd, shell->env));
+		return (ft_env(cmd, shell));
 	if (!ft_strcmp(cmd[0], "cd"))
 		return (ft_cd(cmd, shell));
 	if (!ft_strcmp(cmd[0], "exit"))
@@ -30,7 +30,7 @@ int	exec_builtin(t_chill *shell)
 	if (!ft_strcmp(cmd[0], "echo"))
 		return (ft_echo(cmd, shell));
 	if (!ft_strcmp(cmd[0], "pwd"))
-		return (ft_pwd(cmd));
+		return (ft_pwd(cmd, shell));
 	if (!ft_strcmp(cmd[0], "export"))
 		return (ft_export(cmd, shell));
 	if (!ft_strcmp(cmd[0], "unset"))

@@ -44,7 +44,8 @@ endef
 
 define PROMPT_FILE := 
 	$(addprefix $(SRC_DIR)/$(PROMPT_DIR)/, \
-		display.c \
+		make_new_prompt.c \
+		display.c
 )
 endef
 

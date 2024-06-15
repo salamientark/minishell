@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 11:48:40 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 17:00:03 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	wait_command(t_chill *shell)
 		wait(&status);
 		shell->exit_status = WEXITSTATUS(status);
 	}
-	// printf("%d\n", shell->exit_status);
 }
 
 static void	update_fd(t_chill *shell)

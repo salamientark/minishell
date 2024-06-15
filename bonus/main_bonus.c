@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 11:03:25 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:58:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int ac, char **av, char **env)
 	while ("this is the best minishell")
 	{
 		unlink_here_doc();
-		shell->input = display_prompt();
+		shell->input = read_command(shell);
 		if (g_signal == 130)
 			shell->exit_status = g_signal;
 		if (!shell->input)

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 08:42:12 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:20:28 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/wait.h>
 # include "error.h"
 # include "../libft/includes/libft.h"
+
+# define MAX_PATHLEN 2048
 
 # define DOUBLE_QUOTE '\"' 
 # define SINGLE_QUOTE '\'' 
@@ -115,6 +117,7 @@ typedef struct s_chill
 	char			*infile;
 	char			*outfile;
 	char			*input;
+	char			prompt[MAX_PATHLEN];
 	int				pipefd[2];
 	int				fd_in;
 	int				fd_out;

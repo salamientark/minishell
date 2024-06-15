@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 15:54:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:24:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define READ_END 0
 # define WRITE_END 1
 
-# define MAX_PATHLEN 2048
+# define DEFAULT_PROMPT "$\001\033[0;35m\002> "
 
 // exit_shell.c
 void	exit_shell(t_chill *shell, int exit_status);
@@ -44,15 +44,18 @@ void	exit_shell(t_chill *shell, int exit_status);
 t_chill	*init_shell(int ac, char **av, char **env);
 
 // prompt
-char	*display_prompt(void);
+// make_new_prompt.c
+void	make_new_prompt(t_chill *shell);
+
+char	*read_command(t_chill *shell);
 
 //built-in
 int		isbuiltin(char **cmd, t_chill *shell);
 int		ft_cd(char **cmd, t_chill *env);
-int		ft_env(char **cmd, char **env);
+int		ft_env(char **cmd, t_chill *env);
 int		ft_echo(char **cmd, t_chill *shell);
 int		ft_exit(char **cmd, t_chill *shell);
-int		ft_pwd(char **cmd);
+int		ft_pwd(char **cmd, t_chill *shell);
 void	case_noargs(char **env);
 int		ft_export(char **cmd, t_chill *shell);
 int		ft_unset(char **cmd, t_chill *env);

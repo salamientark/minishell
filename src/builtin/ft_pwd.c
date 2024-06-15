@@ -6,16 +6,17 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 22:51:39 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 07:59:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 13:25:28 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(char **cmd)
+int	ft_pwd(char **cmd, t_chill *shell)
 {
 	char	pwd[MAX_PATHLEN];
 
+	(void) shell;
 	if (cmd[1])
 	{
 		ft_putendl_fd("pwd: too many argument", 2);

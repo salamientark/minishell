@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 10:58:52 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:06:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ t_chill	*init_shell(int ac, char **av, char **env)
 	shell = (t_chill *)malloc(sizeof(struct s_chill));
 	if (!shell)
 		return (print_error("malloc", strerror(errno)), NULL);
+	ft_bzero(shell->prompt, MAX_PATHLEN);
+	ft_strcpy(shell->prompt, DEFAULT_PROMPT);
 	shell->tree = NULL;
 	shell->cmd_tab = NULL;
 	shell->infile = NULL;
@@ -139,6 +141,7 @@ t_chill	*init_shell(int ac, char **av, char **env)
 		shell->env = copy_env(env);
 	if (!shell->env)
 		return (free(shell), NULL);
+	make_new_prompt(shell);
 	set_signals();
 	return (shell);
 }
