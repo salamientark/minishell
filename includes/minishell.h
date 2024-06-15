@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/15 13:24:56 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 19:21:46 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@
 # define READ_END 0
 # define WRITE_END 1
 
-# define DEFAULT_PROMPT "$\001\033[0;35m\002> "
+# define MAGENTA "\001\033[0;35m"
+# define RED "\001\033[0;31m"
+# define GREEN "\001\033[0;32m"
+# define WHITE "\001\033[0;0m"
+
+
+# define DEFAULT_PROMPT "\001\033[0;0m$>\002 "
 
 // exit_shell.c
 void	exit_shell(t_chill *shell, int exit_status);

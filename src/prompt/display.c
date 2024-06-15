@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 18:58:49 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 19:24:19 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*read_command(t_chill *shell)
 {
 	char	*input;
 
+	make_new_prompt(shell);
 	input = readline(shell->prompt);
 	rl_on_new_line();
 	if (!input)
