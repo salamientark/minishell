@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 00:06:55 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 18:45:02 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/06/15 21:38:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,14 @@ int	perform_filename_expansion(t_expand ***expand_tab, int cmd_flag)
 	char		cwd[MAX_PATHLEN];
 	int			index;
 
-	if (getcwd(cwd, MAX_PATHLEN) == NULL)
-		return (print_error("getcwd", strerror(errno)), 1);
+	cwd[0] = '\0';
 	index = 0;
 	while ((*expand_tab)[index])
 	{
 		if (contain_filename_expansion((*expand_tab)[index]))
 		{
+			if (getcwd(cwd, MAX_PATHLEN) == NULL)
+				return (print_error("getcwd", strerror(errno)), 1);
 			(*expand_tab) = expand_filename(*expand_tab, cwd, &index,
 					cmd_flag);
 			if (!(*expand_tab))

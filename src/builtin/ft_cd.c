@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/15 21:26:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:29:52 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	ft_cd(char **cmd, t_chill *shell)
 			return (print_error_cmd("cd :", cmd[1], strerror(errno)), 1);
 	}
 	getcwd(newpwd, MAX_PATHLEN);
+	make_new_prompt(shell);
 	return (change_pwd(oldpwd, newpwd, shell));
 }
