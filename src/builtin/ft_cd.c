@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 16:56:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:26:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_cd(char **cmd, t_chill *shell)
 	char	newpwd[MAX_PATHLEN];
 	char	*home;
 
-	home = getenv("HOME");
+	home = ft_getenv("HOME", shell->env);
 	if (!home)
 		return (ft_putendl_fd("home not found", 2), 1);
 	getcwd(oldpwd, MAX_PATHLEN);

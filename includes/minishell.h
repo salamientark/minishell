@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/15 21:23:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:25:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_chill	*init_shell(int ac, char **av, char **env);
 
 // prompt
 // make_new_prompt.c
+char	*ft_getenv(const char *key, char **env);
 void	make_new_prompt(t_chill *shell);
 
 char	*read_command(t_chill *shell);

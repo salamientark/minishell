@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:48:50 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/15 21:21:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:25:43 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Get environment value like getenv 
  * */
-static char	*ft_getenv(const char *key, char **env)
+char	*ft_getenv(const char *key, char **env)
 {
 	char	*value;
 	int		index;
