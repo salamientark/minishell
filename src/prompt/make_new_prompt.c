@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*      G                                                  :::      ::::::::   */
+/*                                                        :::      ::::::::   */
 /*   make_new_prompt.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:48:50 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/15 19:19:39 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:21:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_colored(char *dest,char *text,char *color)
-{
-	if (!dest || !text || !color)
-		return ;
-	ft_strcat(dest, color);
-	ft_strcat(dest, text);
-	ft_strcat(dest, "\002");
-}
-
+/* Get environment value like getenv 
+ * */
 static char	*ft_getenv(const char *key, char **env)
 {
 	char	*value;
@@ -44,63 +37,55 @@ static char	*ft_getenv(const char *key, char **env)
 	return (NULL);
 }
 
-static void	short_home(char *dest, char *home, char *dir, char *color)
-{
-	int	dir_start;
-
-	ft_strcpy(dest, color);
-	ft_strcat(dest, "~");
-	dir_start = 0;
-	while (home[dir_start] && home[dir_start] == dir[dir_start])
-		dir_start++;
-	if (!dir[dir_start])
-	{
-		ft_strcat(dest, "\002");
-		add_colored(dest, NULL, WHITE);
-		return ;
-	}
-	if (home[dir_start - 1] != '/')
-		ft_strcat(dest, "/");
-	dir_start += (home[dir_start - 1] != '/');
-	ft_strcat(dest, dir + dir_start);
-	ft_strcat(dest, "\002");
-	add_colored(dest, NULL, WHITE);
-	return ;
-}
-
-static void	reset_color(char *dest, char *color)
+/* add new color color to dest
+ * WARNING : No check are performed, you should be sur that dest is big enough
+ * and color is valid 
+ * */
+static void	change_color(char *dest, char *color)
 {
 	ft_strcat(dest, color);
-	ft_strcat(dest, "\002");
+}
+
+/* write the directory part of the prompt into it
+ * */
+void	prompt_cwd(t_chill *shell)
+{
+	char	*home;
+	char	cwd[MAX_PATHLEN];
+	int		index;
+
+	if (!getcwd(cwd, MAX_PATHLEN) || (ft_strlen(cwd) + 22 > MAX_PATHLEN))
+	{
+		shell->exit_status = 1;
+		change_color(shell->prompt, RED);
+		return ((void)ft_strcat(shell->prompt, "∅ "));
+	}
+	change_color(shell->prompt, MAGENTA);
+	home = ft_getenv("HOME", shell->env);
+	if (!home || ft_strlen(home) <= 1
+		|| ft_strncmp(home, cwd, ft_strlen(home) != 0))
+		return ((void) ft_strcat(shell->prompt, cwd));
+	ft_strcat(shell->prompt, "~");
+	index = 0;
+	while (home[index] && home[index] == cwd[index])
+		index++;
+	if (!cwd[index])
+		return ;
+	if (home[index - 1] != '/')
+		ft_strcat(shell->prompt, "/");
+	index += (home[index - 1] != '/');
+	ft_strcat(shell->prompt, cwd + index);
 }
 
 void	make_new_prompt(t_chill *shell)
 {
-	char	*home;
-	char	cwd[MAX_PATHLEN];
-	size_t	home_len;
-
 	ft_bzero(shell->prompt, MAX_PATHLEN);
-	if (!getcwd(cwd, MAX_PATHLEN) || (ft_strlen(cwd) + 22 > MAX_PATHLEN))
-	{
-		shell->exit_status = 1;
-		add_colored(shell->prompt, "∅ ❯ ", RED);
-		return (reset_color(shell->prompt, WHITE));
-	}
-	add_colored(shell->prompt, cwd, MAGENTA);
-	home = ft_getenv("HOME", shell->env);
-	if (!home || ft_strlen(home) <= 1)
-	{
-		shell->exit_status = 1;
-		add_colored(shell->prompt, " ❯ ", RED);
-		return (reset_color(shell->prompt, WHITE));
-	}
-	home_len = ft_strlen(home);
-	if (ft_strncmp(home, cwd, home_len) == 0)
-		short_home(shell->prompt, home, cwd, MAGENTA);
+	prompt_cwd(shell);
 	if (shell->exit_status == 0)
-		add_colored(shell->prompt, " ❯ ", GREEN);
+		change_color(shell->prompt, GREEN);
 	else
-		add_colored(shell->prompt, " ❯ ", RED);
-	return (reset_color(shell->prompt, WHITE));
+		change_color(shell->prompt, RED);
+	ft_strcat(shell->prompt, " ❯ ");
+	change_color(shell->prompt, WHITE);
+	return ;
 }
