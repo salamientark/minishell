@@ -48,7 +48,7 @@ void	get_file(t_chill *shell, char **redirections)
 			open(buffer, O_RDWR);
 		}
 		if (!ft_strcmp(redirections[i], ">>"))
-			open(redirections[i + 1], O_RDWR | O_APPEND);
+			open(redirections[i + 1], O_RDWR | O_CREAT |O_APPEND);
 		if (!ft_strcmp(redirections[i], "<"))
 			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))

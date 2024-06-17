@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 16:25:08 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:16:25 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	exec_child(t_chill *shell)
 	char	*path;
 	char	**cmd;
 
+	signal(SIGQUIT, SIG_DFL);
 	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 	redirect(shell);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
