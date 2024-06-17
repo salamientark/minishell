@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/17 14:42:55 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:37:23 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_chill
 	int				hd_count;
 	int				nb_cmd;
 	int				old_fd;
+	int				builtin_ref;
 	int				index_cmd;
 	int				exit_status;
 	int				error_code;

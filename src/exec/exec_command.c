@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 15:15:55 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:00:30 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static void	wait_command(t_chill *shell)
 
 static void	update_fd(t_chill *shell)
 {
+	if (shell->nb_cmd == 1)
+	{
+		if (shell->builtin_ref >= 0 && shell->builtin_ref <= 3)
+			shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
+	}
 	if (shell->nb_cmd != 1)
 	{
 		close(shell->pipefd[WRITE_END]);
@@ -62,10 +67,10 @@ static void	exec_child(t_chill *shell)
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
 	if (!cmd | !cmd[0])
 		exit_shell(shell, shell->exit_status);
-	if (isbuiltin(cmd, shell))
-		exit_shell(shell, 0);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
+	if (shell->builtin_ref != -1)
+		exec_builtin(cmd, shell);
 	else
 	{
 		path = get_valid_path(cmd[0], shell->env);
@@ -86,13 +91,11 @@ void	execution_cmd(t_chill *shell)
 {
 	int		pid;
 
-	shell->index_cmd = 0;
-	shell->hd_count = 0;
-	shell->old_fd = -1;
-	shell->nb_cmd = cmd_count(shell->cmd_tab);
+	init_exec(shell);
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
+		shell->builtin_ref = isbuiltin(shell->cmd_tab[shell->index_cmd]->cmd, shell);
 		pid = fork();
 		if (pid == -1)
 		{

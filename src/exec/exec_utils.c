@@ -6,36 +6,33 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/15 13:26:52 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 15:57:24 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_chill *shell)
+int	exec_builtin(char **cmd, t_chill *shell)
 {
-	char	**cmd;
+	int ref;
 
-	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-		return (shell->exit_status);
-	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
-	redirect(shell);
-	cmd = shell->cmd_tab[0]->cmd;
-	if (!ft_strcmp(cmd[0], "env"))
-		return (ft_env(cmd, shell));
-	if (!ft_strcmp(cmd[0], "cd"))
-		return (ft_cd(cmd, shell));
-	if (!ft_strcmp(cmd[0], "exit"))
-		return (ft_exit(cmd, shell));
-	if (!ft_strcmp(cmd[0], "echo"))
-		return (ft_echo(cmd, shell));
-	if (!ft_strcmp(cmd[0], "pwd"))
-		return (ft_pwd(cmd, shell));
-	if (!ft_strcmp(cmd[0], "export"))
-		return (ft_export(cmd, shell));
-	if (!ft_strcmp(cmd[0], "unset"))
-		return (ft_unset(cmd, shell));
-	return (1);
+	ref = shell->builtin_ref;
+	if (shell->nb_cmd == 1)
+	{
+		if (ref >= 4 && -ref <= 6)
+			return (shell->builtin[ref](cmd, shell));
+	}
+	else
+		return(shell->builtin[ref](cmd, shell));
+	return(0);
+}
+
+void init_exec(t_chill *shell)
+{
+	shell->index_cmd = 0;
+	shell->hd_count = 0;
+	shell->old_fd = -1;
+	shell->nb_cmd = cmd_count(shell->cmd_tab);
 }
 
 int	is_last_cmd(t_chill *shell)
