@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/15 21:13:24 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:28:44 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	*read_command(t_chill *shell)
 	rl_on_new_line();
 	if (!input)
 	{
-		shell->exit_status = 1;
-		return (NULL);
+		ft_putendl_fd("exit", 1);
+		exit(0);
 	}
 	if (input && *input)
 		add_history(input);

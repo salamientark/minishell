@@ -76,6 +76,8 @@ int	ft_unset(char **cmd, t_chill *shell)
 	int		i;
 
 	i = 1;
+	if (!cmd[1])
+		return(ft_putendl_fd("unset: not enough arguments", 2), 1);
 	while (cmd[i])
 	{
 		cmd_tmp = ft_strjoin(cmd[i], "=");

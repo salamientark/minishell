@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 15:57:24 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:22:41 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exec_builtin(char **cmd, t_chill *shell)
 			return (shell->builtin[ref](cmd, shell));
 	}
 	else
-		return(shell->builtin[ref](cmd, shell));
+		return (shell->builtin[ref](cmd, shell));
 	return(0);
 }
 
