@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 11:30:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:45:23 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **env)
 	while ("this is the best minishell")
 	{
 		unlink_here_doc();
-		shell->input = display_prompt();
+		shell->input = read_command(shell);
 		if (!shell->input)
 			break ;
 		if (ft_strlen(shell->input) > 0)
@@ -32,6 +32,7 @@ int	main(int ac, char **av, char **env)
 			shell->cmd_tab = parse_input(shell->input, shell);
 			if (shell->cmd_tab)
 			{
+				execution_cmd(shell);
 				free_cmd_tab(&shell->cmd_tab);
 			}
 		}

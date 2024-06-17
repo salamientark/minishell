@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 17:00:03 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:36:43 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,7 @@ void	execution_cmd(t_chill *shell)
 	shell->hd_count = 0;
 	shell->old_fd = -1;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
-	if (shell->cmd_tab[1] == NULL && isbuiltin(shell->cmd_tab[0]->cmd, shell))
-	{
-		shell->exit_status = exec_builtin(shell);
-		return ;
-	}
+	
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);

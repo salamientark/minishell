@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/14 18:20:28 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:42:55 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct s_chill
 }				t_chill;
 
 // 
-void			**builtin_tab(void);
+void			builtin_tab(t_chill *shell);
 
 // expand_strlen.c
 int				expand_strlen(const char *input, int ref, int in_double_quote);

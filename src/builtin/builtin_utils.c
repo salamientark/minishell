@@ -14,59 +14,58 @@
 
 //check what builtin it is, execute it and return 1 
 //if none has been found, return 0
-int	isbuiltin(char **cmd, t_chill *shell)
-{
-	(void) shell;
-	if (!cmd || !*cmd)
-		return (0);
-	if (!ft_strcmp(cmd[0], "env"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "cd"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "exit"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "echo"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "pwd"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "export"))
-		return (1);
-	if (!ft_strcmp(cmd[0], "unset"))
-		return (1);
-	return (0);
-}
-
-// int	isbuiltin(char **cmd, char **env)
+// int	isbuiltin(char **cmd, t_chill *shell)
 // {
-// 	if (!ft_strcmp(cmd[0], "cd"))
+// 	(void) shell;
+// 	if (!cmd || !*cmd)
 // 		return (0);
+// 	if (!ft_strcmp(cmd[0], "env"))
+// 		return (1);
+// 	if (!ft_strcmp(cmd[0], "cd"))
+// 		return (1);
+// 	if (!ft_strcmp(cmd[0], "exit"))
+// 		return (1);
 // 	if (!ft_strcmp(cmd[0], "echo"))
 // 		return (1);
-// 	if (!ft_strcmp(cmd[0], "env"))
-// 		return (2);
-// 	if (!ft_strcmp(cmd[0], "exit"))
-// 		return (3);
-// 	if (!ft_strcmp(cmd[0], "unset"))
-// 		return (4);
-// 	if (!ft_strcmp(cmd[0], "export"))
-// 		return (5);
 // 	if (!ft_strcmp(cmd[0], "pwd"))
-// 		return (6);
-// 	return (-1);
+// 		return (1);
+// 	if (!ft_strcmp(cmd[0], "export"))
+// 		return (1);
+// 	if (!ft_strcmp(cmd[0], "unset"))
+// 		return (1);
+// 	return (0);
 // }
 
-/* void	**builtin_tab(void)
+int	isbuiltin(char **cmd, t_chill *shell)
 {
-	void	*builtin_tab[7];
+	builtin_tab(shell);
+	if (!ft_strcmp(cmd[0], "cd"))
+		return (0);
+	if (!ft_strcmp(cmd[0], "echo"))
+		return (1);
+	if (!ft_strcmp(cmd[0], "env"))
+		return (2);
+	if (!ft_strcmp(cmd[0], "exit"))
+		return (3);
+	if (!ft_strcmp(cmd[0], "unset"))
+		return (4);
+	if (!ft_strcmp(cmd[0], "export"))
+		return (5);
+	if (!ft_strcmp(cmd[0], "pwd"))
+		return (6);
+	return (-1);
+}
 
-	builtin_tab[0] = &ft_cd;
-	builtin_tab[1] = &ft_echo;
-	builtin_tab[2] = &ft_env;
-	builtin_tab[3] = &ft_exit;
-	builtin_tab[4] = &ft_export;
-	builtin_tab[5] = &ft_unset;
-	builtin_tab[6] = &ft_pwd;
-} */
+void	builtin_tab(t_chill *shell)
+{
+	shell->builtin[0] = &ft_cd;
+	shell->builtin[1] = &ft_exit;
+	shell->builtin[2] = &ft_export;
+	shell->builtin[3] = &ft_unset;
+	shell->builtin[4] = &ft_echo;
+	shell->builtin[5] = &ft_env;
+	shell->builtin[6] = &ft_pwd;
+}
 
 static int	tabsize(char **tab)
 {
