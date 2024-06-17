@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/13 16:29:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:04:37 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,8 +287,8 @@ int	main(int ac, char **av, char **env)
 	{
 		unlink_all();
 		input = display_prompt();
-		// if (ft_strlen(input)> 0)
-		// {
+		if (ft_strlen(input)> 0)
+		{
 			shell.cmd_tab = parse_input(input, shell.env);
 			if (shell.cmd_tab)
 			{
@@ -304,6 +304,7 @@ int	main(int ac, char **av, char **env)
 			//execution
 	//	}
 		free(input);
+		}
 	}
 	rl_clear_history();
 	return (0);
