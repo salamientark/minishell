@@ -14,10 +14,12 @@
 
 int	ft_exit(char **cmd, t_chill *shell)
 {
-	if (cmd[1])
+	if (ft_isdigit(cmd[1][0]))
 	{
-		ft_putendl_fd("exit: too many arguments", 2);
-		return (1);
+		if (cmd[2])
+			return(ft_putendl_fd("exit : too many argument", 2), 2);
+		else
+			exit(cmd[1][0] + '0');
 	}
 	write(1, "exit\n", 5);
 	exit_shell(shell, 0);

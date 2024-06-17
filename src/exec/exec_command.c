@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 14:36:43 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:15:55 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	execution_cmd(t_chill *shell)
 	shell->hd_count = 0;
 	shell->old_fd = -1;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
-	
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
@@ -102,7 +101,8 @@ void	execution_cmd(t_chill *shell)
 		}
 		if (pid == 0)
 			exec_child(shell);
-		update_fd(shell);
+		else
+			update_fd(shell);
 		shell->index_cmd++;
 	}
 	wait_command(shell);
