@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/17 15:04:37 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:20:19 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,15 +294,8 @@ int	main(int ac, char **av, char **env)
 			{
 				execution_cmd(&shell);
 //				print_simple_cmd_tab(shell.cmd_tab);
-//				free_cmd_tab(&shell.cmd_tab);
+				//free_cmd_tab(&shell.cmd_tab);
 			}
-			//lexer DONE
-			//parser DONE
-			//built-in NEARLY DONE
-			//pipe
-			//redirections
-			//execution
-	//	}
 		free(input);
 		}
 	}
