@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/16 21:37:46 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 17:36:16 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ t_chill	*init_shell(int ac, char **av, char **env)
 		shell->env = new_env();
 	else
 		shell->env = copy_env(env);
-	if (!shell->env)
-		return (free(shell), NULL);
+	// if (!shell->env)
+	// 	return (free(shell), NULL);
 	make_new_prompt(shell);
 	set_signals();
 	return (shell);
