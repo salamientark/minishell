@@ -12,16 +12,35 @@
 
 #include "minishell.h"
 
+int	case_arg(char *cmd, t_chill *shell)
+{
+	int 			i;
+	unsigned char	exit_code;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (!ft_isdigit(cmd[i]))
+		{
+			print_error_cmd("exit : ", cmd, "numeric argument required");
+			exit_shell(shell, 2);
+		}
+		i++;
+	}
+	exit_code = ft_atoi(cmd);
+	return(exit_code);
+}
+
 int	ft_exit(char **cmd, t_chill *shell)
 {
-	if (ft_isdigit(cmd[1][0]))
-	{
-		if (cmd[2])
-			return(ft_putendl_fd("exit : too many argument", 2), 2);
-		else
-			exit(cmd[1][0] + '0');
-	}
 	write(1, "exit\n", 5);
-	exit_shell(shell, 0);
+	if (cmd[1])
+		shell->exit_status = case_arg(cmd[1], shell);
+	if (cmd[2])
+	{
+		shell->exit_status = 1;
+		return(ft_putendl_fd("exit: too many arguments", 2), 1);
+	}
+	exit_shell(shell, shell->exit_status);
 	return (1);
 }
