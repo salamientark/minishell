@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/04 15:23:14 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:55:56 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
 	}
 }
 
-void	ft_cd(char **cmd, t_chill *shell)
+int	ft_cd(char **cmd, t_chill *shell)
 {
 	char	oldpwd[MAX_PATHLEN];
 	char	newpwd[MAX_PATHLEN];
@@ -64,17 +64,17 @@ void	ft_cd(char **cmd, t_chill *shell)
 
 	home = getenv("HOME");
 	if (!home)
-		return(ft_putendl_fd("home not found", 2));
+		return(ft_putendl_fd("home not found", 2), 1);
 	getcwd(oldpwd, MAX_PATHLEN);
 	if (cmd[2])
-		return ;
+		return (perror(cmd[2]), 1);
 	else if (!cmd[1] || !ft_strcmp(cmd[1], "~"))
 	{
 		if (chdir(home))
 			perror("cd : home");
 	}
 	else if (!ft_strcmp(cmd[1], "-"))
-		return (ft_putendl_fd(oldpwd, 1));
+		return (ft_putendl_fd(oldpwd, 1), 0);
 	else
 	{
 		if (chdir(cmd[1]))
@@ -82,4 +82,5 @@ void	ft_cd(char **cmd, t_chill *shell)
 	}
 	getcwd(newpwd, MAX_PATHLEN);
 	change_pwd(oldpwd, newpwd, shell);
+	return(0);
 }

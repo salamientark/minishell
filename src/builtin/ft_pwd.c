@@ -12,15 +12,16 @@
 
 #include "minishell.h"
 
-void	ft_pwd(char **cmd)
+int	ft_pwd(char **cmd)
 {
 	char	pwd[MAX_PATHLEN];
 
 	if (cmd[1])
 	{
 		ft_putendl_fd("pwd: too many argument", 2);
-		return ;
+		return (1);
 	}
 	getcwd(pwd, MAX_PATHLEN);
 	ft_putendl_fd(pwd, 2);
+	return(0);
 }

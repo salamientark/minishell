@@ -12,13 +12,15 @@
 
 #include "minishell.h"
 
-void	ft_exit(char **cmd)
+int	ft_exit(char **cmd, t_chill *shell)
 {
 	if (cmd[1])
 	{
 		ft_putendl_fd("exit: too many arguments", 2);
-		return ;
+		return (1);
 	}
 	write(1, "exit\n", 5);
+	shell->exit_status = 0;
 	exit(0);
+	return(0);
 }

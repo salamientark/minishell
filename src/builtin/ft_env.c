@@ -19,7 +19,7 @@ static void	env_error(char *cmd)
 	ft_putendl_fd("': No such file or directory", 2);
 }
 
-void	ft_env(char **cmd, char **env)
+int	ft_env(char **cmd, t_chill *shell)
 {
 	int	i;
 
@@ -27,11 +27,12 @@ void	ft_env(char **cmd, char **env)
 	if (cmd[1])
 	{
 		env_error(cmd[1]);
-		return ;
+		return (1);
 	}
-	while (env[i])
+	while (shell->env[i])
 	{
-		ft_putendl_fd(env[i], 1);
+		ft_putendl_fd(shell->env[i], 1);
 		i++;
 	}
+	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/04 20:39:47 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:52:21 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,25 @@ typedef struct s_simple_cmd
 	char	**redirection;
 }				t_simple_cmd;
 
-void	**builtin_tab(void);
+typedef struct s_chill
+{
+	int				(*builtin[7])(char **, struct s_chill *);
+	t_simple_cmd	**cmd_tab;
+	char			**env;
+	char			*infile;
+	char			*outfile;
+	int				pipefd[2];
+	int				fd_in;
+	int				fd_out;
+	int				hd_count;
+	int				nb_cmd;
+	int				old_fd;
+	int				index_cmd;
+	int				exit_status;
+	int				error_code;
+}		t_chill;
+
+void	builtin_tab(t_chill *shell);
 
 // expand_strlen.c
 int				expand_strlen(const char *input, int ref, int in_double_quote);
