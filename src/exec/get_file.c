@@ -43,16 +43,14 @@ static void	get_heredocs(t_chill *shell)
 	// int		errno_cp;
 
 	here_doc_name(buffer, shell->hd_count++);
-	shell->infile = ft_strdup(buffer);
-	printf("get_here %s\n", shell->infile);
 	shell->fd_in = open(buffer, O_RDONLY, 0400);
-	ft_putnbr_fd(shell->fd_in, 2);
 	// if (shell->fd_in == -1)
 	// {
 	// 	errno_cp = errno;
 	// 	print_error(buffer, strerror(errno_cp));
 	// 	exit_shell(shell, errno_cp);
 	// }
+	shell->infile = ft_strdup(buffer);
 }
 
 void	get_file(t_chill *shell, char **redirections)
@@ -76,8 +74,6 @@ void	get_file(t_chill *shell, char **redirections)
 			get_outfile(shell, redirections[i + 1], FALSE);
 		i = i + 2;
 	}
-	ft_putnbr_fd(shell->fd_in, 2);
-	printf("%s\n", shell->infile);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)
