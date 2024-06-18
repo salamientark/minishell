@@ -40,7 +40,7 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 static void	get_heredocs(t_chill *shell)
 {
 	char	buffer[11];
-	int		errno_cp;
+	// int		errno_cp;
 
 	here_doc_name(buffer, shell->hd_count++);
 	shell->fd_in = open(buffer, O_WRONLY | O_EXCL | O_TRUNC, 0600);

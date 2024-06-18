@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 16:36:25 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:00:14 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	case_no_pipe(t_chill *shell)
 {
-	write (2, "\n", 1);
 	dup2(shell->fd_in, STDIN_FILENO);
 	close (shell->fd_in);
 	dup2(shell->fd_out, STDOUT_FILENO);
