@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 17:18:06 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:23:48 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ void	get_file(t_chill *shell, char **redirections)
 	shell->fd_out = -1;
 	shell->outfile = NULL;
 	shell->infile = NULL;
+	if (!redirections)
+	{
+		shell->fd_in = dup(STDIN_FILENO);
+		shell->fd_out = dup(STDOUT_FILENO);
+		return ;
+	}
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
@@ -76,7 +82,6 @@ void	get_file(t_chill *shell, char **redirections)
 		i = i + 2;
 	}
 	ft_putnbr_fd(shell->fd_in, 2);
-	printf("%s\n", shell->infile);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)

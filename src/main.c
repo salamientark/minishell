@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/18 17:56:33 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:59:04 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	main(int ac, char **av, char **env)
 			{
 				execution_cmd(shell);
 				free_cmd_tab(&shell->cmd_tab);
-				;
 			}
 		}
 		free(shell->input);
