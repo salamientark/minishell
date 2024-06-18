@@ -6,23 +6,39 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 17:41:20 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 20:45:42 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_pipe(t_chill *shell)
+static int	init_pipe(t_chill *shell)
 {
+	char **cmd;
+
+	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+	{
+		shell->exit_status = 1;
+		return (1);
+	}
+	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+	// {
+	// 	shell->exit_status = 1;
+	// 	return (1);
+	// }
+	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+	if (cmd)
+		shell->builtin_ref = isbuiltin(cmd, shell);
 	if (shell->nb_cmd == 1)
-		return ;
+		return (0);
 	if (is_last_cmd(shell))
-		return ;
+		return (0);
 	if (pipe(shell->pipefd) < 0)
 	{
 		print_error("pipe", strerror(errno));
 		exit_shell(shell, 1);
 	}
+	return(0);
 }
 
 static void	wait_command(t_chill *shell)
@@ -38,10 +54,13 @@ static void	wait_command(t_chill *shell)
 
 static void	update_fd(t_chill *shell)
 {
+	int	ref;
+	
+	ref = shell->builtin_ref;
 	if (shell->nb_cmd == 1)
 	{
 		if (shell->builtin_ref >= 0 && shell->builtin_ref <= 3)
-			shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
+			shell->builtin[ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
 	}
 	if (shell->nb_cmd != 1)
 	{
@@ -61,7 +80,6 @@ static void	exec_child(t_chill *shell)
 	char	**cmd;
 
 	signal(SIGQUIT, SIG_DFL);
-	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 	redirect(shell);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
 	if (!cmd | !cmd[0])
@@ -94,12 +112,6 @@ void	execution_cmd(t_chill *shell)
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
-		if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-		{
-			shell->exit_status = 1;
-			break;
-		}
-		shell->builtin_ref = isbuiltin(shell->cmd_tab[shell->index_cmd]->cmd, shell);
 		pid = fork();
 		if (pid == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/17 15:56:42 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/17 21:39:33 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	make_new_prompt(t_chill *shell);
 char	*read_command(t_chill *shell);
 
 //built-in
+void			builtin_tab(t_chill *shell);
 int		isbuiltin(char **cmd, t_chill *shell);
 int		ft_cd(char **cmd, t_chill *env);
 int		ft_env(char **cmd, t_chill *env);
