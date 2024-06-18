@@ -44,7 +44,6 @@ static void	get_heredocs(t_chill *shell)
 
 	here_doc_name(buffer, shell->hd_count++);
 	shell->fd_in = open(buffer, O_WRONLY | O_EXCL | O_TRUNC, 0600);
-	ft_putnbr_fd(shell->fd_in, 2);
 	// if (shell->fd_in == -1)
 	// {
 	// 	errno_cp = errno;
@@ -75,6 +74,7 @@ void	get_file(t_chill *shell, char **redirections)
 			get_outfile(shell, redirections[i + 1], FALSE);
 		i = i + 2;
 	}
+	ft_putnbr_fd(shell->fd_in, 2);
 	printf("%s\n", shell->infile);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
