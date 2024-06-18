@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 19:23:17 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:36:16 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	init_pipe(t_chill *shell)
 {
-	if (shell->nb_cmd == 1)
+	if (shell->nb_cmd == 1 || shell->nb_cmd == 0)
 		return (0);
 	if (is_last_cmd(shell))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/18 17:09:47 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 18:43:15 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 	shell->exit_status = write_here_doc(fd, limiter, expand_flag, shell);
 	free(limiter);
 	close(fd);
-	close(STDIN_FILENO);
+	if (shell->exit_status == 130)
+		close(STDIN_FILENO);
 	dup2(stdin_cp, STDIN_FILENO);
 	close(stdin_cp);
 	signal(SIGINT, signal_handler);
