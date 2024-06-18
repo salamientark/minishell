@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 11:30:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:00:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	get_heredocs(t_chill *shell)
 	int		errno_cp;
 
 	here_doc_name(buffer, shell->hd_count++);
-	shell->fd_in = open(buffer, O_WRONLY | O_EXCL | O_TRUNC, 0600);
+	shell->fd_in = open(buffer, O_RDONLY, 0400);
 	ft_putnbr_fd(shell->fd_in, 2);
 	// if (shell->fd_in == -1)
 	// {
