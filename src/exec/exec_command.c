@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 19:15:29 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:23:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 
 static int	init_pipe(t_chill *shell)
 {
-	char **cmd;
-
-	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-	{
-		shell->exit_status = 1;
-		return (1);
-	}
-	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
-	// {
-	// 	shell->exit_status = 1;
-	// 	return (1);
-	// }
-	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
-	if (cmd)
-		shell->builtin_ref = isbuiltin(cmd, shell);
 	if (shell->nb_cmd == 1)
 		return (0);
 	if (is_last_cmd(shell))
@@ -81,6 +66,7 @@ static void	exec_child(t_chill *shell)
 
 	signal(SIGQUIT, SIG_DFL);
 	redirect(shell);
+	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
 	if (!cmd || !cmd[0])
 		exit_shell(shell, shell->exit_status);
@@ -112,6 +98,12 @@ void	execution_cmd(t_chill *shell)
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);
+		if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+		{
+			shell->exit_status = 1;
+			break ;
+		}
+		shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
 		pid = fork();
 		if (pid == -1)
 		{
