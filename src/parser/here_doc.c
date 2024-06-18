@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/18 16:44:08 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:03:46 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,24 +136,25 @@ int	init_here_doc(int here_doc_count)
  * */
 int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 {
-	// int		fd;
+	int		fd;
 	int		stdin_cp;
 	int		expand_flag;
 	int		here_doc_return;
 	char	*limiter;
 
-	shell->fd_in = init_here_doc(*here_doc_count);
-	if (shell->fd_in <= -1)
+	fd = init_here_doc(*here_doc_count);
+	if (fd <= -1)
 		return (1);
 	stdin_cp = dup(STDIN_FILENO);
 	if (!stdin_cp)
-		return (print_error("dup", strerror(errno)), close(shell->fd_in), 1);
+		return (print_error("dup", strerror(errno)), close(fd), 1);
 	expand_flag = 1;
 	limiter = get_here_doc_limiter(cmd, ref, &expand_flag);
 	if (!limiter)
-		return (close(shell->fd_in), 1);
-	here_doc_return = write_here_doc(shell->fd_in, limiter, expand_flag, shell);
+		return (close(fd), 1);
+	here_doc_return = write_here_doc(fd, limiter, expand_flag, shell);
 	free(limiter);
+	close(fd);
 	close(STDIN_FILENO);
 	dup2(stdin_cp, STDIN_FILENO);
 	close(stdin_cp);
