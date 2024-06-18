@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:31:00 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/13 12:36:14 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:23:57 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	exec_tree(t_btree *tree, t_chill *shell)
 			return (1);
 		execution_cmd(shell);
 		free_cmd_tab(&shell->cmd_tab);
+		return (0);
 	}
 	if (tree->l_node)
 		error_status = exec_tree(tree->l_node, shell);

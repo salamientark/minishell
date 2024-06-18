@@ -6,15 +6,20 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 11:30:57 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:18:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	get_outfile(t_chill *shell, char *redirect_to)
+static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
-	shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (shell->fd_out != -1)
+		close (shell->fd_out);
+	if (append)
+		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_APPEND, 0666);
+	else
+		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	shell->outfile = redirect_to;
 }
 
@@ -32,29 +37,46 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 	shell->infile = redirect_from;
 }
 
-void	get_file(t_chill *shell, char **redirections)
+static void	get_heredocs(t_chill *shell)
 {
 	char	buffer[11];
-	int		i;
+	// int		errno_cp;
+
+	here_doc_name(buffer, shell->hd_count++);
+	shell->infile = ft_strdup(buffer);
+	shell->fd_in = open(buffer, O_RDONLY, 0400);
+	ft_putnbr_fd(shell->fd_in, 2);
+	// if (shell->fd_in == -1)
+	// {
+	// 	errno_cp = errno;
+	// 	print_error(buffer, strerror(errno_cp));
+	// 	exit_shell(shell, errno_cp);
+	// }
+}
+
+void	get_file(t_chill *shell, char **redirections)
+{
+	int	i;
 
 	i = 0;
+	shell->fd_in = -1;
+	shell->fd_out = -1;
 	shell->outfile = NULL;
 	shell->infile = NULL;
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
-		{
-			here_doc_name(buffer, shell->hd_count++);
-			open(buffer, O_RDWR);
-		}
+			get_heredocs(shell);
 		if (!ft_strcmp(redirections[i], ">>"))
-			open(redirections[i + 1], O_RDWR | O_CREAT |O_APPEND);
+			get_outfile(shell, redirections[i + 1], TRUE);
 		if (!ft_strcmp(redirections[i], "<"))
 			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))
-			get_outfile(shell, redirections[i + 1]);
+			get_outfile(shell, redirections[i + 1], FALSE);
 		i = i + 2;
 	}
+	ft_putnbr_fd(shell->fd_in, 2);
+	printf("%s\n", shell->infile);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)
