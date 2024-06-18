@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 19:36:16 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:40:07 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	execution_cmd(t_chill *shell)
 			shell->exit_status = 1;
 			break ;
 		}
-		shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
+		//shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
 		pid = fork();
 		if (pid == -1)
 		{
