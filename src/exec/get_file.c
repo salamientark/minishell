@@ -81,7 +81,6 @@ void	get_file(t_chill *shell, char **redirections)
 			get_outfile(shell, redirections[i + 1], FALSE);
 		i = i + 2;
 	}
-	ft_putnbr_fd(shell->fd_in, 2);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)

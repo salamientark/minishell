@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/18 17:59:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:36:48 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(int ac, char **av, char **env)
 	{
 		unlink_here_doc();
 		shell->input = read_command(shell);
-		if (!shell->input)
-			break ;
 		if (ft_strlen(shell->input) > 0)
 		{
 			shell->cmd_tab = parse_input(shell->input, shell);

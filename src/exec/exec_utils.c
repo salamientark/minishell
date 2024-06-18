@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 19:34:48 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:36:30 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_builtin(char **cmd, t_chill *shell)
 {
-	int ref;
+	int	ref;
 
 	ref = shell->builtin_ref;
 	if (shell->nb_cmd == 1)

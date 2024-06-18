@@ -1,0 +1,12 @@
+HOW_DOES_IT_WORK
+Makefile
+a
+a.out
+bonus
+ignore_readline.supp
+ignore_readline_supp.supp
+includes
+libft
+minishell
+q
+src
