@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/15 21:22:46 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:09:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	analyze_operator_syntax(const char *str, int ref,
 	{
 		if (!is_followed_by_word(str + ref, operator))
 			return (print_syntax_error(str, ref, operator), 2);
-		if (operator == HERE_DOC)
+		if (operator == HERE_DOC && shell->tree != NULL)
 			return (here_doc(str, ref, here_doc_count, shell));
 	}
 	if (operator == LEFT_PARENTHESIS && is_preceeded_by_word(str, ref))

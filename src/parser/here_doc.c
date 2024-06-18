@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/18 17:03:46 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:09:47 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 	int		fd;
 	int		stdin_cp;
 	int		expand_flag;
-	int		here_doc_return;
 	char	*limiter;
 
 	fd = init_here_doc(*here_doc_count);
@@ -152,12 +151,12 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 	limiter = get_here_doc_limiter(cmd, ref, &expand_flag);
 	if (!limiter)
 		return (close(fd), 1);
-	here_doc_return = write_here_doc(fd, limiter, expand_flag, shell);
+	shell->exit_status = write_here_doc(fd, limiter, expand_flag, shell);
 	free(limiter);
 	close(fd);
 	close(STDIN_FILENO);
 	dup2(stdin_cp, STDIN_FILENO);
 	close(stdin_cp);
 	signal(SIGINT, signal_handler);
-	return (here_doc_return);
+	return ((shell->exit_status != 0 && shell->exit_status != 130));
 }
