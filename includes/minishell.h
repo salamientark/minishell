@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/17 15:56:42 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:51:54 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/fcntl.h>
 # include <sys/types.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <errno.h>
 
 # include "../libft/includes/libft.h"

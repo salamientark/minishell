@@ -14,6 +14,8 @@
 
 int	isbuiltin(char **cmd, t_chill *shell)
 {
+	if (!cmd || !cmd[0])
+		return(-1);
 	builtin_tab(shell);
 	if (!ft_strcmp(cmd[0], "cd"))
 		return (0);

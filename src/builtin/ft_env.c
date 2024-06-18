@@ -33,7 +33,8 @@ int	ft_env(char **cmd, t_chill *shell)
 	}
 	while (env[i])
 	{
-		ft_putendl_fd(env[i], 1);
+		if (ft_strchr(env[i], '/'))
+			ft_putendl_fd(env[i], 1);
 		i++;
 	}
 	return (0);
