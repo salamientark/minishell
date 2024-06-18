@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 17:16:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/18 17:18:06 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	get_heredocs(t_chill *shell)
 
 	here_doc_name(buffer, shell->hd_count++);
 	shell->infile = ft_strdup(buffer);
-	printf("get_here %s\n", shell->infile);
 	shell->fd_in = open(buffer, O_RDONLY, 0400);
 	ft_putnbr_fd(shell->fd_in, 2);
 	// if (shell->fd_in == -1)
