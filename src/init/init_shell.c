@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 20:21:39 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/19 21:55:00 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	**new_env(void)
 	if (!env)
 		return (print_error("malloc", strerror(errno)), NULL);
 	getcwd(cwd, MAX_PATHLEN);
-	if (!cwd[0])
+	if (cwd[0] != '\0')
 	{
 		pwd = ft_strjoin("PWD=", cwd);
 		if (!pwd)
@@ -139,8 +139,11 @@ t_chill	*init_shell(int ac, char **av, char **env)
 	shell->infile = NULL;
 	shell->outfile = NULL;
 	shell->exit_status = 0;
-	if (!env)
+	if (!env || !env[0])
+	{
+		printf("new_env\n");
 		shell->env = new_env();
+	}
 	else
 		shell->env = copy_env(env);
 	if (!shell->env)

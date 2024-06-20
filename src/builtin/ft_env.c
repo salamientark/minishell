@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:43:25 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/15 13:26:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/20 19:26:30 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	ft_env(char **cmd, t_chill *shell)
 	}
 	while (env[i])
 	{
-		if (ft_strchr(env[i], '/'))
-			ft_putendl_fd(env[i], 1);
+		ft_putendl_fd(env[i], 1);
 		i++;
 	}
 	return (0);
