@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:48:50 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/15 21:25:43 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/21 10:33:38 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,25 @@ static void	change_color(char *dest, char *color)
 	ft_strcat(dest, color);
 }
 
+static int	match_home(const char *home, const char *cwd)
+{
+	size_t	home_len;
+
+	if (!home)
+		return (0);
+	home_len = ft_strlen(home);
+	if (home_len <= 1)
+		return (0);
+	if (home[home_len - 1] == '/')
+		return (0);
+	if (ft_strlen(cwd) < home_len)
+		return (0);
+	if (ft_strncmp(home, cwd, home_len) != 0)
+		return (0);
+	return (1);
+}
+
+
 /* write the directory part of the prompt into it
  * */
 void	prompt_cwd(t_chill *shell)
@@ -62,15 +81,14 @@ void	prompt_cwd(t_chill *shell)
 	}
 	change_color(shell->prompt, MAGENTA);
 	home = ft_getenv("HOME", shell->env);
-	if (!home || ft_strlen(home) <= 1
-		|| ft_strncmp(home, cwd, ft_strlen(home) != 0))
+	if (match_home(home, cwd) == 0)
 		return ((void) ft_strcat(shell->prompt, cwd));
 	ft_strcat(shell->prompt, "~");
 	index = 0;
 	while (home[index] && home[index] == cwd[index])
 		index++;
 	if (!cwd[index])
-		return ;
+		return ((void)strcat(shell->prompt, "/"));
 	if (home[index - 1] != '/')
 		ft_strcat(shell->prompt, "/");
 	index += (home[index - 1] != '/');
