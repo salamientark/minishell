@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 19:23:48 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/21 10:37:15 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	get_file(t_chill *shell, char **redirections)
 			get_outfile(shell, redirections[i + 1], FALSE);
 		i = i + 2;
 	}
-	ft_putnbr_fd(shell->fd_in, 2);
-	printf("\ninfilr : %s\n",shell->infile);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)

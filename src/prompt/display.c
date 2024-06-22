@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/17 17:14:05 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:24:09 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ char	*read_command(t_chill *shell)
 
 	update_prompt_exit_status(shell);
 	input = readline(shell->prompt);
-	if (!input)
-	{
-		ft_putendl_fd("exit", 1);
-		exit(0);
-	}
 	if (input && *input)
 		add_history(input);
 	return (input);

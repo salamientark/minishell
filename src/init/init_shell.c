@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 15:24:41 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:55:00 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,31 @@ static char	**new_env(void)
 	char		cwd[MAX_PATHLEN];
 	char		**env;
 	char		*pwd;
+	int			cwd_success;
 
-	getcwd(cwd, MAX_PATHLEN);
-	if (!cwd[0])
-		return (print_error("cwd", strerror(errno)), NULL);
+	cwd_success = 0;
+	cwd[0] = '\0';
 	env = (char **)malloc(sizeof(char *) * 4);
 	if (!env)
 		return (print_error("malloc", strerror(errno)), NULL);
-	pwd = ft_strjoin("PWD=", cwd);
-	if (!pwd)
-		return (print_error("ft_strjoin", "malloc error"), free(env), NULL);
-	env[0] = pwd;
-	env[1] = ft_strdup("SHLVL=1");
-	if (!env[1])
+	getcwd(cwd, MAX_PATHLEN);
+	if (cwd[0] != '\0')
+	{
+		pwd = ft_strjoin("PWD=", cwd);
+		if (!pwd)
+			return (print_error("ft_strjoin", "malloc error"), free(env), NULL);
+		env[0] = pwd;
+		cwd_success = 1;
+	}
+	env[0 + cwd_success] = ft_strdup("SHLVL=1");
+	if (!env[0 + cwd_success])
 		return (print_error("ft_strdup", "malloc error"), free(pwd), free(env),
 			NULL);
-	env[2] = ft_strdup("_=usr/bin/env");
-	if (!env[2])
+	env[1 + cwd_success] = ft_strdup("_=usr/bin/env");
+	if (!env[1 + cwd_success])
 		return (print_error("ft_strdup", "malloc error"), free(env[1]),
 			free(pwd), free(env), NULL);
+	env[2 + cwd_success] = NULL;
 	env[3] = NULL;
 	return (env);
 }
@@ -133,8 +139,11 @@ t_chill	*init_shell(int ac, char **av, char **env)
 	shell->infile = NULL;
 	shell->outfile = NULL;
 	shell->exit_status = 0;
-	if (!env)
+	if (!env || !env[0])
+	{
+		printf("new_env\n");
 		shell->env = new_env();
+	}
 	else
 		shell->env = copy_env(env);
 	if (!shell->env)

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/18 17:59:04 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/20 19:32:23 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	main(int ac, char **av, char **env)
 		}
 		free(shell->input);
 	}
+	write(1, "exit\n", 5);
 	exit_shell(shell, shell->exit_status);
 }
