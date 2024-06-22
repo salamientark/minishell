@@ -34,8 +34,6 @@ static int	check_valid_var(char *cmd)
 		len++;
 		i++;
 	}
-	if (!is_equal_sign)
-		return (0);
 	return (len);
 }
 
@@ -72,11 +70,11 @@ static char	*get_var_name(char *var)
 
 	len = 0;
 	i = 0;
-	while (var[len] != '=')
+	while (var[len] != '=' || var[len])
 		len++;
 	if (var[len] != '=')
 		return (NULL);
-	name = (char *)malloc(len + 2);
+	name = (char *)malloc(len + 1);
 	if (!name)
 		return (NULL);
 	while (i < len)
@@ -84,8 +82,7 @@ static char	*get_var_name(char *var)
 		name[i] = var[i];
 		i++;
 	}
-	name[i] = '=';
-	name[i + 1] = '\0';
+	name[i] = '\0';
 	return (name);
 }
 

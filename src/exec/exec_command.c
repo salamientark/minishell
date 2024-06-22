@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 16:50:32 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:51:58 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	wait_command(t_chill *shell)
 
 static void	update_fd(t_chill *shell)
 {
+	// if (shell->hd_count > 0)
+	// 	close(shell->fd_in);
 	if (shell->nb_cmd == 1)
 	{
 		if (shell->builtin_ref >= 0 && shell->builtin_ref <= 3)
