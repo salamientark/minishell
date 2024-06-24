@@ -6,11 +6,20 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/21 10:37:15 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:13:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_free(char **filename_p)
+{
+	if (*filename_p)
+	{
+		free(*filename_p);
+		*filename_p = NULL;
+	}
+}
 
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
@@ -20,13 +29,17 @@ static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_APPEND, 0666);
 	else
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	shell->outfile = redirect_to;
+	if (shell->outfile)
+		ft_free(&shell->outfile);
+	shell->outfile = ft_strdup(redirect_to);
 }
 
 static void	get_infile(t_chill *shell, char *redirect_from)
 {
 	int	errno_cp;
 
+	if (shell->fd_in != -1)
+		close (shell->fd_in);
 	shell->fd_in = open(redirect_from, O_RDWR);
 	if (shell->fd_in == -1)
 	{
@@ -34,24 +47,23 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 		print_error(redirect_from, strerror(errno_cp));
 		exit_shell(shell, errno_cp);
 	}
-	shell->infile = redirect_from;
+	if (shell->infile)
+		ft_free(&shell->infile);
+	shell->infile = ft_strdup(redirect_from);
 }
 
 static void	get_heredocs(t_chill *shell)
 {
 	char	buffer[11];
-	// int		errno_cp;
 
 	here_doc_name(buffer, shell->hd_count++);
+	if (shell->infile)
+		ft_free(&shell->infile);
 	shell->infile = ft_strdup(buffer);
+	if (shell->fd_in != -1)
+		close (shell->fd_in);
 	shell->fd_in = open(buffer, O_RDONLY, 0400);
 	ft_putnbr_fd(shell->fd_in, 2);
-	// if (shell->fd_in == -1)
-	// {
-	// 	errno_cp = errno;
-	// 	print_error(buffer, strerror(errno_cp));
-	// 	exit_shell(shell, errno_cp);
-	// }
 }
 
 void	get_file(t_chill *shell, char **redirections)
