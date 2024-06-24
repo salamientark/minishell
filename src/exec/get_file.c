@@ -6,19 +6,25 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/24 17:13:11 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:17:12 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_free(char **filename_p)
+static bool	init_file(t_chill *shell, char **redirections)
 {
-	if (*filename_p)
+	shell->fd_in = -1;
+	shell->fd_out = -1;
+	shell->outfile = NULL;
+	shell->infile = NULL;
+	if (!redirections)
 	{
-		free(*filename_p);
-		*filename_p = NULL;
+		shell->fd_in = dup(STDIN_FILENO);
+		shell->fd_out = dup(STDOUT_FILENO);
+		return (FALSE);
 	}
+	return (TRUE);
 }
 
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
@@ -30,7 +36,10 @@ static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 	else
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (shell->outfile)
-		ft_free(&shell->outfile);
+	{
+		free(shell->outfile);
+		shell->outfile = NULL;
+	}
 	shell->outfile = ft_strdup(redirect_to);
 }
 
@@ -48,7 +57,10 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 		exit_shell(shell, errno_cp);
 	}
 	if (shell->infile)
-		ft_free(&shell->infile);
+	{
+		free(shell->infile);
+		shell->infile = NULL;
+	}
 	shell->infile = ft_strdup(redirect_from);
 }
 
@@ -58,7 +70,10 @@ static void	get_heredocs(t_chill *shell)
 
 	here_doc_name(buffer, shell->hd_count++);
 	if (shell->infile)
-		ft_free(&shell->infile);
+	{
+		free(shell->infile);
+		shell->infile = NULL;
+	}
 	shell->infile = ft_strdup(buffer);
 	if (shell->fd_in != -1)
 		close (shell->fd_in);
@@ -71,16 +86,8 @@ void	get_file(t_chill *shell, char **redirections)
 	int	i;
 
 	i = 0;
-	shell->fd_in = -1;
-	shell->fd_out = -1;
-	shell->outfile = NULL;
-	shell->infile = NULL;
-	if (!redirections)
-	{
-		shell->fd_in = dup(STDIN_FILENO);
-		shell->fd_out = dup(STDOUT_FILENO);
+	if (!init_file(shell, redirections))
 		return ;
-	}
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
