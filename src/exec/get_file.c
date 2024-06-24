@@ -20,7 +20,7 @@ static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_APPEND, 0666);
 	else
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	shell->outfile = redirect_to;
+	shell->outfile = ft_strdup(redirect_to);
 }
 
 static void	get_infile(t_chill *shell, char *redirect_from)
@@ -34,7 +34,7 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 		print_error(redirect_from, strerror(errno_cp));
 		exit_shell(shell, errno_cp);
 	}
-	shell->infile = redirect_from;
+	shell->infile = ft_strdup(redirect_from);
 }
 
 static void	get_heredocs(t_chill *shell)
