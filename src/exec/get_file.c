@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+static bool	init_file(t_chill *shell, char **redirections)
+{
+	shell->fd_in = -1;
+	shell->fd_out = -1;
+	shell->outfile = NULL;
+	shell->infile = NULL;
+	if (!redirections)
+	{
+		shell->fd_in = dup(STDIN_FILENO);
+		shell->fd_out = dup(STDOUT_FILENO);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
 	if (shell->fd_out != -1)
@@ -59,16 +74,8 @@ void	get_file(t_chill *shell, char **redirections)
 	int	i;
 
 	i = 0;
-	shell->fd_in = -1;
-	shell->fd_out = -1;
-	shell->outfile = NULL;
-	shell->infile = NULL;
-	if (!redirections)
-	{
-		shell->fd_in = dup(STDIN_FILENO);
-		shell->fd_out = dup(STDOUT_FILENO);
+	if (!init_file(shell, redirections))
 		return ;
-	}
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
