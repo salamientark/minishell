@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 22:11:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/18 18:43:15 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:57:25 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,7 @@ int	init_here_doc(int here_doc_count)
 
 	g_signal = 0;
 	here_doc_name(heredoc_name, here_doc_count);
-	fd = open(here_doc_name(heredoc_name, here_doc_count),
-			O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
+	fd = open(heredoc_name, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd == -1)
 		return (print_error("open", strerror(errno)), 1);
 	signal(SIGINT, heredoc_sig_handler);
@@ -159,5 +158,6 @@ int	here_doc(const char *cmd, int ref, int *here_doc_count, t_chill *shell)
 	dup2(stdin_cp, STDIN_FILENO);
 	close(stdin_cp);
 	signal(SIGINT, signal_handler);
+	*here_doc_count += 1;
 	return ((shell->exit_status != 0 && shell->exit_status != 130));
 }

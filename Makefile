@@ -55,6 +55,7 @@ define EXEC_FILE :=
 		exec_utils.c \
 		get_file.c		\
 		redirections.c	\
+		update_fd.c \
 		exec_command.c	\
 		free_all.c
 )
