@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/21 10:36:00 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:08:40 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,70 +30,83 @@ void	check_for_update(t_chill *shell)
 	update_env(shell, tmp);
 }
 
-static int	change_old_pwd(char *oldpwd, t_chill *shell, int index)
-{
-	char	*oldpwd_env;
-
-	oldpwd_env = ft_strjoin("OLDPWD=", oldpwd);
-	if (!oldpwd_env)
-		return (print_error("ft_strjoin", "malloc error"), 1);
-	free(shell->env[index]);
-	shell->env[index] = oldpwd_env;
-	return (0);
-}
-
 static int	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
 {
 	int		i;
-	char	*newpwd_env;
+	char	*tmp_pwd;
 
 	i = 0;
 	check_for_update(shell);
 	while (shell->env[i])
 	{
 		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7)
-			&& change_old_pwd(oldpwd, shell, i) != 0)
-			return (1);
-		if (!ft_strncmp(shell->env[i], "PWD=", 4))
+			|| !ft_strncmp(shell->env[i], "PWD=", 4))
 		{
-			newpwd_env = ft_strjoin("PWD=", newpwd);
-			if (!newpwd_env)
+			if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
+				tmp_pwd = ft_strjoin("OLDPWD=", oldpwd);
+			else
+				tmp_pwd = ft_strjoin("PWD=", newpwd);
+			if (!tmp_pwd)
 				return (print_error("ft_strjoin", "malloc error"), 1);
 			free(shell->env[i]);
-			shell->env[i] = newpwd_env;
+			shell->env[i] = tmp_pwd;
 		}
 		i++;
 	}
 	return (0);
 }
 
-int	ft_cd(char **cmd, t_chill *shell)
+static int	go_home(char *oldpwd, t_chill *shell)
 {
-	char	oldpwd[MAX_PATHLEN];
 	char	newpwd[MAX_PATHLEN];
 	char	*home;
 
 	home = ft_getenv("HOME", shell->env);
 	if (!home)
-		ft_putendl_fd("home not found", 2);
-	getcwd(oldpwd, MAX_PATHLEN);
-	if (!cmd[1] || !ft_strcmp(cmd[1], "~"))
-	{
-		if (!home)
-			return (1);
-		if (chdir(home))
-			perror("cd : home");
-	}
-	else if (cmd[2])
+		return (print_error("cd", "home not found"), 2);
+	if (!home)
 		return (1);
-	else if (!ft_strcmp(cmd[1], "-"))
-		return (ft_putendl_fd(oldpwd, 1), 0);
-	else
-	{
-		if (chdir(cmd[1]) != 0)
-			return (print_error_cmd("cd :", cmd[1], strerror(errno)), 1);
-	}
-	getcwd(newpwd, MAX_PATHLEN);
+	if (chdir(home) != 0)
+		return (print_error("cd", strerror(errno)), 1);
+	if (getcwd(newpwd, MAX_PATHLEN) == NULL)
+		print_error("getcwd", strerror(errno));
+	make_new_prompt(shell);
+	return (change_pwd(oldpwd, newpwd, shell));
+}
+
+static int	go_last_pwd(char *oldpwd, t_chill *shell)
+{
+	char	newpwd[MAX_PATHLEN];
+	char	*env_oldpwd;
+
+	env_oldpwd = ft_getenv("OLDPWD", shell->env);
+	if (!env_oldpwd)
+		return (print_error("cd", "OLDPWD not set"), 1);
+	if (chdir(env_oldpwd) != 0)
+		return (print_error_cmd("cd", env_oldpwd, strerror(errno)), 1);
+	if (getcwd(newpwd, MAX_PATHLEN) == NULL)
+		print_error("getcwd", strerror(errno));
+	make_new_prompt(shell);
+	return (change_pwd(oldpwd, newpwd, shell));
+}
+
+int	ft_cd(char **cmd, t_chill *shell)
+{
+	char	oldpwd[MAX_PATHLEN];
+	char	newpwd[MAX_PATHLEN];
+
+	if (cmd[1] && cmd[2])
+		return (print_error("cd", "too many arguments"), 1);
+	if (getcwd(oldpwd, MAX_PATHLEN) == NULL)
+		print_error("getcwd", strerror(errno));
+	if (!cmd[1] || !ft_strcmp(cmd[1], "~"))
+		return (go_home(oldpwd, shell));
+	if (!ft_strcmp(cmd[1], "-"))
+		return (go_last_pwd(oldpwd, shell));
+	if (getcwd(newpwd, MAX_PATHLEN) == NULL)
+		print_error("getcwd", strerror(errno));
+	if (chdir(cmd[1]) != 0)
+		return (print_error_cmd("cd :", cmd[1], strerror(errno)), 1);
 	make_new_prompt(shell);
 	return (change_pwd(oldpwd, newpwd, shell));
 }
