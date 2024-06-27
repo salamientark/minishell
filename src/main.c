@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/20 19:32:23 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 13:16:31 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@ int	main(int ac, char **av, char **env)
 			shell->cmd_tab = parse_input(shell->input, shell);
 			if (shell->cmd_tab)
 			{
+				if (g_signal == 130)
+					shell->exit_status = 130;
 				execution_cmd(shell);
 				free_cmd_tab(&shell->cmd_tab);
 			}
 		}
 		free(shell->input);
+		g_signal = 0;
 	}
 	write(1, "exit\n", 5);
 	exit_shell(shell, shell->exit_status);

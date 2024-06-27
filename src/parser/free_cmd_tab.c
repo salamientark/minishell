@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:54:28 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/13 10:55:01 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:01:01 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ void	free_cmd_tab(t_simple_cmd ***cmd_tab)
 	index = 0;
 	while ((*cmd_tab)[index])
 	{
-		ft_free_char_tab(&(*cmd_tab)[index]->cmd);
-		(*cmd_tab)[index]->cmd = NULL;
-		ft_free_char_tab(&(*cmd_tab)[index]->redirection);
-		(*cmd_tab)[index]->redirection = NULL;
+		if ((*cmd_tab)[index]->cmd)
+		{
+			ft_free_char_tab(&(*cmd_tab)[index]->cmd);
+			(*cmd_tab)[index]->cmd = NULL;
+		}
+		if ((*cmd_tab)[index]->redirection)
+		{
+			ft_free_char_tab(&(*cmd_tab)[index]->redirection);
+			(*cmd_tab)[index]->redirection = NULL;
+		}
 		free((*cmd_tab)[index]);
 		(*cmd_tab)[index] = NULL;
 		index++;
