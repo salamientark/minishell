@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:06:49 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/14 11:47:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:10:04 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	isbuiltin(char **cmd, t_chill *shell)
 {
 	if (!cmd || !cmd[0])
-		return(-1);
+		return (-1);
 	builtin_tab(shell);
 	if (!ft_strcmp(cmd[0], "cd"))
 		return (0);
@@ -31,7 +31,7 @@ int	isbuiltin(char **cmd, t_chill *shell)
 		return (5);
 	if (!ft_strcmp(cmd[0], "pwd"))
 		return (6);
-	return (-1); 
+	return (-1);
 }
 
 void	builtin_tab(t_chill *shell)

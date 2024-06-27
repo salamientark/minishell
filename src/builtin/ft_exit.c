@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:43:01 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/14 11:30:34 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:08:14 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	case_arg(char *cmd, t_chill *shell)
 {
-	int 			i;
+	int				i;
 	unsigned char	exit_code;
 
 	i = 0;
@@ -28,7 +28,7 @@ int	case_arg(char *cmd, t_chill *shell)
 		i++;
 	}
 	exit_code = ft_atoi(cmd);
-	return(exit_code);
+	return (exit_code);
 }
 
 int	ft_exit(char **cmd, t_chill *shell)
@@ -39,7 +39,7 @@ int	ft_exit(char **cmd, t_chill *shell)
 	if (cmd[2])
 	{
 		shell->exit_status = 1;
-		return(ft_putendl_fd("exit: too many arguments", 2), 1);
+		return (ft_putendl_fd("exit: too many arguments", 2), 1);
 	}
 	exit_shell(shell, shell->exit_status);
 	return (1);

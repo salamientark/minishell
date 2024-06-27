@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:48:50 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/21 10:33:38 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:12:56 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	match_home(const char *home, const char *cwd)
 		return (0);
 	return (1);
 }
-
 
 /* write the directory part of the prompt into it
  * */

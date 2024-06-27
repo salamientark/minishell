@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/19 21:55:00 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:06:58 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,11 @@ t_chill	*init_shell(int ac, char **av, char **env)
 	shell->cmd_tab = NULL;
 	shell->infile = NULL;
 	shell->outfile = NULL;
+	shell->fd_in = -1;
+	shell->fd_out = -1;
 	shell->exit_status = 0;
 	if (!env || !env[0])
-	{
-		printf("new_env\n");
 		shell->env = new_env();
-	}
 	else
 		shell->env = copy_env(env);
 	if (!shell->env)

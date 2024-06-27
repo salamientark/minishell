@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/22 16:40:18 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:52:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,6 @@ static void	wait_command(t_chill *shell)
 	{
 		wait(&status);
 		shell->exit_status = WEXITSTATUS(status);
-	}
-}
-
-static void	update_fd(t_chill *shell)
-{
-	// if (shell->hd_count > 0)
-	// 	close(shell->fd_in);
-	if (shell->nb_cmd == 1)
-	{
-		if (shell->builtin_ref >= 0 && shell->builtin_ref <= 3)
-			shell->builtin[shell->builtin_ref](shell->cmd_tab[shell->index_cmd]->cmd, shell);
-	}
-	if (shell->nb_cmd != 1)
-	{
-		close(shell->pipefd[WRITE_END]);
-		if (shell->old_fd != -1)
-			close(shell->old_fd);
-		if (!is_last_cmd(shell))
-			shell->old_fd = shell->pipefd[READ_END];
-		if (is_last_cmd(shell))
-			close(shell->pipefd[READ_END]);
 	}
 }
 
@@ -99,9 +78,10 @@ void	execution_cmd(t_chill *shell)
 		if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
 		{
 			shell->exit_status = 1;
-			break;
+			break ;
 		}
-		shell->builtin_ref = isbuiltin(shell->cmd_tab[shell->index_cmd]->cmd, shell);
+		shell->builtin_ref = isbuiltin(shell->cmd_tab[shell->index_cmd]->cmd,
+				shell);
 		pid = fork();
 		if (pid == -1)
 		{

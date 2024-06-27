@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 18:18:40 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:11:10 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_builtin(char **cmd, t_chill *shell)
 {
-	int ref;
+	int	ref;
 
 	ref = shell->builtin_ref;
 	if (shell->nb_cmd == 1)
@@ -24,15 +24,17 @@ int	exec_builtin(char **cmd, t_chill *shell)
 	}
 	else
 		return (shell->builtin[ref](cmd, shell));
-	return(0);
+	return (0);
 }
 
-void init_exec(t_chill *shell)
+void	init_exec(t_chill *shell)
 {
 	shell->index_cmd = 0;
 	shell->hd_count = 0;
 	shell->old_fd = -1;
 	shell->nb_cmd = cmd_count(shell->cmd_tab);
+	shell->fd_in = -1;
+	shell->fd_out = -1;
 }
 
 int	is_last_cmd(t_chill *shell)
