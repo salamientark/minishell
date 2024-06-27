@@ -47,7 +47,7 @@ static char	*get_var(char *cmd, int len)
 		return (NULL);
 	i = 0;
 	j = 0;
-	var_env = (char *)malloc(sizeof(char) * len + 1);
+	var_env = (char *)malloc(sizeof(char) * len + 2);
 	if (!var_env)
 	{
 		perror("malloc failed");
@@ -58,7 +58,8 @@ static char	*get_var(char *cmd, int len)
 		var_env[j++] = cmd[i];
 		i++;
 	}
-	var_env[j] = '\0';
+	var_env[j] = '=';
+	var_env[j + 1] = '\0';
 	return (var_env);
 }
 

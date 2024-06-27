@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/21 10:36:00 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:20:36 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,21 @@ int	ft_cd(char **cmd, t_chill *shell)
 	char	newpwd[MAX_PATHLEN];
 	char	*home;
 
-	home = ft_getenv("HOME", shell->env);
-	if (!home)
-		ft_putendl_fd("home not found", 2);
 	getcwd(oldpwd, MAX_PATHLEN);
 	if (!cmd[1] || !ft_strcmp(cmd[1], "~"))
 	{
+		home = ft_getenv("HOME", shell->env);
 		if (!home)
-			return (1);
+			return(ft_putendl_fd("home not found", 2), 1);
 		if (chdir(home))
 			perror("cd : home");
 	}
 	else if (cmd[2])
-		return (1);
+		return (print_error("cd", "too many argument"), 1);
 	else if (!ft_strcmp(cmd[1], "-"))
 		return (ft_putendl_fd(oldpwd, 1), 0);
-	else
-	{
-		if (chdir(cmd[1]) != 0)
+	else if (chdir(cmd[1]) != 0)
 			return (print_error_cmd("cd :", cmd[1], strerror(errno)), 1);
-	}
 	getcwd(newpwd, MAX_PATHLEN);
 	make_new_prompt(shell);
 	return (change_pwd(oldpwd, newpwd, shell));

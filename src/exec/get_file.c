@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+static int	init_file(t_chill *shell, char **redirections)
+{
+	shell->fd_in = -1;
+	shell->fd_out = -1;
+	shell->outfile = NULL;
+	shell->infile = NULL;
+	if (!redirections)
+	{
+		shell->fd_in = dup(STDIN_FILENO);
+		shell->fd_out = dup(STDOUT_FILENO);
+		return (1);
+	}
+	return(0);
+}
+
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
 	if (shell->fd_out != -1)
@@ -27,58 +42,39 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 {
 	int	errno_cp;
 
+	if (shell->fd_out != -1)
+		close (shell->fd_out);
 	shell->fd_in = open(redirect_from, O_RDWR);
 	if (shell->fd_in == -1)
 	{
 		errno_cp = errno;
 		print_error(redirect_from, strerror(errno_cp));
-		exit_shell(shell, errno_cp);
+		exit_shell(shell, 1);
 	}
 	shell->infile = redirect_from;
 }
 
-static void get_heredocs(t_chill *shell)
-{
-	char	buffer[11];
-	// int		errno_cp;
-	here_doc_name(buffer, shell->hd_count++);
-	shell->fd_in = open(buffer, O_RDONLY, 0400);
-	shell->infile = ft_strdup(buffer);
-	ft_putnbr_fd(shell->fd_in, 2);
-	printf("\ninfile : %s\n",shell->infile);
-	printf("buffer: %s\n", buffer);
-	
-	// if (shell->fd_in == -1)
-	// {
-	// 	errno_cp = errno;
-	// 	print_error(buffer, strerror(errno_cp));
-	// 	exit_shell(shell, errno_cp);
-	// }
-}
+// static void get_heredocs(t_chill *shell)
+// {
+// 	char	buffer[11];
+
+
+// }
 
 void	get_file(t_chill *shell, char **redirections)
 {
-	int	i;
-		//char	buffer[11];
-
+	char	buffer[11];
+	int		i;
 
 	i = 0;
-	shell->fd_in = -1;
-	shell->fd_out = -1;
-	shell->outfile = NULL;
-	shell->infile = NULL;
-	if (!redirections)
-	{
-		shell->fd_in = dup(STDIN_FILENO);
-		shell->fd_out = dup(STDOUT_FILENO);
+	if (init_file(shell, redirections))
 		return ;
-	}
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
 		{
-			get_heredocs(shell);
-			printf("\ninfilr : %s\n",shell->infile);
+			shell->infile = ft_strdup(here_doc_name(buffer, shell->hd_count++));
+			shell->fd_in = open(shell->infile, O_RDONLY, 0400);
 		}
 		if (!ft_strcmp(redirections[i], ">>"))
 			get_outfile(shell, redirections[i + 1], TRUE);
