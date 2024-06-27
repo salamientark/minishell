@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/24 17:49:47 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:18:20 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 void	exit_shell(t_chill *shell, int exit_status);
 
 // init_minishell.c
+char	**new_env(void);
 t_chill	*init_shell(int ac, char **av, char **env);
 
 // prompt

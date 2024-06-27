@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:46:40 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/27 13:16:31 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:54:36 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	while ("this is the best minishell")
 	{
-		unlink_here_doc();
 		shell->input = read_command(shell);
 		if (!shell->input)
 			break ;

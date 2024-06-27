@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 16:08:40 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:53:16 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ static int	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
 	char	*tmp_pwd;
 
 	i = 0;
-	check_for_update(shell);
 	while (shell->env[i])
 	{
-		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7)
-			|| !ft_strncmp(shell->env[i], "PWD=", 4))
+		if ((ft_strncmp(shell->env[i], "OLDPWD=", 7) == 0 && (oldpwd[0] != '\0'
+					|| ft_getenv("OLDPWD", shell->env) != NULL))
+			|| (ft_strncmp(shell->env[i], "PWD=", 4) == 0 && (newpwd[0] != '\0'
+					|| ft_getenv("PWD", shell->env) != NULL)))
 		{
 			if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
 				tmp_pwd = ft_strjoin("OLDPWD=", oldpwd);
@@ -61,6 +62,7 @@ static int	go_home(char *oldpwd, t_chill *shell)
 	char	newpwd[MAX_PATHLEN];
 	char	*home;
 
+	ft_memset(newpwd, 0, MAX_PATHLEN);
 	home = ft_getenv("HOME", shell->env);
 	if (!home)
 		return (print_error("cd", "home not found"), 2);
@@ -79,6 +81,7 @@ static int	go_last_pwd(char *oldpwd, t_chill *shell)
 	char	newpwd[MAX_PATHLEN];
 	char	*env_oldpwd;
 
+	ft_memset(newpwd, 0, MAX_PATHLEN);
 	env_oldpwd = ft_getenv("OLDPWD", shell->env);
 	if (!env_oldpwd)
 		return (print_error("cd", "OLDPWD not set"), 1);
@@ -95,6 +98,8 @@ int	ft_cd(char **cmd, t_chill *shell)
 	char	oldpwd[MAX_PATHLEN];
 	char	newpwd[MAX_PATHLEN];
 
+	ft_memset(oldpwd, 0, MAX_PATHLEN);
+	ft_memset(newpwd, 0, MAX_PATHLEN);
 	if (cmd[1] && cmd[2])
 		return (print_error("cd", "too many arguments"), 1);
 	if (getcwd(oldpwd, MAX_PATHLEN) == NULL)

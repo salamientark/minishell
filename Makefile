@@ -31,6 +31,7 @@ endef
 # INIT FILE FOR BONUS && MADATORY_PART
 define INIT_FILE :=
 	$(addprefix $(SRC_DIR)/$(INIT_DIR)/, \
+		new_env.c \
 		init_shell.c
 	)
 endef
