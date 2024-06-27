@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 16:52:17 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:57:22 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	wait_command(t_chill *shell)
 
 	while (shell->index_cmd--)
 	{
-		wait(&status);
+		waitpid(0, &status, 0);
 		shell->exit_status = WEXITSTATUS(status);
 	}
 }
