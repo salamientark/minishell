@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:46:54 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/16 22:09:50 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:05:21 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ void	exit_shell(t_chill *shell, int exit_status)
 		free_cmd_tab(&(shell->cmd_tab));
 	if (shell->env)
 		ft_free_char_tab(&(shell->env));
-// 	if (shell->infile)
-// 		free(shell->infile);
-// 	if (shell->outfile)
-// 		free(shell->outfile);
+	if (shell->infile)
+		free(shell->infile);
+	if (shell->outfile)
+		free(shell->outfile);
+	if (shell->fd_in != -1)
+		close(shell->fd_in);
+	if (shell->fd_out != -1)
+		close(shell->fd_out);
 	if (shell->input)
 		free(shell->input);
 	free(shell);

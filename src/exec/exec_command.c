@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/24 18:11:37 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:46:15 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	wait_command(t_chill *shell)
 
 	while (shell->index_cmd--)
 	{
-		wait(&status);
+		waitpid(0, &status, 0);
 		shell->exit_status = WEXITSTATUS(status);
 	}
 }

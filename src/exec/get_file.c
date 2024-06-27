@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/24 18:01:21 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 17:43:09 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static void	get_heredocs(t_chill *shell)
 		shell->fd_in = -1;
 	}
 	shell->fd_in = open(buffer, O_RDONLY, 0400);
-	ft_putnbr_fd(shell->fd_in, 2);
 }
 
 void	get_file(t_chill *shell, char **redirections)
