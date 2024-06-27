@@ -65,6 +65,7 @@ endef
 # PARSER FILE FOR BONUS && MADATORY_PART
 define PARSER_FILE :=
 	$(addprefix $(SRC_DIR)/$(PARSER_DIR)/, \
+		is_name.c \
 		expand_strlen.c \
 		quoted_strlen.c \
 		ft_token_add_back.c \

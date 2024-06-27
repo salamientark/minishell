@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:08:26 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/17 17:28:40 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:27:25 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,9 @@ int				can_be_operator(const char c);
 char			get_operator(const char *s);
 int				is_space_metachar(const char c);
 int				is_metachar(const char c);
+
+// is_name.c
+int				is_name(char *word);
 
 // count_here_doc.c
 int				heredoc_count(const char *input);
