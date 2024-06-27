@@ -6,12 +6,13 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:57:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 16:54:32 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:57:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern int	g_signal;
 // static char	*interactiveprompt(void)
 // {
 // 	char	*input;
@@ -50,6 +51,7 @@ char	*read_command(t_chill *shell)
 {
 	char	*input;
 
+	g_signal = 0;
 	unlink_here_doc();
 	update_prompt_exit_status(shell);
 	input = readline(shell->prompt);
