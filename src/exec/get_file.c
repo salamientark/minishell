@@ -87,7 +87,6 @@ static void	get_heredocs(t_chill *shell)
 		shell->fd_in = -1;
 	}
 	shell->fd_in = open(buffer, O_RDONLY, 0400);
-	ft_putnbr_fd(shell->fd_in, 2);
 }
 
 void	get_file(t_chill *shell, char **redirections)

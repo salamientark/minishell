@@ -15,9 +15,11 @@
 int	case_arg(char *cmd, t_chill *shell)
 {
 	int				i;
-	unsigned char	exit_code;
+	unsigned int	exit_code;
 
 	i = 0;
+	if (cmd[i] == '-' || cmd[i] == '+')
+		i++;
 	while (cmd[i])
 	{
 		if (!ft_isdigit(cmd[i]))
@@ -38,9 +40,10 @@ int	ft_exit(char **cmd, t_chill *shell)
 		shell->exit_status = case_arg(cmd[1], shell);
 	if (cmd[2])
 	{
+		ft_putendl_fd("exit: too many arguments", 2);
 		shell->exit_status = 1;
-		return (ft_putendl_fd("exit: too many arguments", 2), 1);
 	}
-	exit_shell(shell, shell->exit_status);
-	return (1);
+	else
+		exit_shell(shell, shell->exit_status);
+	return (shell->exit_status);
 }
