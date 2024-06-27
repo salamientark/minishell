@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:23:44 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/27 20:28:55 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 23:12:48 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	is_name(char *word)
 	index = 1;
 	while (word[index])
 	{
-		if (!(ft_isalnum(word[index]) || word[index] == UNDERSCORE))
+		if (word[index] == EQUAL)
 			return (1);
+		if (!(ft_isalnum(word[index]) || word[index] == UNDERSCORE))
+			return (0);
 		index++;
 	}
 	return (1);

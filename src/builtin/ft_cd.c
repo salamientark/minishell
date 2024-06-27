@@ -6,29 +6,29 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 16:53:16 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 23:08:55 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_for_update(t_chill *shell)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = ft_strdup("OLDPWD");
-	if (!tmp)
-		return ;
-	while (shell->env[i])
-	{
-		if (!ft_strncmp(shell->env[i], tmp, 7))
-			return (free(tmp));
-		i++;
-	}
-	update_env(shell, tmp);
-}
+// void	check_for_update(t_chill *shell)
+// {
+// 	char	*tmp;
+// 	int		i;
+// 
+// 	i = 0;
+// 	tmp = ft_strdup("OLDPWD");
+// 	if (!tmp)
+// 		return ;
+// 	while (shell->env[i])
+// 	{
+// 		if (!ft_strncmp(shell->env[i], tmp, 7))
+// 			return (free(tmp));
+// 		i++;
+// 	}
+// 	update_env(shell, tmp);
+// }
 
 static int	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
 {
