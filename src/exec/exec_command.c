@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 18:39:19 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/29 18:29:41 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	exec_child(t_chill *shell)
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
 	if (shell->builtin_ref != -1)
-		shell->exit_status = exec_builtin(cmd, shell);
+		shell->exit_status = exec_builtin(cmd, shell, TRUE);
 	else
 	{
 		path = get_valid_path(cmd[0], shell->env);
@@ -62,21 +62,21 @@ static void	exec_child(t_chill *shell)
 	exit_shell(shell, shell->exit_status);
 }
 
-static int	exec_single_builtin(t_chill *shell)
-{
-	char	**cmd;
-	int		ref;
+// static int	exec_single_builtin(t_chill *shell)
+// {
+// 	char	**cmd;
+// 	int		ref;
 
-	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-		return (1);
-	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
-	redirect(shell);
-	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
-	cmd = shell->cmd_tab[0]->cmd;
-	ref = isbuiltin(shell->cmd_tab[0]->cmd, shell);
-	shell->exit_status = shell->builtin[ref](cmd, shell);
-	return (shell->exit_status);
-}
+// 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+// 		return (1);
+// 	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
+// 	redirect(shell);
+// 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+// 	cmd = shell->cmd_tab[0]->cmd;
+// 	ref = isbuiltin(shell->cmd_tab[0]->cmd, shell);
+// 	shell->exit_status = shell->builtin[ref](cmd, shell);
+// 	return (shell->exit_status);
+// }
 /* EXECUTION PART
  * create a child for each sub command when needed.
  * Mean create a fork for each cmd in between pipe
@@ -87,8 +87,6 @@ void	execution_cmd(t_chill *shell)
 	int		pid;
 
 	init_exec(shell);
-	if (shell->nb_cmd == 1 && isbuiltin(shell->cmd_tab[0]->cmd, shell) != -1)
-		return ((void) exec_single_builtin(shell));
 	while (shell->cmd_tab[shell->index_cmd])
 	{
 		init_pipe(shell);

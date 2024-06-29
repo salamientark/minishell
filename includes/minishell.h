@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/06/27 23:08:08 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/29 18:17:42 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	set_signals(void);
 //exec
 void	init_exec(t_chill *shell);
 void	update_fd(t_chill *shell);
-int		exec_builtin(char **cmd, t_chill *shell);
+int		exec_builtin(char **cmd, t_chill *shell, bool write);
 void	execution_cmd(t_chill *shell);
 char	**convert_list_to_tab(t_simple_cmd *input);
 char	**split_path(char **env);
