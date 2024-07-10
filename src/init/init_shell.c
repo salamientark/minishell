@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:42:34 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 16:18:05 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 18:21:32 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ static void	free_env(char ***env, int last_index)
 	}
 	free(*env);
 	*env = NULL;
+}
+
+/* Init the builtin array of function pointer
+ * */
+static void	init_builtin_tab(t_chill *shell)
+{
+	shell->builtin[0] = &ft_cd;
+	shell->builtin[1] = &ft_exit;
+	shell->builtin[2] = &ft_export;
+	shell->builtin[3] = &ft_unset;
+	shell->builtin[4] = &ft_echo;
+	shell->builtin[5] = &ft_env;
+	shell->builtin[6] = &ft_pwd;
 }
 
 /* Get the new shlvl value
@@ -104,6 +117,7 @@ t_chill	*init_shell(int ac, char **av, char **env)
 	shell->fd_in = -1;
 	shell->fd_out = -1;
 	shell->exit_status = 0;
+	init_builtin_tab(shell);
 	if (!env || !env[0])
 		shell->env = new_env();
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:47:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/24 18:10:30 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/29 18:25:53 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,8 @@ static void	update_heredoc_count(t_chill *shell)
 
 void	update_fd(t_chill *shell)
 {
-	if (shell->nb_cmd == 1)
-	{
-		if (shell->builtin_ref >= 0 && shell->builtin_ref <= 3)
-			shell->builtin[shell->builtin_ref]
-				(shell->cmd_tab[shell->index_cmd]->cmd, shell);
-	}
+	if(shell->nb_cmd == 1 && shell->builtin_ref != -1)
+		exec_builtin(shell->cmd_tab[0]->cmd, shell, FALSE);
 	if (shell->nb_cmd != 1)
 	{
 		close(shell->pipefd[WRITE_END]);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:28:49 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/24 18:08:26 by madlab           ###   ########.fr       */
+/*   Updated: 2024/06/27 23:07:37 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_unset(char **cmd, t_chill *shell)
 
 	i = 1;
 	if (!cmd[1])
-		return (ft_putendl_fd("unset: not enough arguments", 2), 1);
+		return (0);
 	while (cmd[i])
 	{
 		cmd_tmp = ft_strjoin(cmd[i], "=");
