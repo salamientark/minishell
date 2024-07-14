@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:47:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/29 18:25:53 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:01:42 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,16 @@ static void	update_heredoc_count(t_chill *shell)
 
 void	update_fd(t_chill *shell)
 {
+	int		ref;
+	char	**cmd;
+
 	if(shell->nb_cmd == 1 && shell->builtin_ref != -1)
-		exec_builtin(shell->cmd_tab[0]->cmd, shell, FALSE);
+	{
+		cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+		ref = shell->builtin_ref;
+		if (ref >= 0 && ref <= 3)
+			shell->exit_status = shell->builtin[ref](cmd, shell);
+	}
 	if (shell->nb_cmd != 1)
 	{
 		close(shell->pipefd[WRITE_END]);
