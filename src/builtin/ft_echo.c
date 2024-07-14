@@ -50,8 +50,10 @@ int	ft_echo(char **cmd, t_chill *shell)
 {
 	int	i;
 	int	j;
+	int	fd;
 	int	flag;
 
+	fd = dup(STDOUT_FILENO);
 	(void)shell;
 	flag = check_flag(cmd);
 	i = flag + 1;
@@ -59,11 +61,12 @@ int	ft_echo(char **cmd, t_chill *shell)
 	{
 		j = 0;
 		while (cmd[i][j])
-			ft_putchar_fd(cmd[i][j++], 1);
+			ft_putchar_fd(cmd[i][j++], fd);
 		if (cmd[++i])
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	if (!flag)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
+	close(fd);
 	return (0);
 }
