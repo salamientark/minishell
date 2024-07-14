@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/29 18:29:41 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:00:52 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,31 @@ static void	init_pipe(t_chill *shell)
 static void	wait_command(t_chill *shell)
 {
 	int	status;
+	int	error;
+	// int	pid;
 
 	while (shell->index_cmd--)
 	{
 		waitpid(0, &status, 0);
-		shell->exit_status = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			error = WEXITSTATUS(status);
+		if (shell->nb_cmd == 1 && shell->builtin_ref != -1)
+		{
+			if (shell->builtin_ref >= 4 && shell->builtin_ref <= 6)
+				shell->exit_status = error;
+		}
+		else
+			shell->exit_status = error;
 	}
 }
+
+// static void	check_file_permission(t_chill *shell)
+// {
+// 	if (shell->fd_in == -1 && shell->index_cmd == 1 && !is_last_cmd(shell))
+// 		close(shell->pipefd[READ_END]);
+// 	if (shell->fd_out == -1 && is_last_cmd(shell))
+// 		exit_shell(shell, 1);
+// }
 
 static void	exec_child(t_chill *shell)
 {
@@ -46,7 +64,7 @@ static void	exec_child(t_chill *shell)
 	redirect(shell);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
 	if (!cmd || !cmd[0])
-		exit_shell(shell, shell->exit_status);
+		exit_shell(shell, 1);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
 	if (shell->builtin_ref != -1)
@@ -62,26 +80,6 @@ static void	exec_child(t_chill *shell)
 	exit_shell(shell, shell->exit_status);
 }
 
-// static int	exec_single_builtin(t_chill *shell)
-// {
-// 	char	**cmd;
-// 	int		ref;
-
-// 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
-// 		return (1);
-// 	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
-// 	redirect(shell);
-// 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
-// 	cmd = shell->cmd_tab[0]->cmd;
-// 	ref = isbuiltin(shell->cmd_tab[0]->cmd, shell);
-// 	shell->exit_status = shell->builtin[ref](cmd, shell);
-// 	return (shell->exit_status);
-// }
-/* EXECUTION PART
- * create a child for each sub command when needed.
- * Mean create a fork for each cmd in between pipe
- * Except for builtin when alone
- * */
 void	execution_cmd(t_chill *shell)
 {
 	int		pid;

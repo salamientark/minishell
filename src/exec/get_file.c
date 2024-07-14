@@ -29,6 +29,8 @@ static bool	init_file(t_chill *shell, char **redirections)
 
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
+	int errno_cp;
+
 	if (shell->fd_out != -1)
 	{
 		close (shell->fd_out);
@@ -38,6 +40,12 @@ static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_APPEND, 0666);
 	else
 		shell->fd_out = open(redirect_to, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (shell->fd_out == -1)
+	{
+		errno_cp = errno;
+		print_error(redirect_to, strerror(errno_cp));
+		exit_shell(shell, 1);
+	}
 	if (shell->outfile)
 	{
 		free(shell->outfile);
@@ -60,7 +68,7 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 	{
 		errno_cp = errno;
 		print_error(redirect_from, strerror(errno_cp));
-		exit_shell(shell, errno_cp);
+		exit_shell(shell, 1);
 	}
 	if (shell->infile)
 	{

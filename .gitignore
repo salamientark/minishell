@@ -13,3 +13,5 @@ TODO
 test_dir/
 redirection.h
 src/redirection
+minishell_tester
+

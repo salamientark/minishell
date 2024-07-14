@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/18 17:00:14 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:11:38 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static void	case_no_pipe(t_chill *shell)
 static void	first_child(t_chill *shell)
 {
 	close(shell->pipefd[READ_END]);
-	close(shell->fd_in);
 	dup2(shell->fd_in, STDIN_FILENO);
 	dup2(shell->pipefd[WRITE_END], STDOUT_FILENO);
 	close(shell->pipefd[WRITE_END]);
 	if (shell->outfile)
 		dup2(shell->fd_out, STDOUT_FILENO);
+	close(shell->fd_in);
 	close(shell->fd_out);
 }
 
@@ -55,8 +55,8 @@ static void	last_child(t_chill *shell)
 	if (shell->infile)
 		dup2(shell->fd_in, STDIN_FILENO);
 	dup2(shell->fd_out, STDOUT_FILENO);
-	close(shell->fd_out);
 	close(shell->fd_in);
+	close(shell->fd_out);
 }
 
 void	redirect(t_chill *shell)
