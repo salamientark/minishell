@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/16 17:24:15 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:05:42 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void	intermediate_child(t_chill *shell)
 	close(shell->pipefd[WRITE_END]);
 	if (shell->infile)
 		dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
 	if (shell->outfile)
 		dup2(shell->fd_out, STDOUT_FILENO);
-	close(shell->fd_in);
 	close(shell->fd_out);
 }
 
@@ -56,6 +56,8 @@ static void	last_child(t_chill *shell)
 		dup2(shell->fd_in, STDIN_FILENO);
 	close(shell->fd_in);
 	dup2(shell->fd_out, STDOUT_FILENO);
+	printf("fd_out %d || read_end %d\n", shell->fd_out, shell->pipefd[READ_END]);
+	printf("fd_in %d || WRITE_end %d\n", shell->fd_in, shell->pipefd[WRITE_END]);
 	close(shell->fd_out);
 }
 
