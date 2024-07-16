@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:57:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/10 22:11:40 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:27:42 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_for_update(t_chill *shell)
 			return (free(tmp));
 		i++;
 	}
-	update_env(shell, tmp);
+	update_env(tmp, shell);
 }
 
 static int	change_pwd(char *oldpwd, char *newpwd, t_chill *shell)
