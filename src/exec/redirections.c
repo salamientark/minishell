@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/13 18:11:38 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:24:15 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	last_child(t_chill *shell)
 	close (shell->pipefd[READ_END]);
 	if (shell->infile)
 		dup2(shell->fd_in, STDIN_FILENO);
-	dup2(shell->fd_out, STDOUT_FILENO);
 	close(shell->fd_in);
+	dup2(shell->fd_out, STDOUT_FILENO);
 	close(shell->fd_out);
 }
 

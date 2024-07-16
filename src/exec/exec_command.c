@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/14 16:18:48 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:47:34 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,31 @@ static void	init_pipe(t_chill *shell)
 	}
 }
 
-static void	wait_command(t_chill *shell)
+static void	wait_command(t_chill *shell, int last_pid)
 {
 	int	status;
 	int	error;
-	// int	pid;
+	int	pid;
 
-	while (shell->index_cmd--)
+	error = 0;
+	while (1)
 	{
-		waitpid(0, &status, 0);
+		pid = wait(&status);
+		if (pid == -1)
+			break ;
+		if (pid != last_pid)
+			continue ;
 		if (WIFEXITED(status))
 			error = WEXITSTATUS(status);
 		if (shell->nb_cmd == 1 && shell->builtin_ref != -1)
 		{
 			if (shell->builtin_ref >= 4 && shell->builtin_ref <= 6)
 				shell->exit_status = error;
+			break;
 		}
-		else
-			shell->exit_status = error;
+		shell->exit_status = error;
 	}
 }
-
-// static void	check_file_permission(t_chill *shell)
-// {
-// 	if (shell->fd_in == -1 && shell->index_cmd == 1 && !is_last_cmd(shell))
-// 		close(shell->pipefd[READ_END]);
-// 	if (shell->fd_out == -1 && is_last_cmd(shell))
-// 		exit_shell(shell, 1);
-// }
 
 static void	exec_child(t_chill *shell)
 {
@@ -108,5 +105,5 @@ void	execution_cmd(t_chill *shell)
 		update_fd(shell);
 		shell->index_cmd++;
 	}
-	wait_command(shell);
+	wait_command(shell, pid);
 }
