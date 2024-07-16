@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:47:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/16 17:42:33 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:13:24 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	update_fd(t_chill *shell)
 			close(shell->old_fd);
 		if (!is_last_cmd(shell))
 			shell->old_fd = dup(shell->pipefd[READ_END]);
-		if (is_last_cmd(shell))
+		if (shell->index_cmd != 0)
 			close(shell->pipefd[READ_END]);
 	}
 	if (!shell->cmd_tab[shell->index_cmd]->redirection)

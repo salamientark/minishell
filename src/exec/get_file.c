@@ -120,5 +120,4 @@ void	get_file(t_chill *shell, char **redirections)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)
 		shell->fd_out = dup(STDOUT_FILENO);
-	// printf("%d\n", shell->fd_in);
 }
