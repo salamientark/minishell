@@ -1,3 +1,0 @@
-fd_out 6 || read_end 4
-fd_in 7 || WRITE_end 5
-
