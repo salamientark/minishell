@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/17 20:42:10 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:47:44 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,29 @@ static void	first_child(t_chill *shell)
 		close (shell->old_fd);
 	close(shell->pipefd[READ_END]);
 	dup2(shell->fd_in, STDIN_FILENO);
-	dup2(shell->pipefd[WRITE_END], STDOUT_FILENO);
-	close(shell->pipefd[WRITE_END]);
-	close(shell->fd_in);
 	if (shell->outfile)
 		dup2(shell->fd_out, STDOUT_FILENO);
+	else
+		dup2(shell->pipefd[WRITE_END], STDOUT_FILENO);
+	close(shell->pipefd[WRITE_END]);
+	close(shell->fd_in);
 	close(shell->fd_out);
 }
 
 static void	intermediate_child(t_chill *shell)
 {
-	dup2(shell->old_fd, STDIN_FILENO);
-	close (shell->old_fd);
-	dup2(shell->pipefd[WRITE_END], STDOUT_FILENO);
-	close(shell->pipefd[WRITE_END]);
-	close(shell->pipefd[READ_END]);
 	if (shell->infile)
 		dup2(shell->fd_in, STDIN_FILENO);
-	close(shell->fd_in);
+	else
+		dup2(shell->old_fd, STDIN_FILENO);
 	if (shell->outfile)
 		dup2(shell->fd_out, STDOUT_FILENO);
+	else
+		dup2(shell->pipefd[WRITE_END], STDOUT_FILENO);
+	close (shell->old_fd);
+	close(shell->pipefd[WRITE_END]);
+	close(shell->pipefd[READ_END]);
+	close(shell->fd_in);
 	close(shell->fd_out);
 	// dprintf(2, "intermediate\n");
 	// dprintf(2, "fd_in %d || fd_out %d\n", shell->fd_in, shell->fd_out);
