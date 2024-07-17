@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:25:32 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/17 19:51:43 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:42:10 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,28 @@ static void	intermediate_child(t_chill *shell)
 	if (shell->outfile)
 		dup2(shell->fd_out, STDOUT_FILENO);
 	close(shell->fd_out);
-	dprintf(2, "intermediate\n");
-	dprintf(2, "fd_in %d || fd_out %d\n", shell->fd_in, shell->fd_out);
-	dprintf(2, "old_fd %d || fd_in %d\n", shell->old_fd, shell->pipefd[WRITE_END]);
+	// dprintf(2, "intermediate\n");
+	// dprintf(2, "fd_in %d || fd_out %d\n", shell->fd_in, shell->fd_out);
+	// dprintf(2, "old_fd %d || shell->pipefd[WRITE_END] %d\n", shell->old_fd, shell->pipefd[WRITE_END]);
+	// dprintf(2, "pipe[READ] %d\n", shell->pipefd[READ_END]);
 }
 
 static void	last_child(t_chill *shell)
 {
-
-	dup2(shell->old_fd, STDIN_FILENO);
+	if (shell->infile)
+		dup2(shell->fd_in, STDIN_FILENO);
+	else
+		dup2(shell->old_fd, STDIN_FILENO);
+	dup2(shell->fd_out, STDOUT_FILENO);
 	close(shell->old_fd);
 	close(shell->pipefd[WRITE_END]);
 	close (shell->pipefd[READ_END]);
-	if (shell->infile)
-		dup2(shell->fd_in, STDIN_FILENO);
 	close(shell->fd_in);
-	dup2(shell->fd_out, STDOUT_FILENO);
 	close(shell->fd_out);
 	// dprintf(2, "last\n");
 	// dprintf(2, "fd_in %d || fd_out %d\n", shell->fd_in, shell->fd_out);
-	// dprintf(2, "old_fd %d || fd_in %d\n", shell->old_fd, shell->pipefd[WRITE_END]);
+	// dprintf(2, "old_fd %d || shell->pipefd[WRITE_END] %d\n", shell->old_fd, shell->pipefd[WRITE_END]);
+	// dprintf(2, "pipe[READ] %d\n", shell->pipefd[READ_END]);
 }
 
 void	redirect(t_chill *shell)
