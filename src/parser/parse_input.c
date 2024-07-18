@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:11:10 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 14:50:49 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 13:39:40 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_simple_cmd	**parse_input(const char *input, t_chill *shell)
 	}
 	if (unclosed_delimiter(input))
 		return (NULL);
-	if (syntax_error(input, shell))
+	if (syntax_error(input, shell) != 0)
 		return (NULL);
 	token_list = tokenize(input);
 	if (!token_list)
