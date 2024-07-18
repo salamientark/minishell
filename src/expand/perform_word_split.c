@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:34 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:34:30 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 11:16:26 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
 	*index_p += index;
 	while (expand_tab[expand_tab_index])
 	{
-		final_expand[expand_tab_index + index] = expand_tab[expand_tab_index];
+		final_expand[expand_tab_index + index - 1] = expand_tab[expand_tab_index];
 		expand_tab_index++;
 	}
 	return (free(expand_tab), free(to_insert), final_expand);
