@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:53:48 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/18 10:19:13 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:50:44 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*expand_heredoc(char *input, t_chill *shell)
 	if (perform_variable_expansion(expand_tab, shell) != 0)
 		return (free_expand_tab(&expand_tab), free(input), NULL);
 	if (!expand_tab[0])
-		return (ft_strdup(""));
+		return (free_expand_tab(&expand_tab), ft_strdup(""));
 	result = expand_tab[0]->word;
 	expand_tab[0]->word = NULL;
 	free_expand_tab(&expand_tab);
