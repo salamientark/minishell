@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 23:43:25 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/20 19:26:30 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 11:41:08 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_env(char **cmd, t_chill *shell)
 	if (cmd[1])
 	{
 		env_error(cmd[1]);
-		return (1);
+		return (127);
 	}
 	while (env[i])
 	{
