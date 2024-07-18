@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/17 19:01:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:30:45 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	exec_child(t_chill *shell)
 	redirect(shell);
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
 	if (!cmd || !cmd[0])
-		exit_shell(shell, 1);
+		exit_shell(shell, 0);
 	if (shell->fd_in == -1)
 		close (shell->pipefd[1]);
 	if (!cmd || !cmd[0])
