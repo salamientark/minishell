@@ -29,7 +29,7 @@ static bool	init_file(t_chill *shell, char **redirections)
 
 static void	get_outfile(t_chill *shell, char *redirect_to, bool append)
 {
-	int errno_cp;
+	int	errno_cp;
 
 	if (shell->fd_out != -1)
 	{

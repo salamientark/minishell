@@ -96,7 +96,7 @@ endef
 
 define ERROR_FILE :=
 	$(addprefix $(SRC_DIR)/$(ERROR_DIR)/, \
-		error.c \
+		print_program_error.c \
 		unclosed_delimiter_error.c \
 		print_syntax_error.c \
 		print_here_doc_warning.c

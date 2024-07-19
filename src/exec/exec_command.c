@@ -6,11 +6,21 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/17 19:01:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:09:04 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	init_exec(t_chill *shell)
+{
+	shell->index_cmd = 0;
+	shell->hd_count = 0;
+	shell->old_fd = -1;
+	shell->nb_cmd = cmd_count(shell->cmd_tab);
+	shell->fd_in = -1;
+	shell->fd_out = -1;
+}
 
 static void	init_pipe(t_chill *shell)
 {
@@ -45,16 +55,16 @@ static void	wait_command(t_chill *shell, int last_pid)
 		{
 			if (shell->builtin_ref >= 4 && shell->builtin_ref <= 6)
 				shell->exit_status = error;
-			break;
+			break ;
 		}
 		shell->exit_status = error;
 	}
 }
 
-static void	exec_child(t_chill *shell)
+static void	child(t_chill *shell)
 {
-	char	*path;
 	char	**cmd;
+	char	*path;
 
 	signal(SIGQUIT, SIG_DFL);
 	get_file(shell, shell->cmd_tab[shell->index_cmd]->redirection);
@@ -101,7 +111,7 @@ void	execution_cmd(t_chill *shell)
 			break ;
 		}
 		if (pid == 0)
-			exec_child(shell);
+			child(shell);
 		update_fd(shell);
 		shell->index_cmd++;
 	}

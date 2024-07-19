@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:47:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/17 20:40:09 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:11:09 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	update_fd(t_chill *shell)
 	char	**cmd;
 
 	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
-	if(shell->nb_cmd == 1 && shell->builtin_ref != -1)
+	if (shell->nb_cmd == 1 && shell->builtin_ref != -1)
 	{
 		ref = shell->builtin_ref;
 		if (ref >= 0 && ref <= 3)

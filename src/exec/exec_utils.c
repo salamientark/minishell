@@ -6,36 +6,11 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/14 15:11:10 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:18:57 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	exec_builtin(char **cmd, t_chill *shell, bool write)
-{
-	int	ref;
-
-	ref = shell->builtin_ref;
-	if (shell->nb_cmd == 1 && write == TRUE)
-	{
-		if (ref >= 4 && ref <= 6)
-			return (shell->builtin[ref](cmd, shell));
-	}
-	else
-		return (shell->builtin[ref](cmd, shell));
-	return(-1);
-}
-
-void	init_exec(t_chill *shell)
-{
-	shell->index_cmd = 0;
-	shell->hd_count = 0;
-	shell->old_fd = -1;
-	shell->nb_cmd = cmd_count(shell->cmd_tab);
-	shell->fd_in = -1;
-	shell->fd_out = -1;
-}
 
 int	is_last_cmd(t_chill *shell)
 {
@@ -54,6 +29,29 @@ int	cmd_count(t_simple_cmd **cmd)
 	return (i);
 }
 
+int	exec_builtin(char **cmd, t_chill *shell, bool write)
+{
+	int	ref;
+
+	ref = shell->builtin_ref;
+	if (shell->nb_cmd == 1 && write == TRUE)
+	{
+		if (ref >= 4 && ref <= 6)
+			return (shell->builtin[ref](cmd, shell));
+	}
+	else
+		return (shell->builtin[ref](cmd, shell));
+	return (-1);
+}
+
+static void	path_error(char *cmd, char **dir)
+{
+	if (ft_strchr(cmd, '/'))
+		return (print_error(cmd, "no such file or directory"));
+	print_error(cmd, "command not found");
+	free_str_tab(&dir);
+}
+
 char	*get_valid_path(char *cmd, char **env)
 {
 	char	**dir;
@@ -61,7 +59,9 @@ char	*get_valid_path(char *cmd, char **env)
 	int		i;
 
 	i = 0;
-	if (ft_strchr(cmd, '/') && !access(cmd, F_OK | X_OK))
+	if (!ft_strcmp("..", cmd))
+		print_error(cmd, "command not found");
+	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	dir = split_path(env);
 	if (!dir)
@@ -77,7 +77,6 @@ char	*get_valid_path(char *cmd, char **env)
 			free(path);
 		i++;
 	}
-	print_error(cmd, "command not found");
-	free_str_tab(&dir);
+	path_error(cmd, dir);
 	return (NULL);
 }

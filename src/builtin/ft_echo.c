@@ -35,17 +35,6 @@ static int	check_flag(char **cmd)
 	return (flag);
 }
 
-// static int	write_quote(char *str, int ref, char quote)
-// {
-// 	int	quote_len;
-
-// 	quote_len = quoted_strlen(str, ref, quote);
-// 	ref++;
-// 	if (quote_len > 2)
-// 		write(1, str + ref, quote_len - 2);
-// 	return (quote_len);
-// }
-
 int	ft_echo(char **cmd, t_chill *shell)
 {
 	int	i;

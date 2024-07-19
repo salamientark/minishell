@@ -77,8 +77,7 @@ int	update_env(char *line, t_chill *shell)
 
 /* Export variable into shell->env
  * Return 0 on success
- * 1 on Error
- * */
+ * 1 on Error */
 int	ft_export(char **cmd, t_chill *shell)
 {
 	int	i;
