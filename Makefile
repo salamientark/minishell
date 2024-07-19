@@ -341,4 +341,4 @@ clean :
 re : fclean all
 
 norminette :
-	norminette $(FT_DIR) $(SRC_DIR)/ $(HEADER_DIR)/
+	norminette $(FT_DIR) $(SRC_DIR)/ ./includes/ $(BONUS_DIR)/
