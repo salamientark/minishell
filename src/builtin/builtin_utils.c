@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-//check what builtin it is, execute it and return 1 
-//if none has been found, return 0
-// int	isbuiltin(char **cmd, t_chill *shell)
-// {
-// 	(void) shell;
-// 	if (!cmd || !*cmd)
-// 		return (0);
-// 	if (!ft_strcmp(cmd[0], "env"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "cd"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "exit"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "echo"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "pwd"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "export"))
-// 		return (1);
-// 	if (!ft_strcmp(cmd[0], "unset"))
-// 		return (1);
-// 	return (0);
-// }
-
 int	isbuiltin(char **cmd, t_chill *shell)
 {
 	builtin_tab(shell);
