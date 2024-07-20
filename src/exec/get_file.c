@@ -83,11 +83,6 @@ static void	get_heredocs(t_chill *shell)
 	char	buffer[11];
 
 	here_doc_name(buffer, shell->hd_count++);
-	if (shell->infile)
-	{
-		free(shell->infile);
-		shell->infile = NULL;
-	}
 	shell->infile = ft_strdup(buffer);
 	if (shell->fd_in != -1)
 	{
