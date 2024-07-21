@@ -248,7 +248,7 @@ $(PROJECT) : $(LIBFT) $(OBJ_MANDATORY)
 
 # bonus compilation
 bonus : $(LIBFT) $(OBJ_BONUS)
-	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ_BONUS) -o $(PROJECT) $(LIB_FLAG)
+	$(CC) $(CFLAGS) $(HEADER_DIR) $(OBJ_BONUS) -o $(PROJECT)_bonus $(LIB_FLAG)
 
 $(LIBFT) : 
 	make -C $(FT_DIR)
@@ -341,4 +341,4 @@ clean :
 re : fclean all
 
 norminette :
-	norminette $(FT_DIR) $(SRC_DIR)/ $(HEADER_DIR)/
+	norminette $(FT_DIR) $(SRC_DIR)/ ./includes/ $(BONUS_DIR)/

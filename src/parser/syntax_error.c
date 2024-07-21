@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 22:40:05 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/12 23:15:18 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 13:38:30 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	is_preceeded_by_word(const char *cmd, int ref)
 	if (cmd[index] == GREATER_THAN || cmd[index] == LESS_THAN
 		|| cmd[index] == PIPE)
 		return (0);
-	return (1);
+	return (2);
 }
 
 static	int	is_followed_by_newline(const char *cmd)
@@ -50,7 +50,7 @@ static	int	is_followed_by_newline(const char *cmd)
 	while (cmd[index] && (cmd[index] == SPACE || cmd[index] == TAB))
 		index++;
 	if (!cmd[index] || (cmd[index] && cmd[index] == NEWLINE))
-		return (1);
+		return (2);
 	return (0);
 }
 
@@ -99,7 +99,7 @@ int	syntax_error(const char *cmd, t_chill *shell)
 		{
 			analyzed_op = analyze_operator_syntax(cmd, i, &here_doc_nb, shell);
 			if (analyzed_op != 0)
-				return (analyzed_op);
+				return ((shell->exit_status = analyzed_op), analyzed_op);
 			i += 1 + (analyzed_op == HERE_DOC || analyzed_op == APPEND);
 		}
 		else if (cmd[i] == SINGLE_QUOTE || cmd[i] == DOUBLE_QUOTE)

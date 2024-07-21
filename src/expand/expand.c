@@ -6,11 +6,11 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/14 16:07:50 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/18 09:00:32 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../../includes/expander.h"
 
 static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
 {
