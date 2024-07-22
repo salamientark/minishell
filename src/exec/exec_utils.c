@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 20:01:35 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:09:18 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*get_valid_path(char *cmd, char **env)
 	i = 0;
 	if (!ft_strcmp("..", cmd))
 		print_error(cmd, "command not found");
+	if (!cmd[0])
+		print_error("", "command not found");
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	dir = split_path(env);
