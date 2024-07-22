@@ -6,7 +6,7 @@
 /*   By: madlab <madlab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:34 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/04 12:34:30 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/18 11:21:33 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_expand	**alloc_final_tab(t_expand **expand_tab, t_expand **to_insert)
 t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
 	int *index_p)
 {
-	int			expand_tab_index;
+	int			expand_tab_i;
 	int			index;
 	t_expand	**final_expand;
 
@@ -76,21 +76,21 @@ t_expand	**expand_replace(t_expand **expand_tab, t_expand **to_insert,
 	if (!final_expand)
 		return (free_expand_tab(&expand_tab), free_expand_tab(&to_insert),
 			NULL);
-	expand_tab_index = 0;
-	while (expand_tab_index < *index_p)
+	expand_tab_i = 0;
+	while (expand_tab_i < *index_p)
 	{
-		final_expand[expand_tab_index] = expand_tab[expand_tab_index];
-		expand_tab_index++;
+		final_expand[expand_tab_i] = expand_tab[expand_tab_i];
+		expand_tab_i++;
 	}
-	free_expand_elem(&expand_tab[expand_tab_index++]);
+	free_expand_elem(&expand_tab[expand_tab_i++]);
 	index = -1;
 	while (to_insert[++index])
-		final_expand[expand_tab_index + index - 1] = to_insert[index];
+		final_expand[expand_tab_i + index - 1] = to_insert[index];
 	*index_p += index;
-	while (expand_tab[expand_tab_index])
+	while (expand_tab[expand_tab_i])
 	{
-		final_expand[expand_tab_index + index] = expand_tab[expand_tab_index];
-		expand_tab_index++;
+		final_expand[expand_tab_i + index - 1] = expand_tab[expand_tab_i];
+		expand_tab_i++;
 	}
 	return (free(expand_tab), free(to_insert), final_expand);
 }
