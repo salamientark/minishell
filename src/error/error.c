@@ -6,11 +6,11 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 14:06:57 by madlab            #+#    #+#             */
-/*   Updated: 2024/06/05 18:28:48 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:01:11 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/error.h"
+#include "minishell.h"
 
 void	print_error(char *function, char *error)
 {

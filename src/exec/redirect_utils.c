@@ -1,16 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all.c                                         :+:      :+:    :+:   */
+/*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:30:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/05 18:31:04 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:54:55 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**copy_redir(char **redir)
+{
+	char	**cpy;
+	int		i;
+	int		size;
+
+	i = 0;
+	size = 0;
+	while (redir[size])
+		size++;
+	if (size == 0)
+		return (NULL);
+	cpy = malloc(sizeof(char *) * (size + 1));
+	if (!cpy)
+		return (NULL);
+	while (redir[i])
+	{
+		cpy[i] = ft_strdup(redir[i]);
+		i++;
+	}
+	cpy[i] = NULL;
+	return(cpy);
+}
 
 void	free_str_tab(char ***str_tab_ptr)
 {
@@ -26,3 +50,4 @@ void	free_str_tab(char ***str_tab_ptr)
 	free(*str_tab_ptr);
 	*str_tab_ptr = NULL;
 }
+

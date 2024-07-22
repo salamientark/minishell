@@ -83,6 +83,11 @@ static void	get_heredocs(t_chill *shell)
 	char	buffer[11];
 
 	here_doc_name(buffer, shell->hd_count++);
+	if (shell->infile)
+	{
+		free(shell->infile);
+		shell->infile = NULL;
+	}
 	shell->infile = ft_strdup(buffer);
 	if (shell->fd_in != -1)
 	{
@@ -104,12 +109,12 @@ void	get_file(t_chill *shell, char **redirections)
 		if (!ft_strcmp(redirections[i], "<<"))
 			get_heredocs(shell);
 		if (!ft_strcmp(redirections[i], ">>"))
-			get_outfile(shell, redirections[i + 1], TRUE);
+			get_outfile(shell, redirections[++i], TRUE);
 		if (!ft_strcmp(redirections[i], "<"))
-			get_infile(shell, redirections[i + 1]);
+			get_infile(shell, redirections[++i]);
 		if (!ft_strcmp(redirections[i], ">"))
-			get_outfile(shell, redirections[i + 1], FALSE);
-		i = i + 2;
+			get_outfile(shell, redirections[++i], FALSE);
+		i++;
 	}
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
