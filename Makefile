@@ -1,6 +1,6 @@
 ### COMPILATION ###
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g3
+CFLAGS := -Wall -Wextra -Werror
 
 
 ### PROJECT NAME ###

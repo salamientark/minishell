@@ -78,23 +78,24 @@ static void	get_infile(t_chill *shell, char *redirect_from)
 	shell->infile = ft_strdup(redirect_from);
 }
 
-static void	get_heredocs(t_chill *shell)
+static char	*get_heredocs(t_chill *shell)
 {
 	char	buffer[11];
 
-	here_doc_name(buffer, shell->hd_count++);
+	printf("infile hered == %s\n", shell->infile);
 	if (shell->infile)
 	{
 		free(shell->infile);
 		shell->infile = NULL;
 	}
-	shell->infile = ft_strdup((const char *)buffer);
 	if (shell->fd_in != -1)
 	{
 		close(shell->fd_in);
 		shell->fd_in = -1;
 	}
-	shell->fd_in = open(buffer, O_RDONLY, 0400);
+	here_doc_name(buffer, shell->hd_count++);
+	shell->infile = ft_strdup((const char *)buffer);
+	return (shell->infile);
 }
 
 void	get_file(t_chill *shell, char **redirections)
@@ -107,15 +108,20 @@ void	get_file(t_chill *shell, char **redirections)
 	while (redirections[i])
 	{
 		if (!ft_strcmp(redirections[i], "<<"))
-			get_heredocs(shell);
+		{
+			shell->infile = get_heredocs(shell);
+			shell->fd_in = open(shell->infile, O_RDONLY, 0666);
+		}
 		if (!ft_strcmp(redirections[i], ">>"))
-			get_outfile(shell, redirections[++i], TRUE);
+			get_outfile(shell, redirections[i + 1], TRUE);
 		if (!ft_strcmp(redirections[i], "<"))
-			get_infile(shell, redirections[++i]);
+			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))
-			get_outfile(shell, redirections[++i], FALSE);
-		i++;
+			get_outfile(shell, redirections[i + 1], FALSE);
+		printf("infile == %s, %d\n", shell->infile, i);
+		i = i + 2;
 	}
+	printf("%d\n", shell ->fd_in);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)
