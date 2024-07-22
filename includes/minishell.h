@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/07/14 21:49:31 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:53:02 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	redirect_for_next_cmd(t_chill *shell);
 //exec utils
 void	get_file(t_chill *shell, char **redirection);
 void	redirect(t_chill *shell);
+void	ambigous_redirect(char *redirect, t_chill *shell);
 void	free_str_tab(char ***str_tab_ptr);
+char	**copy_redir(char **redir);
 
 #endif

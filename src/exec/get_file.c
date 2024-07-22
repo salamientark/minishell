@@ -109,12 +109,12 @@ void	get_file(t_chill *shell, char **redirections)
 		if (!ft_strcmp(redirections[i], "<<"))
 			get_heredocs(shell);
 		if (!ft_strcmp(redirections[i], ">>"))
-			get_outfile(shell, redirections[i + 1], TRUE);
+			get_outfile(shell, redirections[++i], TRUE);
 		if (!ft_strcmp(redirections[i], "<"))
-			get_infile(shell, redirections[i + 1]);
+			get_infile(shell, redirections[++i]);
 		if (!ft_strcmp(redirections[i], ">"))
-			get_outfile(shell, redirections[i + 1], FALSE);
-		i = i + 2;
+			get_outfile(shell, redirections[++i], FALSE);
+		i++;
 	}
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
