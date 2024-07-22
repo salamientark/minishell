@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:24:37 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/06/27 17:43:09 by madlab           ###   ########.fr       */
+/*   Updated: 2024/07/22 21:57:11 by madlab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	get_heredocs(t_chill *shell)
 		free(shell->infile);
 		shell->infile = NULL;
 	}
-	shell->infile = ft_strdup(buffer);
+	shell->infile = ft_strdup((const char *)buffer);
 	if (shell->fd_in != -1)
 	{
 		close(shell->fd_in);
