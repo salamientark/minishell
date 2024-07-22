@@ -82,7 +82,6 @@ static char	*get_heredocs(t_chill *shell)
 {
 	char	buffer[11];
 
-	printf("infile hered == %s\n", shell->infile);
 	if (shell->infile)
 	{
 		free(shell->infile);
@@ -118,10 +117,8 @@ void	get_file(t_chill *shell, char **redirections)
 			get_infile(shell, redirections[i + 1]);
 		if (!ft_strcmp(redirections[i], ">"))
 			get_outfile(shell, redirections[i + 1], FALSE);
-		printf("infile == %s, %d\n", shell->infile, i);
 		i = i + 2;
 	}
-	printf("%d\n", shell ->fd_in);
 	if (!shell->infile)
 		shell->fd_in = dup(STDIN_FILENO);
 	if (!shell->outfile)
