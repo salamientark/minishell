@@ -58,6 +58,7 @@ define EXEC_FILE :=
 		redirections.c	\
 		update_fd.c \
 		exec_command.c	\
+		wait.c \
 		redirect_utils.c
 )
 endef

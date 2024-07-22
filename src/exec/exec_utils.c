@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 20:09:18 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 23:53:17 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ char	*get_valid_path(char *cmd, char **env)
 	int		i;
 
 	i = 0;
-	if (!ft_strcmp("..", cmd))
+	if (!ft_strcmp("..", cmd) || !cmd[0])
 		print_error(cmd, "command not found");
-	if (!cmd[0])
-		print_error("", "command not found");
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
 	dir = split_path(env);
@@ -70,14 +68,13 @@ char	*get_valid_path(char *cmd, char **env)
 		return (NULL);
 	while (dir[i])
 	{
-		path = ft_strjoin(dir[i], cmd);
+		path = ft_strjoin(dir[i++], cmd);
 		if (!path)
 			return (NULL);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free_str_tab(&dir), path);
 		else
 			free(path);
-		i++;
 	}
 	path_error(cmd, dir);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 20:06:49 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/22 23:34:48 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ static void	init_child(t_chill *shell)
 {
 	char	**redir_cpy;
 	int		i;
-	
+
 	i = 1;
 	redir_cpy = copy_redir(shell->cmd_tab[shell->index_cmd]->redirection);
 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
 		exit_shell(shell, 1);
-	if(!redir_cpy)
+	if (!redir_cpy)
 		return ;
-	while(redir_cpy[i])
+	while (redir_cpy[i])
 	{
 		if (!shell->cmd_tab[shell->index_cmd]->redirection[i]
 			&& redir_cpy[i])
@@ -58,32 +58,6 @@ static void	init_child(t_chill *shell)
 		i++;
 	}
 	free_str_tab(&redir_cpy);
-}
-
-static void	wait_command(t_chill *shell, int last_pid)
-{
-	int	status;
-	int	error;
-	int	pid;
-
-	error = 0;
-	while (1)
-	{
-		pid = wait(&status);
-		if (pid == -1)
-			break ;
-		if (pid != last_pid)
-			continue ;
-		if (WIFEXITED(status))
-			error = WEXITSTATUS(status);
-		if (shell->nb_cmd == 1 && shell->builtin_ref != -1)
-		{
-			if (shell->builtin_ref >= 4 && shell->builtin_ref <= 6)
-				shell->exit_status = error;
-			break ;
-		}
-		shell->exit_status = error;
-	}
 }
 
 static void	child(t_chill *shell)
