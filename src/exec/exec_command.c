@@ -6,7 +6,7 @@
 /*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 16:28:52 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:33:24 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void	init_child(t_chill *shell)
 		return ;
 	while (redir_cpy[i])
 	{
-		printf("redir[%d] : %s || redir_cpy[%d] : %s\n", i, redir[i], i, redir_cpy[i]);
-		if (!redir[i] || !redir[i][0] || (get_operator(redir_cpy[i]) != get_operator(redir[i]) && get_operator(redir_cpy[i]) == 0))
+		if (!redir[i] || !redir[i][0] || (get_operator(redir_cpy[i])
+			!= get_operator(redir[i]) && get_operator(redir_cpy[i]) == 0))
 		{
 			if (get_operator(redir_cpy[i]) != 0)
 				i++;
