@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 17:00:37 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:10:51 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*get_valid_path(char *cmd, t_chill *shell)
 	i = 0;
 	path = preliminary_path(cmd, shell);
 	if (path != NULL)
-		return(path);
+		return (path);
 	dir = split_path(shell->env);
 	if (!dir)
 		return (NULL);

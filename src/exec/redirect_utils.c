@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:30:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 16:57:05 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:11:13 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ char	*preliminary_path(char *cmd, t_chill *shell)
 		print_error(cmd, "command not found");
 	if (!access(cmd, F_OK | X_OK))
 		return (ft_strdup(cmd));
-	else 
-		return(NULL);
+	else
+		return (NULL);
 }
 
 void	free_str_tab(char ***str_tab_ptr)
