@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:47:13 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/22 20:02:01 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:55:25 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ static void	update_heredoc_count(t_chill *shell)
 	}
 }
 
-void	update_fd(t_chill *shell)
+int	update_fd(t_chill *shell)
 {
 	int		ref;
 	char	**cmd;
 
-	cmd = shell->cmd_tab[shell->index_cmd]->cmd;
-	if (shell->nb_cmd == 1 && shell->builtin_ref != -1)
+	ref = shell->builtin_ref;
+	if (shell->nb_cmd == 1 && ref >= 0 && ref <= 3)
 	{
-		expand(shell->cmd_tab[shell->index_cmd], shell);
-		ref = shell->builtin_ref;
-		if (ref >= 0 && ref <= 3)
-			shell->exit_status = shell->builtin[ref](cmd, shell);
+		if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
+			return (1);
+		cmd = shell->cmd_tab[shell->index_cmd]->cmd;
+		shell->exit_status = shell->builtin[ref](cmd, shell);
 	}
 	if (shell->nb_cmd != 1)
 	{
@@ -49,6 +49,7 @@ void	update_fd(t_chill *shell)
 		close(shell->pipefd[READ_END]);
 	}
 	if (!shell->cmd_tab[shell->index_cmd]->redirection)
-		return ;
+		return (0);
 	update_heredoc_count(shell);
+	return (0);
 }

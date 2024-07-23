@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 23:15:53 by madlab            #+#    #+#             */
-/*   Updated: 2024/07/22 19:19:24 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:44:51 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	expand_tab_to_char_tab(char ***result, t_expand ***expand_tab)
  * cmd_flag is set to one if the cmd part is expanded
  * It indicates if the word_split should happened
  * */
-static int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
+int	perform_every_expansion(char ***word_tab_p, int cmd_flag,
 		t_chill *shell)
 {
 	t_expand	**expand_tab;

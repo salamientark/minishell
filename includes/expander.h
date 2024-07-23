@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:00:54 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/07/22 19:20:47 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:45:15 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_expand	**make_expand_tab(char **tab);
 
 // expand.c
 int			expand(t_simple_cmd *cmd, t_chill *shell);
+int	perform_every_expansion(char ***word_tab_p, int cmd_flag, t_chill *shell);
 
 //remove_quote.c
 void		remove_quote(t_expand **expand_tab);

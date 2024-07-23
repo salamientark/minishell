@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:17:10 by dbaladro          #+#    #+#             */
-/*   Updated: 2024/07/22 23:36:00 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:52:28 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	print_export(char **env);
 int		ft_export(char **cmd, t_chill *shell);
 int		ft_unset(char **cmd, t_chill *env);
 int		update_env(char *line, t_chill *shell);
-// char	**update_env(t_chill *shell, char *var);
 
 // signals
 void	heredoc_sig_handler(int signum);
@@ -76,7 +75,7 @@ void	set_signals(void);
 
 //exec
 void	init_exec(t_chill *shell);
-void	update_fd(t_chill *shell);
+int		update_fd(t_chill *shell);
 int		exec_builtin(char **cmd, t_chill *shell, bool write);
 void	execution_cmd(t_chill *shell);
 char	**convert_list_to_tab(t_simple_cmd *input);

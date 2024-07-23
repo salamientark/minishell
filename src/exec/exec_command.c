@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 23:34:48 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:52:52 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	execution_cmd(t_chill *shell)
 		}
 		if (pid == 0)
 			child(shell);
-		update_fd(shell);
+		if (update_fd(shell))
+			break ;
 		shell->index_cmd++;
 	}
 	wait_command(shell, pid);
