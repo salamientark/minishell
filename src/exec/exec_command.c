@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 16:33:24 by dbaladro         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:01:29 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	child(t_chill *shell)
 		shell->exit_status = exec_builtin(cmd, shell, TRUE);
 	else
 	{
-		path = get_valid_path(cmd[0], shell->env);
+		path = get_valid_path(cmd[0], shell);
 		if (!path)
 			exit_shell(shell, 127);
 		execve(path, cmd, shell->env);

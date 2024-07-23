@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:30:47 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 23:53:40 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:57:05 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@ char	**copy_redir(char **redir)
 	}
 	cpy[i] = NULL;
 	return (cpy);
+}
+
+char	*preliminary_path(char *cmd, t_chill *shell)
+{
+	if (!ft_strcmp(".", cmd))
+	{
+		print_error(cmd, "filename argument required");
+		exit_shell(shell, 2);
+	}
+	if (!ft_strcmp("..", cmd) || !cmd[0])
+		print_error(cmd, "command not found");
+	if (!access(cmd, F_OK | X_OK))
+		return (ft_strdup(cmd));
+	else 
+		return(NULL);
 }
 
 void	free_str_tab(char ***str_tab_ptr)

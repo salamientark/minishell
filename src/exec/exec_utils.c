@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 18:41:48 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/22 23:53:17 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:00:37 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,17 @@ static void	path_error(char *cmd, char **dir)
 	free_str_tab(&dir);
 }
 
-char	*get_valid_path(char *cmd, char **env)
+char	*get_valid_path(char *cmd, t_chill *shell)
 {
 	char	**dir;
 	char	*path;
 	int		i;
 
 	i = 0;
-	if (!ft_strcmp("..", cmd) || !cmd[0])
-		print_error(cmd, "command not found");
-	if (!access(cmd, F_OK | X_OK))
-		return (ft_strdup(cmd));
-	dir = split_path(env);
+	path = preliminary_path(cmd, shell);
+	if (path != NULL)
+		return(path);
+	dir = split_path(shell->env);
 	if (!dir)
 		return (NULL);
 	while (dir[i])
