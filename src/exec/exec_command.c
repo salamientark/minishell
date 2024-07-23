@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbaladro <dbaladro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 15:50:45 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:28:52 by dbaladro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,20 @@ static void	init_child(t_chill *shell)
 	char	**redir_cpy;
 	int		i;
 
-	i = 1;
-	redir = shell->cmd_tab[shell->index_cmd]->redirection;
+	i = 0;
 	redir_cpy = copy_redir(shell->cmd_tab[shell->index_cmd]->redirection);
 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
 		exit_shell(shell, 1);
+	redir = shell->cmd_tab[shell->index_cmd]->redirection;
 	if (!redir_cpy)
 		return ;
 	while (redir_cpy[i])
 	{
-		if (redir_cpy[i] && (!redir[i] || !redir[i][0]))
+		printf("redir[%d] : %s || redir_cpy[%d] : %s\n", i, redir[i], i, redir_cpy[i]);
+		if (!redir[i] || !redir[i][0] || (get_operator(redir_cpy[i]) != get_operator(redir[i]) && get_operator(redir_cpy[i]) == 0))
 		{
+			if (get_operator(redir_cpy[i]) != 0)
+				i++;
 			print_error(redir_cpy[i], "ambigous redirect");
 			free_str_tab(&redir_cpy);
 			exit_shell(shell, 1);
