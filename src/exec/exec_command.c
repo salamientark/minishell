@@ -6,7 +6,7 @@
 /*   By: ple-guya <ple-guya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:17:30 by ple-guya          #+#    #+#             */
-/*   Updated: 2024/07/23 14:52:52 by ple-guya         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:50:45 by ple-guya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ static void	init_pipe(t_chill *shell)
 
 static void	init_child(t_chill *shell)
 {
+	char	**redir;
 	char	**redir_cpy;
 	int		i;
 
 	i = 1;
+	redir = shell->cmd_tab[shell->index_cmd]->redirection;
 	redir_cpy = copy_redir(shell->cmd_tab[shell->index_cmd]->redirection);
 	if (expand(shell->cmd_tab[shell->index_cmd], shell) != 0)
 		exit_shell(shell, 1);
@@ -48,8 +50,7 @@ static void	init_child(t_chill *shell)
 		return ;
 	while (redir_cpy[i])
 	{
-		if (!shell->cmd_tab[shell->index_cmd]->redirection[i]
-			&& redir_cpy[i])
+		if (redir_cpy[i] && (!redir[i] || !redir[i][0]))
 		{
 			print_error(redir_cpy[i], "ambigous redirect");
 			free_str_tab(&redir_cpy);
